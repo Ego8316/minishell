@@ -1,38 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/01 16:46:28 by hcavet            #+#    #+#             */
-/*   Updated: 2025/03/04 17:01:49 by ego              ###   ########.fr       */
+/*   Created: 2025/03/04 17:20:41 by ego               #+#    #+#             */
+/*   Updated: 2025/03/04 17:40:52 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /** 
- * @brief Copies a string to another buffer with bounds checking.
+ * @brief Compares two strings lexicographically.
  * 
- * @param dst The destination buffer.
- * @param src The source string.
- * @param dstsize The size of the destination buffer.
+ * @param s1 The first string.
+ * @param s2 The second string.
  * 
- * @return The length of the source string.
+ * @return 0 if the strings are equal, a positive value if s1 > s2,
+ * or a negative value if s1 < s2.
  */
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+int	ft_strcmp(const char *s1, const char *s2)
 {
+	int		diff;
 	size_t	i;
 
-	if (dstsize == 0)
-		return (ft_strlen(src));
 	i = 0;
-	while (src[i] && i < dstsize - 1)
+	while (s1[i] || s2[i])
 	{
-		dst[i] = src[i];
+		diff = (unsigned char)s1[i] - (unsigned char)s2[i];
+		if (diff)
+			return (diff);
 		i++;
 	}
-	dst[i] = '\0';
-	return (ft_strlen(src));
+	return (0);
 }

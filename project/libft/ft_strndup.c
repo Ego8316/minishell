@@ -1,38 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/01 16:46:28 by hcavet            #+#    #+#             */
-/*   Updated: 2025/03/04 17:01:49 by ego              ###   ########.fr       */
+/*   Created: 2025/03/04 17:18:03 by ego               #+#    #+#             */
+/*   Updated: 2025/03/04 17:33:23 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/** 
- * @brief Copies a string to another buffer with bounds checking.
+/**
+ * @brief Creates a duplicate of a string up to n characters.
  * 
- * @param dst The destination buffer.
- * @param src The source string.
- * @param dstsize The size of the destination buffer.
+ * @param s The string to duplicate.
+ * @param n The maximum number of characters to duplicate.
  * 
- * @return The length of the source string.
+ * @return The allocated duplicated string, NULL if allocation fails.
  */
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+char	*ft_strndup(const char *s, size_t n)
 {
+	char	*ndup;
 	size_t	i;
 
-	if (dstsize == 0)
-		return (ft_strlen(src));
+	if (!n)
+		return (NULL);
+	ndup = (char *)malloc((n + 1) * sizeof(char));
+	if (!ndup)
+		return (NULL);
 	i = 0;
-	while (src[i] && i < dstsize - 1)
+	while (s[i] && i < n)
 	{
-		dst[i] = src[i];
+		ndup[i] = s[i];
 		i++;
 	}
-	dst[i] = '\0';
-	return (ft_strlen(src));
+	ndup[i] = '\0';
+	return (ndup);
 }

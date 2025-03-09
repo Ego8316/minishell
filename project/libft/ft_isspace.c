@@ -1,19 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_iswhitespace.c                                  :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
+/*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/04 14:21:26 by pkurt             #+#    #+#             */
-/*   Updated: 2024/10/04 14:44:25 by pkurt            ###   ########.fr       */
+/*   Created: 2025/03/04 17:08:23 by ego               #+#    #+#             */
+/*   Updated: 2025/03/04 17:10:15 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_iswhitespace(int c)
+/** 
+ * @brief Checks if a character is a space.
+ * 
+ * @param c The character to check.
+ * 
+ * @return 1 if the character is a space, 0 otherwise.
+ */
+int	ft_isspace(int c)
 {
-	return (c == '\t' || c == '\n' || c == '\v'
-		|| c == '\f' || c == '\r' || c == ' ');
+	return (c == ' ' || (c >= '\t' && c <= '\r'));
 }

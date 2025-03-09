@@ -3,27 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
+/*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/06 12:16:36 by pkurt             #+#    #+#             */
-/*   Updated: 2024/10/06 12:16:54 by pkurt            ###   ########.fr       */
+/*   Created: 2024/10/11 14:55:03 by ego               #+#    #+#             */
+/*   Updated: 2025/03/04 17:38:21 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void*))
+/**
+ * @brief Deletes the content of each node and frees them afterwards.
+ * 
+ * @param lst The linked list to be freed.
+ * @param del The function used to delete a node's content.
+ * 
+ * @return NULL.
+ */
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	t_list	*next;
+	t_list	*l;
+	t_list	*temp;
 
-	if (!lst || !*lst || !del)
-		return ;
-	if ((*lst)->next)
+	l = *lst;
+	while (l)
 	{
-		next = (*lst)->next;
-		ft_lstclear(&next, del);
+		temp = l->next;
+		ft_lstdelone(l, del);
+		l = temp;
 	}
-	del((*lst)->content);
-	free(*lst);
-	*lst = 0;
+	*lst = NULL;
 }

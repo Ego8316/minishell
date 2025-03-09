@@ -3,24 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
+/*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/01 19:15:25 by pkurt             #+#    #+#             */
-/*   Updated: 2024/10/04 15:08:16 by pkurt            ###   ########.fr       */
+/*   Created: 2024/10/01 22:51:02 by ego               #+#    #+#             */
+/*   Updated: 2025/03/04 17:06:53 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+/** 
+ * @brief Allocates memory and initializes it to zero.
+ * 
+ * @param nmemb The number of elements.
+ * @param size The size of each element.
+ * 
+ * @return A pointer to the allocated memory.
+ */
 void	*ft_calloc(size_t nmemb, size_t size)
 {
-	void	*result;
+	void	*array;
 
-	if (nmemb * size > 4294967295UL)
-		return (0);
-	result = malloc(nmemb * size);
-	if (!result)
-		return (0);
-	ft_bzero(result, nmemb * size);
-	return (result);
+	array = (void *)malloc(nmemb * size);
+	if (!array)
+		return (NULL);
+	ft_bzero(array, nmemb * size);
+	return (array);
 }

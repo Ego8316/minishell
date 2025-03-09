@@ -3,35 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
+/*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/01 19:15:25 by pkurt             #+#    #+#             */
-/*   Updated: 2024/10/01 19:17:38 by pkurt            ###   ########.fr       */
+/*   Created: 2024/10/01 21:26:54 by ego               #+#    #+#             */
+/*   Updated: 2025/03/04 17:00:07 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *big, const char *little, size_t len)
+/** 
+ * @brief Locates the first occurrence of the substring needle in
+ * the string haystack up to len characters.
+ * 
+ * @param haystack The string to search in.
+ * @param needle The substring to search for.
+ * @param len The maximum number of characters of needle to search for.
+ * 
+ * @return A pointer to the first occurrence of the substring,
+ * NULL if not found.
+ */
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
 	size_t	i;
-	size_t	cmp_i;
+	size_t	j;
 
+	if (!needle[0])
+		return ((char *)haystack);
 	i = 0;
-	cmp_i = 0;
-	while (1)
+	while (haystack[i])
 	{
-		if (!little[cmp_i])
-			return ((char *)big + i);
-		if (i + cmp_i >= len || !big[i + cmp_i])
-			break ;
-		if (big[i + cmp_i] != little[cmp_i])
+		j = 0;
+		while (haystack[i] == needle[j] && haystack[i] && i < len)
 		{
-			cmp_i = 0;
 			i++;
+			j++;
 		}
-		else
-			cmp_i++;
+		if (!needle[j])
+			return ((char *)(haystack + i - j));
+		i += 1 - j;
 	}
-	return (0);
+	return (NULL);
 }

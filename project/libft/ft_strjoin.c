@@ -3,30 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
+/*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/04 19:54:42 by pkurt             #+#    #+#             */
-/*   Updated: 2024/10/04 20:25:23 by pkurt            ###   ########.fr       */
+/*   Created: 2024/10/02 17:07:11 by ego               #+#    #+#             */
+/*   Updated: 2025/03/04 17:04:46 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+/** 
+ * @brief Concatenates two strings into one.
+ * 
+ * @param s1 The first string.
+ * @param s2 The second string.
+ * 
+ * @return The allocated concatenated string, NULL
+ * if allocation fails or one of the two strings is NULL.
+ */
+char	*ft_strjoin(const char *s1, const char *s2)
 {
-	size_t	s1_len;
-	size_t	s2_len;
-	char	*result;
+	size_t	i;
+	size_t	len1;
+	size_t	len2;
+	char	*join;
 
 	if (!s1 || !s2)
-		return (0);
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	result = malloc((s1_len + s2_len + 1) * sizeof(char));
-	if (!result)
-		return (0);
-	ft_memcpy(result, s1, s1_len);
-	ft_memcpy(result + s1_len, s2, s2_len);
-	result[s1_len + s2_len] = 0;
-	return (result);
+		return (NULL);
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	join = (char *)malloc((len1 + len2 + 1) * sizeof(char));
+	if (!join)
+		return (NULL);
+	i = 0;
+	while (s1[i])
+	{
+		join[i] = s1[i];
+		i++;
+	}
+	while (s2[i - len1])
+	{
+		join[i] = s2[i - len1];
+		i++;
+	}
+	join[i] = '\0';
+	return (join);
 }

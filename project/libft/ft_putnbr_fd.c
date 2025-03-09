@@ -3,35 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
+/*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/04 19:55:01 by pkurt             #+#    #+#             */
-/*   Updated: 2024/10/04 19:55:05 by pkurt            ###   ########.fr       */
+/*   Created: 2024/10/09 02:13:32 by ego               #+#    #+#             */
+/*   Updated: 2025/03/04 17:29:20 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+/** 
+ * @brief Writes a number to a file descriptor.
+ * 
+ * @param n The number to write.
+ * @param fd The file descriptor.
+ */
 void	ft_putnbr_fd(int n, int fd)
 {
-	int		divider;
-	char	temp;
-
-	divider = 1000000000;
-	if (n == 0)
+	if (n == -2147483648)
 	{
-		ft_putchar_fd('0', fd);
+		ft_putstr_fd("-2147483648", fd);
 		return ;
 	}
 	if (n < 0)
-		ft_putchar_fd('-', fd);
-	while ((n >= 0 && divider > n) || (n < 0 && - divider < n))
-		divider /= 10;
-	while (divider > 0)
 	{
-		temp = (n / divider) * ((n >= 0) * 2 - 1) + '0';
-		ft_putchar_fd(temp, fd);
-		n = n % divider;
-		divider /= 10;
+		ft_putchar_fd('-', fd);
+		n *= -1;
 	}
+	if (n >= 10)
+	{
+		ft_putnbr_fd(n / 10, fd);
+		n %= 10;
+	}
+	ft_putchar_fd('0' + n, fd);
+	return ;
 }

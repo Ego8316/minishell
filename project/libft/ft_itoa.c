@@ -3,35 +3,82 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
+/*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/04 19:55:16 by pkurt             #+#    #+#             */
-/*   Updated: 2024/10/04 19:55:18 by pkurt            ###   ########.fr       */
+/*   Created: 2024/10/04 14:27:52 by hcavet            #+#    #+#             */
+/*   Updated: 2025/03/04 17:28:46 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-//This function was made as challange to fit on least lines I could,
-//Not to be easily readable.
-//It's logic however is same as if it was made in nice syntax
+/**
+ * @brief Computes the result of a to the power n.
+ * 
+ * @param a Exponential base.
+ * @param n Exponent.
+ * 
+ * @return The result of a to the power n.
+ */
+static int	ft_power(int a, int n)
+{
+	if (n < 0)
+		return (0);
+	if (n > 0)
+		return (a * ft_power(a, n - 1));
+	return (1);
+}
+
+/**
+ * @brief Computes the number of digits of the integer n.
+ * 
+ * @param n The integer n.
+ * 
+ * @return The number of digits.
+ */
+static int	ft_itoa_count_digits(int n)
+{
+	int	digits;
+
+	if (!n)
+		return (1);
+	digits = 0;
+	while (n != 0)
+	{
+		n /= 10;
+		digits++;
+	}
+	return (digits);
+}
+
+/**
+ * @brief Gives a string representing the integer received as an argument.
+ * Handles negative numbers.
+ * 
+ * @param n Number to be converted.
+ * 
+ * @return The allocated converted string, NULL if allocation fails.
+ */
 char	*ft_itoa(int n)
 {
+	char	*nptr;
+	int		digits;
 	int		i;
-	int		temp;
-	char	*result;
 
-	i = 1 + (n < 0);
-	temp = n;
-	while (temp > 9 || temp < -9)
-		temp /= 10 + (0 * i++);
-	result = malloc((i + 1) * sizeof(char));
-	if (!result)
-		return (0);
-	result[i--] = 0;
-	result[i--] = (n % 10) * (((temp) >= 0) * 2 - 1) + '0';
-	while (i >= (temp < 0))
-		result[i--] = ((n /= 10) % 10) * (((temp) >= 0) * 2 - 1) + '0';
-	result[0] = (temp < 0) * '-' + (temp >= 0) * result[0];
-	return (result);
+	digits = ft_itoa_count_digits(n);
+	nptr = (char *)malloc((digits + (n < 0) + 1) * sizeof(char));
+	if (!nptr)
+		return (NULL);
+	if (n < 0)
+		nptr[0] = '-';
+	i = n < 0;
+	while (digits > 0)
+	{
+		nptr[i] = '0' + n / ((1 - 2 * (n < 0)) * ft_power(10, digits - 1));
+		n %= (1 - 2 * (n < 0)) * ft_power(10, digits - 1);
+		i++;
+		digits--;
+	}
+	nptr[i] = '\0';
+	return (nptr);
 }

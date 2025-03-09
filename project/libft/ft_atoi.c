@@ -3,31 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
+/*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/01 19:15:25 by pkurt             #+#    #+#             */
-/*   Updated: 2024/10/04 14:35:08 by pkurt            ###   ########.fr       */
+/*   Created: 2024/10/01 22:08:42 by ego               #+#    #+#             */
+/*   Updated: 2025/03/04 17:50:42 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+/** 
+ * @brief Converts a string to an integer.
+ * 
+ * @param str The string to convert.
+ * 
+ * @return The integer value of the string.
+ */
 int	ft_atoi(const char *nptr)
 {
-	int	neg_multi;
+	int	nb;
 	int	i;
-	int	result;
+	int	sign;
 
+	nb = 0;
 	i = 0;
-	while (ft_iswhitespace(nptr[i]))
+	sign = 1;
+	while (ft_isspace(nptr[i]))
 		i++;
-	neg_multi = 1;
-	if (nptr[i] == '-')
-		neg_multi *= -1 + (0 * i++);
-	else if (nptr[i] == '+')
+	if (nptr[i] == '-' || nptr[i] == '+')
+	{
+		sign = -(nptr[i] - 44);
 		i++;
-	result = 0;
+	}
+	if (sign < 0 && !ft_strcmp("2147483648", nptr + i))
+		return (-2147483648);
 	while (ft_isdigit(nptr[i]))
-		result = (result * 10) + ((nptr[i++] - '0') * neg_multi);
-	return (result);
+	{
+		nb = nb * 10 + (nptr[i] - '0');
+		i++;
+	}
+	return (nb * sign);
 }

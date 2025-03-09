@@ -3,21 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
+/*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/01 19:15:25 by pkurt             #+#    #+#             */
-/*   Updated: 2024/10/01 19:17:38 by pkurt            ###   ########.fr       */
+/*   Created: 2024/10/01 13:34:49 by hcavet            #+#    #+#             */
+/*   Updated: 2025/03/04 17:00:59 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *b, int c, size_t n)
+/** 
+ * @brief Sets a block of memory to a specified value.
+ * 
+ * @param b The memory block to set.
+ * @param c The value to set the memory to.
+ * @param len The number of bytes to set.
+ * 
+ * @return A pointer to the memory block.
+ */
+void	*ft_memset(void *b, int c, size_t len)
 {
 	size_t	i;
 
-	i = 0;
-	while (i < n)
-		*(unsigned char *)(b + i++) = (unsigned char)c;
+	i = -1;
+	while (++i < len)
+		((unsigned char *)b)[i] = (unsigned char)c;
 	return (b);
 }

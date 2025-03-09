@@ -3,31 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
+/*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/04 19:54:30 by pkurt             #+#    #+#             */
-/*   Updated: 2024/10/04 19:54:35 by pkurt            ###   ########.fr       */
+/*   Created: 2024/10/04 16:14:20 by hcavet            #+#    #+#             */
+/*   Updated: 2025/03/04 17:11:33 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+/** 
+ * @brief Applies a function to each character in a string
+ * and returns a new string.
+ * 
+ * @param s The string to modify.
+ * @param f The function to apply to each character.
+ * 
+ * @return The modified string.
+ */
+char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
 {
+	char			*strmapi;
 	unsigned int	i;
-	char			*result;
 
 	if (!s)
-		return (0);
-	result = malloc((ft_strlen(s) + 1) * sizeof(char));
-	if (!result)
-		return (0);
+		return (NULL);
+	strmapi = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
+	if (!strmapi)
+		return (NULL);
 	i = 0;
 	while (s[i])
 	{
-		result[i] = f(i, s[i]);
+		strmapi[i] = f(i, s[i]);
 		i++;
 	}
-	result[i] = 0;
-	return (result);
+	strmapi[i] = '\0';
+	return (strmapi);
 }
