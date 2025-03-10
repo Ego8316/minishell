@@ -6,7 +6,7 @@
 #    By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/01/28 17:57:59 by pkurt            ###   ########.fr        #
+#    Updated: 2025/03/10 16:09:00 by pkurt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,13 @@ NAME = minishell
 
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
-LIBFT = -L libft -lft
+LIBFT = -L libft -lft -lreadline
 
 SRC_DIR = srcs/
 
-SRC_FILES = main.c
+SRC_FILES = main.c			\
+			get_cmd.c		\
+			cmd_parser.c	
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
 OBJ_DIR = objs/

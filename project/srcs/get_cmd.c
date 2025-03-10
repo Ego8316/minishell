@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   get_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/10 16:12:09 by pkurt            ###   ########.fr       */
+/*   Created: 2025/03/10 15:54:41 by pkurt             #+#    #+#             */
+/*   Updated: 2025/03/10 18:27:09 by pkurt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(void)
+void	run_cmd_from_user(void)
 {
-	while (1)
-		run_cmd_from_user();
+	parse_command(readline("minishell $ "));
 }
