@@ -75,14 +75,14 @@ $(NAME)	:	$(OBJS) header
 			$(AR) $(NAME) $(OBJS)
 			echo "Generating index..."
 			ranlib $(NAME)
-			echo "$(GREEN)[OK] libft is ready!$(RESET)"
+			printf "$(GREEN)[OK] libft is ready!$(RESET)\n"
 
 bonus	:	$(OBJS) $(BOBJS) header
 			echo "Creating archive with bonus..."
 			$(AR) $(NAME) $(OBJS) $(BOBJS)
 			echo "Generating index..."
 			ranlib $(NAME)
-			echo "$(GREEN)[OK] libft with bonus is ready!$(RESET)"
+			printf "$(GREEN)[OK] libft with bonus is ready!$(RESET)\n"
 .c.o	:
 			echo "Compiling $<..."
 			$(CC) $(CFLAGS) -I $(IDIR) -c $< -o $(<:.c=.o)
@@ -93,12 +93,12 @@ norm	:
 clean	:
 			echo "Removing object files..."
 			$(RM) $(OBJS) $(BOBJS)
-			echo "$(ORANGE)[OK] All object files have been removed.$(RESET)"
+			printf "$(ORANGE)[OK] All object files have been removed.$(RESET)\n"
 
 fclean	:	clean
 			echo "Removing binary files..."
 			$(RM) $(NAME)
-			echo "$(ORANGE)[OK] All binary files have been removed.$(RESET)"
+			printf "$(ORANGE)[OK] All binary files have been removed.$(RESET)\n"
 
 re		:	fclean all
 
@@ -115,11 +115,11 @@ ITALIC  = \033[3m
 RESET   = \033[0m
 
 header	:
-			echo "============================"
-			echo "$(RED)  _      _  _       __  _   $(RESET)"
-			echo "$(ORANGE) | |    (_)| |__   / _|| |_ $(RESET)"
-			echo "$(YELLOW) | |    | || '_ \ | |_ | __|$(RESET)"
-			echo "$(GREEN) | |___ | || |_) ||  _|| |_ $(RESET)"
-			echo "$(BLUE) |_____||_||_.__/ |_|   \__|$(RESET)"
-			echo "$(ITALIC)$(VIOLET)           by Ego           $(RESET)"
-			echo "============================\n"
+			printf "============================\n"
+			printf "$(RED)  _      _  _       __  _   $(RESET)\n"
+			printf "$(ORANGE) | |    (_)| |__   / _|| |_ $(RESET)\n"
+			printf "$(YELLOW) | |    | || '_ \ | |_ | __|$(RESET)\n"
+			printf "$(GREEN) | |___ | || |_) ||  _|| |_ $(RESET)\n"
+			printf "$(BLUE) |_____||_||_.__/ |_|   \__|$(RESET)\n"
+			printf "$(ITALIC)$(VIOLET)           by Ego           $(RESET)\n"
+			printf "============================\n"
