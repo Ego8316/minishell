@@ -1,3 +1,4 @@
 *.a
 *.o
 project/minishell
+.vscode
