@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
+/*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/10 18:27:09 by pkurt            ###   ########.fr       */
+/*   Updated: 2025/03/11 12:46:56 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,13 @@ typedef struct s_parse_data
 	t_bool	expect_cmd;
 	int		in_quotes;
 }			t_parse_data;
+
+typedef struct s_data
+{
+	char	**envp;
+	char	*pwd;
+	char	*oldpwd;
+}	t_data;
 
 
 //==Functions===

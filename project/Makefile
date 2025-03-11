@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+         #
+#    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/03/10 16:09:00 by pkurt            ###   ########.fr        #
+#    Updated: 2025/03/11 12:51:15 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,12 +15,14 @@ NAME = minishell
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
 LIBFT = -L libft -lft -lreadline
+INCL = -I includes/
 
 SRC_DIR = srcs/
 
 SRC_FILES = main.c			\
 			get_cmd.c		\
-			cmd_parser.c	
+			cmd_parser.c	\
+			env.c
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
 OBJ_DIR = objs/
@@ -62,7 +64,7 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
-	@$(CC) $(FLAGS) -c $< -o $@
+	@$(CC) $(FLAGS) $(INCL) -c $< -o $@
 
 clean:
 	@make -s clean -C libft/
