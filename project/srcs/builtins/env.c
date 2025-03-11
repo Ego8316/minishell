@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:32:59 by ego               #+#    #+#             */
-/*   Updated: 2025/03/11 18:15:33 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/11 18:18:50 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	env_builtin(t_data *data, char **args)
 	int	i;
 
 	if (args && args[0])
-		return (errmsg("env: Too many arguments.\n", 0, 0, 1));
+		return (errmsg("env: too many arguments.\n", 0, 0, 1));
 	i = -1;
 	while (data->envp[++i])
 		printf("%s\n", data->envp[i]);
