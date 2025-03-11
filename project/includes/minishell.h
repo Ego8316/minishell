@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/11 14:19:08 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/11 18:14:23 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_bool	data_init(t_data *data, char **envp);
 // Builtins
 
 int		env_builtin(t_data *data, char **args);
+int		pwd_builtin(t_data *data, char **args);
 
 // Utilities
 
