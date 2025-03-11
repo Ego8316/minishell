@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/03/11 14:19:30 by ego              ###   ########.fr        #
+#    Updated: 2025/03/11 19:30:54 by pkurt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,14 @@ SRC_DIR = srcs/
 
 SRC_FILES = main.c			\
 			get_cmd.c		\
-			cmd_parser.c	\
 			data.c
+SRC_FILES += parsing/parser.c	\
+			 parsing/pipes.c	\
+			 parsing/redirections.c	\
+			 parsing/text.c	\
+			 parsing/variables.c	\
+			 parsing/utils.c	\
+			 parsing/token.c	
 SRC_FILES += builtins/cd.c		\
 			 builtins/echo.c	\
 			 builtins/env.c		\
@@ -42,6 +48,8 @@ INCL = -I $(INC_DIR)
 
 # COLORS
 GREEN = \033[32m
+BLUE    = \033[34m
+VIOLET  = \033[38;5;93m
 RESET = \033[0m
 
 .PHONY: all clean fclean re
@@ -69,12 +77,14 @@ $(NAME): $(OBJ_DIR) $(OBJ)
 	@echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣿⣿⣆⠻⠿⢛⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
 	@echo ""
 	@printf "$(GREEN)Minishell compiled successfully!$(RESET)\n"
+	@printf "Made by $(VIOLET)Ego $(RESET)& $(BLUE)Petko $(RESET)\n"
 	@echo ""
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)/builtins
 	@mkdir -p $(OBJ_DIR)/utils
+	@mkdir -p $(OBJ_DIR)/parsing
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 	@$(CC) $(FLAGS) $(INCL) -c $< -o $@

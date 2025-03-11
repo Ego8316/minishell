@@ -23,5 +23,5 @@ int	main(int argc, char **argv, char **envp)
 	env_builtin(&data, 0);
 	pwd_builtin(&data, 0);
 	// while (1)
-	// 	run_cmd_from_user();
+	run_cmd_from_user();
 }

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/11 18:14:23 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/11 19:59:02 by pkurt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,37 @@ typedef enum e_bool
 	TRUE = 1
 }	t_bool;
 
+// 0 <null>, 1 resolved cmd/arg, 2 |, 3 &, 4 ||, 5 &&, 6 <, 7 >, 8 >>, 9 <<
+typedef enum e_token_type
+{
+	UNDETERMINED = 0,
+	TEXT = 1,
+	PIPE = 2,
+	BGEXEC = 3,
+	OROPER = 4,
+	ANDOPER = 5,
+	REDIRIN = 6,
+	REDIROUT = 7,
+	OUTAPPEND = 8,
+	INDELI = 9
+}	t_token_type;
+
+
 //===Structs===
+typedef struct s_token
+{
+	t_token_type	type;
+	char			*str;
+	struct s_token	*nxt;
+}					t_token;
+
 typedef struct s_parse_data
 {
 	char	*cmd;
 	int		i;
-	int		depth;
 	t_bool	expect_cmd;
-	int		in_quotes;
+	char	*arg;
+	t_token *tokens;
 }			t_parse_data;
 
 typedef struct s_data
@@ -46,8 +69,18 @@ typedef struct s_data
 }	t_data;
 
 //==Functions===
-t_bool	parse_command(char *cmd);
 void	run_cmd_from_user(void);
+
+//Parsing
+
+t_bool	try_parse_command(char *cmd, t_token **out_tokens);
+
+t_bool	token_make(t_token_type type, char *str, t_token **out);
+t_bool	token_free_list(t_token **list);
+t_bool	token_add_last(t_token_type type, char *str, t_token **list);
+
+t_bool	parse_pipe(t_parse_data *data);
+t_bool	parse_redirection(t_parse_data *data);
 
 // Data
 
