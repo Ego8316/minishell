@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/11 12:46:56 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/11 13:11:38 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-
 //===Includes===
-#include <stdlib.h>
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "../libft/libft.h"
+# include <stdlib.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include "../libft/libft.h"
 
 //===Enums===
 typedef enum e_bool
@@ -46,9 +45,11 @@ typedef struct s_data
 	char	*oldpwd;
 }	t_data;
 
-
 //==Functions===
 t_bool	parse_command(char *cmd);
 void	run_cmd_from_user(void);
+
+t_bool	data_init(t_data *data, char **envp);
+char	**copy_envp(char **envp);
 
 #endif

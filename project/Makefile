@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/03/11 12:51:15 by ego              ###   ########.fr        #
+#    Updated: 2025/03/11 13:15:13 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,19 +15,22 @@ NAME = minishell
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
 LIBFT = -L libft -lft -lreadline
-INCL = -I includes/
 
 SRC_DIR = srcs/
 
 SRC_FILES = main.c			\
 			get_cmd.c		\
 			cmd_parser.c	\
-			env.c
+			env.c			\
+			data.c
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
 OBJ_DIR = objs/
 OBJ_FILES = $(patsubst %.c, %.o, $(SRC_FILES))
 OBJ = $(addprefix $(OBJ_DIR), $(OBJ_FILES))
+
+INC_DIR = includes/
+INCL = -I $(INC_DIR)
 
 # COLORS
 GREEN = \033[32m
@@ -39,7 +42,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ_DIR) $(OBJ)
 	@make -s -C libft/
-	@$(CC) $(FLAGS) $(SRC) -o $(NAME) $(LIBFT)
+	@$(CC) $(FLAGS) $(SRC) $(INCL) -o $(NAME) $(LIBFT)
 	@echo "⣿⣿⣿⣿⣿⡇⣬⡻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
 	@echo "⣿⣿⣿⣿⣿⡇⣿⣿⣮⡛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
 	@echo "⣿⣿⣿⣿⣿⡇⢹⣿⣿⣿⣦⡛⢈⠛⠙⠿⣛⣩⣥⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿"
@@ -83,4 +86,4 @@ test: all
 	@./minishell
 
 norm:
-	norminette $(SRC)
+	@norminette $(SRC) $(INC_DIR)
