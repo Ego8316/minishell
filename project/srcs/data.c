@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 12:51:34 by ego               #+#    #+#             */
-/*   Updated: 2025/03/11 13:27:40 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/11 13:34:02 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * 
  * @return NULL.
  */
-void	*free_array(char **arr)
+static void	*free_array(char **arr)
 {
 	int	i;
 
@@ -41,7 +41,7 @@ void	*free_array(char **arr)
  * 
  * @return The allocated copy, NULL if allocation fails.
  */
-char	**copy_envp(char **envp)
+static char	**copy_envp(char **envp)
 {
 	char	**copy;
 	int		i;

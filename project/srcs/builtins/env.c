@@ -1,26 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   env_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/11 13:33:18 by ego              ###   ########.fr       */
+/*   Created: 2025/03/10 18:32:59 by ego               #+#    #+#             */
+/*   Updated: 2025/03/11 13:32:07 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+/**
+ * @brief Executes the env builtin: simply prints
+ * the environment.
+ * 
+ * @param data Pointer to the data structure.
+ * @param args Arguments (should not be any).
+ * 
+ * @return Exit status.
+ */
+int	env_builtin(t_data *data, char **args)
 {
-	t_data	data;
+	int	i;
 
-	(void)argc;
-	argv[0] = 0;
-	if (!data_init(&data, envp))
+	if (args && args[0])
+	{
+		printf("env: Too many arguments.\n");
 		return (1);
-	env_builtin(&data, 0);
-	// while (1)
-	// 	run_cmd_from_user();
+	}
+	i = -1;
+	while (data->envp[++i])
+		printf("%s\n", data->envp[i]);
+	return (0);
 }
