@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/11 13:38:05 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/11 14:19:08 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,12 @@ t_bool	data_init(t_data *data, char **envp);
 
 // Builtins
 
-int	env_builtin(t_data *data, char **args);
+int		env_builtin(t_data *data, char **args);
+
+// Utilities
+
+void	*free_array(char **arr);
+int		free_data(t_data *data);
+int		errmsg(char *s1, char *s2, char *s3, int status);
 
 #endif

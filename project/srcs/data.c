@@ -6,32 +6,11 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 12:51:34 by ego               #+#    #+#             */
-/*   Updated: 2025/03/11 13:34:02 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/11 14:04:24 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/**
- * @brief Frees all there is to free in a NULL-terminated
- * array of strings and returns NULL.
- * 
- * @return NULL.
- */
-static void	*free_array(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr && arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	if (arr)
-		free(arr);
-	return (NULL);
-}
 
 /**
  * @brief Copies the envp variable and returns the
