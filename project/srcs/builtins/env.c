@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:32:59 by ego               #+#    #+#             */
-/*   Updated: 2025/03/11 18:18:50 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 13:40:41 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
  * 
  * @return Exit status.
  */
-int	env_builtin(t_data *data, char **args)
+int	env_builtin(t_data *data, t_token *args)
 {
 	int	i;
 
-	if (args && args[0])
+	if (args->nxt && args->nxt->type == TEXT)
 		return (errmsg("env: too many arguments.\n", 0, 0, 1));
 	i = -1;
 	while (data->envp[++i])
