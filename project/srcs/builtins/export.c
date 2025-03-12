@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:27 by ego               #+#    #+#             */
-/*   Updated: 2025/03/12 20:39:42 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 20:46:13 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ int	export_builtin(t_data *data, t_token *args)
 		if (check_export_arg(args->str))
 			add_line(data, args->str);
 		else
-			status = errmsg("minishell: export: `", 
-				args->str, "': not a valid identifier\n", 1);
+			status = errmsg("minishell: export: `",
+					args->str, "': not a valid identifier\n", 1);
 		args = args->nxt;
 	}
 	return (status);

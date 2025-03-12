@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/12 20:38:17 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 20:45:30 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ typedef enum e_token_type
 	INDELI = 9
 }	t_token_type;
 
+typedef enum e_var_type
+{
+	LOCAL = 0,
+	MARKED = 1,
+	ENV = 2
+}	t_var_type;
 
 //===Structs===
 typedef struct s_token
@@ -64,10 +70,9 @@ typedef struct s_parse_data
 
 typedef struct s_var
 {
+	t_var_type		type;
 	char			*identifier;
 	char			*value;
-	t_bool			marked;
-	t_bool			exported;
 	struct s_var	*nxt;
 }	t_var;
 
