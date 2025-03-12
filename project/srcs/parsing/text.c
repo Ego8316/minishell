@@ -6,7 +6,7 @@
 /*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 19:26:45 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/12 15:35:10 by pkurt            ###   ########.fr       */
+/*   Updated: 2025/03/12 16:12:45 by pkurt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char *append_str(char *str, char c)
 	if (!append)
 		return (0);
 	append[0] = c;
-	append[1] = c;
+	append[1] = 0;
 	return (ft_strjoin(str, append));
 }
 
@@ -90,9 +90,11 @@ static char	*parse_word(t_parse_data *data)
 	char	*old;
 	char	c;
 
+	//printf("starting word parse with '%c'\n", data->cmd[data->i]);
 	text = 0;
 	while (1)
 	{
+		//printf("word parse loop on '%c' %i\n", data->cmd[data->i], data->i);
 		c = data->cmd[data->i++];
 		if (ft_isspace(c) || !c)
 			break;
@@ -100,7 +102,7 @@ static char	*parse_word(t_parse_data *data)
 		if (c == '\'')
 			text = ft_strjoin(old, parse_single_quote(data));
 		else if (c == '\"')
-			text = ft_strjoin(old, parse_single_quote(data));
+			text = ft_strjoin(old, parse_double_quote(data));
 		else if (c == '$')
 			text = ft_strjoin(old, "VARPLACEHOLDER"); //add var parsing call later
 		else
@@ -110,6 +112,7 @@ static char	*parse_word(t_parse_data *data)
 		if (!text)
 			return (0);
 	}
+	//printf("ending word parse with '%s'\n", text);
 	return (text);
 }
 
@@ -128,6 +131,7 @@ t_bool	parse_text(t_parse_data *data)
 	{
 		data->i--;
 		text = parse_word(data);
+		data->i--;
 	}
 	if (!text)
 		return (FALSE);

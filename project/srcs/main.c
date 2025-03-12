@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/12 15:40:04 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 15:57:39 by pkurt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_token	*test_token(char *s1, char *s2, char *s3)
 	return (arg1);
 }
 
+/*
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
@@ -47,4 +48,10 @@ int	main(int argc, char **argv, char **envp)
 	printf("\n");
 	env_builtin(&data, test);
 	// run_cmd_from_user();
+}
+*/
+
+int	main(void)
+{
+	run_cmd_from_user();
 }
