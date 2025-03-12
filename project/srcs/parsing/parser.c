@@ -6,22 +6,28 @@
 /*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:54:42 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/12 14:04:08 by pkurt            ###   ########.fr       */
+/*   Updated: 2025/03/12 15:33:42 by pkurt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	expand_cmd(t_parse_data *data)
+t_bool	expand_cmd(t_parse_data *data)
 {
 	char	*new;
 	char	*current;
 
 	current = data->cmd;
+	data->cmd = ft_strjoin(current, " ");
+	free(current);
+	if (!data->cmd)
+		return (FALSE);
+	current = data->cmd;
 	new = readline("> ");
 	data->cmd = ft_strjoin(current, new);
 	free(new);
 	free(current);
+	return (data->cmd != 0);
 }
 
 static t_parse_data	get_parse_data(char *cmd)
@@ -33,6 +39,7 @@ static t_parse_data	get_parse_data(char *cmd)
 	data.expect_cmd = FALSE;
 	data.tokens = 0;
 	data.arg = 0;
+	data.depth = 0;
 	return (data);
 }
 
@@ -42,12 +49,18 @@ static int	parse_loop(t_parse_data *data)
 
 	c = data->cmd[data->i];
 	if (!c)
-		return (-1);
+	{
+		if (!data->expect_cmd && data->depth <= 0)
+			return (-1);
+		return (expand_cmd(data));
+	}
+	if (ft_isspace(c))
+		return (1 + data->i++ * 0);
 	if (c == '|' || c == '&' || c == '>' || c == '<')
 		return (parse_operator(data));
 	if (c == '(' || c == ')')
 		return (parse_bracket(data));
-	return (0);
+	return (parse_text(data));
 }
 
 /**

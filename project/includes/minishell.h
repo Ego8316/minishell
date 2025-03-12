@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/12 14:21:26 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 14:48:31 by pkurt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,10 @@ t_bool	syntax_error(t_parse_data *data, int i);
 
 //Internal parsing (private)
 
+t_bool	expand_cmd(t_parse_data *data);
 t_bool	parse_operator(t_parse_data *data);
 t_bool	parse_bracket(t_parse_data *data);
+t_bool	parse_text(t_parse_data *data);
 
 // Data
 

@@ -6,7 +6,7 @@
 /*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:17:50 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/12 13:33:51 by pkurt            ###   ########.fr       */
+/*   Updated: 2025/03/12 15:11:35 by pkurt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@ t_bool	token_make(t_token_type type, char *str, int depth, t_token **out)
 {
 	*out = malloc(sizeof(t_token));
 	if (!*out)
+	{
+		if (str)
+			free(str);
 		return (FALSE);
+	}
 	(*out)->type = type;
 	(*out)->str = str;
 	(*out)->depth = depth;
