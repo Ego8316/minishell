@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:00 by ego               #+#    #+#             */
-/*   Updated: 2025/03/12 15:32:11 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 17:03:29 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ int	echo_builtin(t_token *args)
 		nl = FALSE;
 		args = args->nxt;
 	}
-	while (args && args->type==TEXT)
+	while (args && args->type == TEXT)
 	{
 		printf("%s", args->str);
-		if (args->nxt && args->nxt->type==TEXT)
+		if (args->nxt && args->nxt->type == TEXT)
 			printf(" ");
 		args = args->nxt;
 	}

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:27 by ego               #+#    #+#             */
-/*   Updated: 2025/03/12 16:18:04 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 17:29:09 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,24 @@ static int	print_declare_env(t_data *data)
 	return (0);
 }
 
+static int	check_export_arg(char *arg)
+{
+	int	i;
+
+	i = 0;
+	if (!arg || !(ft_isalpha(arg[0]) || arg[0] == '_'))
+		return (0);
+	while (arg[i] && arg[i] != '=')
+	{
+		if (!ft_isalnum(arg[i]) || arg[i] != '_')
+			return (0);
+		i++;
+	}
+	if (arg[i++] != '=')
+		return (0);
+	return (1);
+}
+
 /**
  * @brief Executes the export builtin: tries and put the given variable and its
  * value in the environment. If no argument given, prints all environment
@@ -49,11 +67,22 @@ static int	print_declare_env(t_data *data)
  */
 int	export_builtin(t_data *data, t_token *args)
 {
+	int	status;
 	int	i;
 
 	if (!args || args->type != TEXT)
 		return (print_declare_env(data));
+	status = 0;
 	i = 0;
+	while (args && args->type == TEXT)
+	{
+		if (check_export_arg(args->str))
+			add_line(data, args->str);
+		else
+			status = errmsg("minishell: export: `", 
+				args->str, "': not a valid identifier\n", 1);
+		args = args->nxt;
+	}
 	printf("%s", data->envp[i]);
-	return (0);
+	return (status);
 }

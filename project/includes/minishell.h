@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/12 16:29:30 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 16:56:56 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,6 @@ int		free_data(t_data *data);
 void	clean_exit(t_data *data, int status);
 int		errmsg(char *s1, char *s2, char *s3, int status);
 int		add_line(t_data *data, char *line);
+char	*get_value(t_data *data, char *key);
 
 #endif

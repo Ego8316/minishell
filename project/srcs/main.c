@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/12 16:39:53 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 16:59:17 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,23 @@ t_token	*test_token(char *s1, char *s2, char *s3)
 }
 
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_data	data;
-	// t_token	*test;
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_data	data;
+// 	(void)argc;
+// 	argv[0] = 0;
+// 	if (!data_init(&data, envp))
+// 		return (1);
+// 	char	*value = get_value(&data, "dsqdqs");
+// 	printf("%s\n", value);
+// 	free(value);
+// 	free_data(&data);
+// }
 
-	(void)argc;
-	argv[0] = 0;
-	if (!data_init(&data, envp))
-		return (1);
-	// test = test_token("-nnnn3", "salut", "-n");
-	// echo_builtin(test);
-	// printf("\n");
-	env_builtin(&data, 0);
-	printf("--------------\n");
-	add_line(&data, "VAR=value");
-	env_builtin(&data, 0);
-	free_data(&data);
-}
 
-/*
 int	main(void)
 {
 	while (1)
 		run_cmd_from_user();
 }
-*/
+
