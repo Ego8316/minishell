@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/03/12 16:38:55 by ego              ###   ########.fr        #
+#    Updated: 2025/03/12 16:53:47 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LIBFT = -L libft -lft -lreadline
 SRC_DIR = srcs/
 
 SRC_FILES = main.c			\
-			get_cmd.c		\
+			get_cmd.c
 SRC_FILES += parsing/parser.c	\
 			 parsing/operators.c\
 			 parsing/text.c		\
