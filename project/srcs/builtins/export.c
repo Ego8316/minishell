@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:27 by ego               #+#    #+#             */
-/*   Updated: 2025/03/12 13:41:23 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 13:52:53 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	export_builtin(t_data *data, t_token *args)
 {
 	int	i;
 
-	if (!args->nxt)
-	{
-		printf("\n");
+	if (!args || args->type != TEXT)
 		return (0);
-	}
+	i = 0;
+	printf("%s", data->envp[i]);
+	return (0);
 }
