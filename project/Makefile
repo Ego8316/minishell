@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/03/12 16:53:47 by ego              ###   ########.fr        #
+#    Updated: 2025/03/12 20:40:15 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,9 +33,10 @@ SRC_FILES += builtins/cd.c		\
 			 builtins/export.c	\
 			 builtins/pwd.c		\
 			 builtins/unset.c
-SRC_FILES += utils/data.c	\
-			 utils/env.c	\
-			 utils/error.c	\
+SRC_FILES += data/data.c	\
+			 data/env.c		\
+			 data/var.c
+SRC_FILES += utils/error.c	\
 			 utils/free.c
 			
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
@@ -84,6 +85,7 @@ $(NAME): $(OBJ_DIR) $(OBJ)
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)/builtins
+	@mkdir -p $(OBJ_DIR)/data
 	@mkdir -p $(OBJ_DIR)/utils
 	@mkdir -p $(OBJ_DIR)/parsing
 

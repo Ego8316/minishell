@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:27 by ego               #+#    #+#             */
-/*   Updated: 2025/03/12 17:29:09 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 20:39:42 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	check_export_arg(char *arg)
 		return (0);
 	while (arg[i] && arg[i] != '=')
 	{
-		if (!ft_isalnum(arg[i]) || arg[i] != '_')
+		if (!ft_isalnum(arg[i]) && arg[i] != '_')
 			return (0);
 		i++;
 	}
@@ -68,12 +68,10 @@ static int	check_export_arg(char *arg)
 int	export_builtin(t_data *data, t_token *args)
 {
 	int	status;
-	int	i;
 
 	if (!args || args->type != TEXT)
 		return (print_declare_env(data));
 	status = 0;
-	i = 0;
 	while (args && args->type == TEXT)
 	{
 		if (check_export_arg(args->str))
@@ -83,6 +81,5 @@ int	export_builtin(t_data *data, t_token *args)
 				args->str, "': not a valid identifier\n", 1);
 		args = args->nxt;
 	}
-	printf("%s", data->envp[i]);
 	return (status);
 }

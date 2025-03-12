@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/12 16:56:56 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 20:38:17 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,21 @@ typedef struct s_parse_data
 	t_token *tokens;
 }			t_parse_data;
 
+typedef struct s_var
+{
+	char			*identifier;
+	char			*value;
+	t_bool			marked;
+	t_bool			exported;
+	struct s_var	*nxt;
+}	t_var;
+
 typedef struct s_data
 {
 	char	**envp;
 	char	*pwd;
 	char	*oldpwd;
+	t_var	*vars;
 }	t_data;
 
 //==Functions===
