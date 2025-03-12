@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:00 by ego               #+#    #+#             */
-/*   Updated: 2025/03/12 15:22:19 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 15:23:19 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
  * 
  * @param arg Argument to be checked.
  * 
- * @return TRUE if the argument corresponds to the option -n,
- * FALSE otherwise.
+ * @return True if the argument corresponds to the option -n,
+ * false otherwise.
  */
 static t_bool	is_n_option(char *arg)
 {
