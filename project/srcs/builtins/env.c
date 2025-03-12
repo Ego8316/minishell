@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:32:59 by ego               #+#    #+#             */
-/*   Updated: 2025/03/12 13:42:20 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 15:14:06 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	env_builtin(t_data *data, t_token *args)
 
 	if (args->nxt && args->nxt->type == TEXT)
 		return (errmsg("env: too many arguments\n", 0, 0, 1));
-	i = -1;
-	while (data->envp[++i])
-		printf("%s\n", data->envp[i]);
+	i = 0;
+	while (data->envp[i])
+		printf("%s\n", data->envp[i++]);
 	return (0);
 }

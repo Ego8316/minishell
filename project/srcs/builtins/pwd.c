@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:34 by ego               #+#    #+#             */
-/*   Updated: 2025/03/12 13:42:24 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 15:11:33 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@
  */
 int	pwd_builtin(t_data *data, t_token *args)
 {
-	if (args->nxt && args->nxt->type == TEXT)
-		return (errmsg("pwd: too many arguments\n", 0, 0, 1));
+	(void)args;
 	printf("%s\n", data->pwd);
 	return (0);
 }
