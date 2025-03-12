@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:00 by ego               #+#    #+#             */
-/*   Updated: 2025/03/12 15:23:19 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 15:32:11 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,13 @@
 static t_bool	is_n_option(char *arg)
 {
 	int		i;
-	t_bool	n;
 
-	n = FALSE;
-	i = 0;
-	if (arg[i++] != '-')
-		return (n);
+	if (!arg || arg[0] != '-')
+		return (FALSE);
+	i = 1;
 	while (arg[i] == 'n')
 		i++;
-	if (arg[i] == 0)
-		n = TRUE;
-	return (n);
+	return (arg[i] == '\0');
 }
 
 /**
