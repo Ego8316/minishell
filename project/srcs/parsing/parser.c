@@ -6,7 +6,7 @@
 /*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:54:42 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/12 15:33:42 by pkurt            ###   ########.fr       */
+/*   Updated: 2025/03/12 16:34:18 by pkurt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,11 @@ static t_parse_data	get_parse_data(char *cmd)
 	data.tokens = FALSE;
 	data.expect_cmd = FALSE;
 	data.tokens = 0;
-	data.arg = 0;
 	data.depth = 0;
 	return (data);
 }
 
-static int	parse_loop(t_parse_data *data)
+static int	parse_char(t_parse_data *data)
 {
 	char	c;
 
@@ -63,6 +62,26 @@ static int	parse_loop(t_parse_data *data)
 	return (parse_text(data));
 }
 
+t_bool	parse_loop(t_parse_data *data)
+{
+	int		ret;
+	int		prev_depth;
+	t_bool	prev_expect_cmd;
+
+	prev_depth = data->depth;
+	prev_expect_cmd = data->expect_cmd;
+	ret = 1;
+	while (ret > 0 && (prev_depth == 0 || data->depth >= prev_depth))
+	{
+		ret = parse_char(data);
+		if (!ret)
+			return (FALSE);
+	}
+	data->depth = prev_depth - (prev_depth > 0);
+	data->expect_cmd = prev_expect_cmd;
+	return (TRUE);
+}
+
 /**
  * @brief Tries to parse a command from the user.
  * Gets more prompts if needed.
@@ -77,21 +96,15 @@ static int	parse_loop(t_parse_data *data)
 t_bool	try_parse_command(char *cmd, t_token **out_tokens)
 {
 	t_parse_data	data;
-	int	ret;
 
 	*out_tokens = 0;
 	if (!cmd)
 		return (TRUE);
 	data = get_parse_data(cmd);
-	ret = 1;
-	while (ret > 0)
+	if (!parse_loop(&data))
 	{
-		ret = parse_loop(&data);
-		if (!ret)
-		{
-			free (data.cmd);
-			return (token_free_list(&data.tokens));
-		}
+		free (data.cmd);
+		return (token_free_list(&(data.tokens)));
 	}
 	free(data.cmd);
 	*out_tokens = data.tokens;

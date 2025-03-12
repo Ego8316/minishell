@@ -6,7 +6,7 @@
 /*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 19:26:45 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/12 16:12:45 by pkurt            ###   ########.fr       */
+/*   Updated: 2025/03/12 16:35:58 by pkurt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static char	*parse_word(t_parse_data *data)
 	{
 		//printf("word parse loop on '%c' %i\n", data->cmd[data->i], data->i);
 		c = data->cmd[data->i++];
-		if (ft_isspace(c) || !c)
+		if (!c || ft_isspace(c) || is_char_oper(c))
 			break;
 		old = text;
 		if (c == '\'')

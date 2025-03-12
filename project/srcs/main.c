@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/12 15:57:39 by pkurt            ###   ########.fr       */
+/*   Updated: 2025/03/12 16:31:47 by pkurt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ int	main(int argc, char **argv, char **envp)
 
 int	main(void)
 {
-	run_cmd_from_user();
+	while (1)
+		run_cmd_from_user();
 }

@@ -58,7 +58,6 @@ typedef struct s_parse_data
 	char	*cmd;
 	int		i;
 	t_bool	expect_cmd;
-	char	*arg;
 	int		depth;
 	t_token *tokens;
 }			t_parse_data;
@@ -90,6 +89,7 @@ t_bool	expand_cmd(t_parse_data *data);
 t_bool	parse_operator(t_parse_data *data);
 t_bool	parse_bracket(t_parse_data *data);
 t_bool	parse_text(t_parse_data *data);
+t_bool	parse_loop(t_parse_data *data);
 
 // Data
 
