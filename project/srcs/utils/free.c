@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:03:55 by ego               #+#    #+#             */
-/*   Updated: 2025/03/11 14:18:53 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 14:21:19 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,16 @@ int	free_data(t_data *data)
 	if (data->oldpwd)
 		free(data->oldpwd);
 	return (1);
+}
+
+/**
+ * @brief Frees the data structure and exits with provided status.
+ * 
+ * @param data Pointer to the data structure.
+ * @param status Exit status.
+ */
+void	clean_exit(t_data *data, int status)
+{
+	free_data(data);
+	exit(status);
 }

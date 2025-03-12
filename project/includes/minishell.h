@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/12 13:51:23 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 14:21:26 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int		pwd_builtin(t_data *data, t_token *args);
 
 void	*free_array(char **arr);
 int		free_data(t_data *data);
+void	clean_exit(t_data *data, int status);
 int		errmsg(char *s1, char *s2, char *s3, int status);
 
 #endif
