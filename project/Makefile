@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/03/12 14:32:24 by pkurt            ###   ########.fr        #
+#    Updated: 2025/03/12 16:38:55 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ SRC_DIR = srcs/
 
 SRC_FILES = main.c			\
 			get_cmd.c		\
-			data.c
 SRC_FILES += parsing/parser.c	\
 			 parsing/operators.c\
 			 parsing/text.c		\
@@ -34,7 +33,9 @@ SRC_FILES += builtins/cd.c		\
 			 builtins/export.c	\
 			 builtins/pwd.c		\
 			 builtins/unset.c
-SRC_FILES += utils/error.c	\
+SRC_FILES += utils/data.c	\
+			 utils/env.c	\
+			 utils/error.c	\
 			 utils/free.c
 			
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
