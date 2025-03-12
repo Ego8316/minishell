@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/03/11 19:30:54 by pkurt            ###   ########.fr        #
+#    Updated: 2025/03/12 13:35:47 by pkurt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,10 +22,10 @@ SRC_FILES = main.c			\
 			get_cmd.c		\
 			data.c
 SRC_FILES += parsing/parser.c	\
-			 parsing/pipes.c	\
-			 parsing/redirections.c	\
-			 parsing/text.c	\
-			 parsing/variables.c	\
+			 parsing/operators.c\
+			 parsing/text.c		\
+			 parsing/variables.c\
+			 parsing/brackets.c\
 			 parsing/utils.c	\
 			 parsing/token.c	
 SRC_FILES += builtins/cd.c		\

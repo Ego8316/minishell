@@ -49,6 +49,7 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*str;
+	int				depth;
 	struct s_token	*nxt;
 }					t_token;
 
@@ -58,6 +59,7 @@ typedef struct s_parse_data
 	int		i;
 	t_bool	expect_cmd;
 	char	*arg;
+	int		depth;
 	t_token *tokens;
 }			t_parse_data;
 
@@ -75,12 +77,17 @@ void	run_cmd_from_user(void);
 
 t_bool	try_parse_command(char *cmd, t_token **out_tokens);
 
-t_bool	token_make(t_token_type type, char *str, t_token **out);
+t_bool	token_make(t_token_type type, char *str, int depth, t_token **out);
 t_bool	token_free_list(t_token **list);
-t_bool	token_add_last(t_token_type type, char *str, t_token **list);
+t_bool	token_add_last(t_token_type type, char *str, int depth, t_token **list);
 
-t_bool	parse_pipe(t_parse_data *data);
-t_bool	parse_redirection(t_parse_data *data);
+t_bool	is_char_oper(char c);
+t_bool	syntax_error(t_parse_data *data, int i);
+
+//Internal parsing (private)
+
+t_bool	parse_operator(t_parse_data *data);
+t_bool	parse_bracket(t_parse_data *data);
 
 // Data
 

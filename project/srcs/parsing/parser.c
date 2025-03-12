@@ -6,7 +6,7 @@
 /*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:54:42 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/11 20:03:43 by pkurt            ###   ########.fr       */
+/*   Updated: 2025/03/12 14:04:08 by pkurt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,18 @@ void	expand_cmd(t_parse_data *data)
 	free(current);
 }
 
+static t_parse_data	get_parse_data(char *cmd)
+{
+	t_parse_data	data;
+	data.cmd = cmd;
+	data.i = 0;
+	data.tokens = FALSE;
+	data.expect_cmd = FALSE;
+	data.tokens = 0;
+	data.arg = 0;
+	return (data);
+}
+
 static int	parse_loop(t_parse_data *data)
 {
 	char	c;
@@ -31,10 +43,10 @@ static int	parse_loop(t_parse_data *data)
 	c = data->cmd[data->i];
 	if (!c)
 		return (-1);
-	if (c == '|' || c == '&')
-		return (parse_pipe(data));
-	if (c == '>' || c == '<')
-		return (parse_redirection(data));
+	if (c == '|' || c == '&' || c == '>' || c == '<')
+		return (parse_operator(data));
+	if (c == '(' || c == ')')
+		return (parse_bracket(data));
 	return (0);
 }
 
@@ -42,7 +54,7 @@ static int	parse_loop(t_parse_data *data)
  * @brief Tries to parse a command from the user.
  * Gets more prompts if needed.
  * 
- * @param cmd Command from user 
+ * @param cmd Starting command from user 
  * @param out_tokens Give this a pointer to a t_token * variable
  * that it will return the list of tokens to.
  * 
@@ -57,12 +69,7 @@ t_bool	try_parse_command(char *cmd, t_token **out_tokens)
 	*out_tokens = 0;
 	if (!cmd)
 		return (TRUE);
-	data.cmd = cmd;
-	data.i = 0;
-	data.tokens = FALSE;
-	data.expect_cmd = FALSE;
-	data.tokens = 0;
-	data.arg = 0;
+	data = get_parse_data(cmd);
 	ret = 1;
 	while (ret > 0)
 	{
@@ -101,6 +108,7 @@ typedef struct s_parse_data
 	int		i;
 	t_bool	expect_cmd;
 	char	*arg;
+	int		depth;
 	t_token *tokens;
 }			t_parse_data;
 */

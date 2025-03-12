@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   brackets.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/11 19:26:44 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/11 20:07:03 by pkurt            ###   ########.fr       */
+/*   Created: 2025/03/12 13:41:03 by pkurt             #+#    #+#             */
+/*   Updated: 2025/03/12 14:03:15 by pkurt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_bool	parse_redirection(t_parse_data *data)
+t_bool	parse_bracket(t_parse_data *data)
 {
 	char	c;
-	char	c2;
 
 	c = data->cmd[data->i++];
-	c2 = data->cmd[data->i];
-	if (c == '>')
+	if (c == '(')
+		data->depth++;
+	else if (c == ')')
 	{
-		if (c2 != '>')
-			return (token_add_last(REDIROUT, 0, &data->tokens));
-		data->i++;
-		return (token_add_last(OUTAPPEND, 0, &data->tokens));
+		if (data->depth <= 0 || data->expect_cmd)
+			return (syntax_error(data, data->i - 1));
+		data->depth--;
 	}
-	else if (c == '<')
-	{
-		if (c2 != '<')
-			return (token_add_last(REDIRIN, 0, &data->tokens));
-		data->i++;
-		return (token_add_last(INDELI, 0, &data->tokens));
-	}
-	return (FALSE);
+	else
+		return (FALSE);
+	return (TRUE);
 }
