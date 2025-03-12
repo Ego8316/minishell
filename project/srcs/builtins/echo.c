@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:00 by ego               #+#    #+#             */
-/*   Updated: 2025/03/12 15:04:34 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 15:09:01 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	echo_builtin(t_token *args)
 	t_bool	nl;
 
 	nl = TRUE;
-	if (args && args->type == TEXT && !ft_strcmp("-n", args->str))
+	while (args && args->type == TEXT && !ft_strcmp(args->str, "-n"))
 	{
 		nl = FALSE;
 		args = args->nxt;
