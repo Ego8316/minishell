@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:20 by ego               #+#    #+#             */
-/*   Updated: 2025/03/12 15:05:46 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/13 17:27:45 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,5 @@ int	exit_builtin(t_data *data, t_token *args)
 	if (args->nxt)
 		return (0);
 	printf("exit\n");
-	clean_exit(data, 0);	
+	clean_exit(data, 0);
 }

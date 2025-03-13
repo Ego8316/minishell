@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/13 02:35:13 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/13 18:53:37 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ t_var	*var_new_node(char *line, t_var_type type);
 char	*var_get_value(t_data *data, char *identifier);
 int		var_add_line(t_var **vars, char *line, t_var_type type);
 int		env_add_line(t_data *data, char *line);
+char	*line_get_value(char *line);
+t_var	*var_get(t_var **vars, char *line);
 
 // Utilities
 

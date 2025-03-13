@@ -6,43 +6,20 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 12:51:34 by ego               #+#    #+#             */
-/*   Updated: 2025/03/13 02:35:08 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/13 18:41:51 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Copies the envp variable and returns the
- * allocated copy.
+ * @brief Goes through envp to copy all environment variables.
+ * Allocates memory for each node of the var linked list.
  * 
- * @param envp Environment to be copied.
+ * @param envp Environment variables to be copied.
  * 
- * @return The allocated copy, NULL if allocation fails.
+ * @return Pointer to the head of the var list, NULL if allocation fails.
  */
-static char	**copy_envp(char **envp)
-{
-	char	**copy;
-	int		i;
-
-	i = 0;
-	while (envp[i])
-		i++;
-	copy = (char **)malloc((i + 1) * sizeof(char *));
-	if (!copy)
-		return (NULL);
-	i = 0;
-	while (envp[i])
-	{
-		copy[i] = ft_strdup(envp[i]);
-		if (!copy[i])
-			return ((char **)free_array(copy));
-		i++;
-	}
-	copy[i] = NULL;
-	return (copy);
-}
-
 static t_var	*copy_vars(char **envp)
 {
 	t_var	*head;
@@ -74,11 +51,10 @@ static t_var	*copy_vars(char **envp)
  */
 t_bool	data_init(t_data *data, char **envp)
 {
-	data->envp = copy_envp(envp);
 	data->pwd = getcwd(0, 0);
 	data->oldpwd = ft_strdup(getenv("OLDPWD"));
 	data->vars = copy_vars(envp);
-	if (!data->envp || !data->pwd || !data->oldpwd || !data->vars)
+	if (!data->pwd || !data->oldpwd || !data->vars)
 		return (0);
 	return (1);
 }
