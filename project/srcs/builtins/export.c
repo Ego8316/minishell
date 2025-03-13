@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:27 by ego               #+#    #+#             */
-/*   Updated: 2025/03/12 20:46:13 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/13 02:36:54 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,16 @@
  */
 static int	print_declare_env(t_data *data)
 {
-	int	i;
-	int	j;
+	t_var	*v;
 
-	i = 0;
-	while (data->envp[i])
+	v = data->vars;
+	while (v)
 	{
-		printf("declare -x ");
-		j = 0;
-		while (data->envp[i][j] != '=')
-			j++;
-		j++;
-		printf("%.*s\"%s\"\n", j, data->envp[i], data->envp[i] + j);
-		i++;
+		if (v->type == MARKED)
+			printf("declare -x %s\n", v->identifier);
+		if (v->type == ENV)
+			printf("declare -x %s=%s\n", v->identifier, v->value);
+		v = v->nxt;
 	}
 	return (0);
 }
@@ -57,8 +54,8 @@ static int	check_export_arg(char *arg)
 }
 
 /**
- * @brief Executes the export builtin: tries and put the given variable and its
- * value in the environment. If no argument given, prints all environment
+ * @brief Executes the export builtin: tries and put the given variable and
+ * its value in the environment. If no argument given, prints all environment
  * variables with "declare -x " before.
  * 
  * @param data Pointer to the data structure.
@@ -75,7 +72,7 @@ int	export_builtin(t_data *data, t_token *args)
 	while (args && args->type == TEXT)
 	{
 		if (check_export_arg(args->str))
-			add_line(data, args->str);
+			env_add_line(data, args->str);
 		else
 			status = errmsg("minishell: export: `",
 					args->str, "': not a valid identifier\n", 1);

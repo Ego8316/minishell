@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:22:07 by ego               #+#    #+#             */
-/*   Updated: 2025/03/12 17:11:12 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/13 02:28:38 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * 
  * @return 0 on success, 1 if allocation fails.
  */
-int	add_line(t_data *data, char *line)
+int	env_add_line(t_data *data, char *line)
 {
 	char	**envp;
 	int		i;
@@ -61,16 +61,16 @@ int	add_line(t_data *data, char *line)
  * @return Allocated copy of the value if found, allocated empty
  * string ("\0") otherwise. NULL if allocation fails.
  */
-char	*get_value(t_data *data, char *key)
+char	*var_get_value(t_data *data, char *identifier)
 {
 	int	len;
 	int	i;
 
-	len = ft_strlen(key);
+	len = ft_strlen(identifier);
 	i = 0;
 	while (data->envp[i])
 	{
-		if (!ft_strncmp(key, data->envp[i], len))
+		if (!ft_strncmp(identifier, data->envp[i], len))
 			return (ft_strdup(data->envp[i] + len + 1));
 		i++;
 	}

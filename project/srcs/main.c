@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/13 02:07:33 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/13 02:35:26 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ int	main(int argc, char **argv, char **envp)
 	argv[0] = 0;
 	if (!data_init(&data, envp))
 		return (1);
-	print_vars(data.vars);
+	// print_vars(data.vars);
+	var_add_line(&(data.vars), "MAMA", MARKED);
+	export_builtin(&data, 0);
 	free_data(&data);
 	return (0);
 }

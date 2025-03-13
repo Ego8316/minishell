@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 12:51:34 by ego               #+#    #+#             */
-/*   Updated: 2025/03/13 02:08:56 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/13 02:35:08 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static t_var	*copy_vars(char **envp)
 	i = 1;
 	while (envp[i])
 	{
-		if (!var_add(&node, envp[i], ENV))
+		if (!var_add_line(&node, envp[i], ENV))
 			return (free_vars(head));
 		node = node->nxt;
 		i++;

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 20:45:35 by ego               #+#    #+#             */
-/*   Updated: 2025/03/13 02:01:26 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/13 03:04:48 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_var	*var_new_node(char *line, t_var_type type)
  * 
  * @return 1 on success, 0 if allocation fails.
  */
-int	var_add(t_var **vars, char *line, t_var_type type)
+int	var_add_line(t_var **vars, char *line, t_var_type type)
 {
 	t_var	*v;
 
