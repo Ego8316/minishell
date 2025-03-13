@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/12 20:45:30 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/13 02:06:52 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,15 @@ int		env_builtin(t_data *data, t_token *args);
 int		export_builtin(t_data *data, t_token *args);
 int		pwd_builtin(t_data *data, t_token *args);
 
+// Data
+
+t_var	*var_new_node(char *line, t_var_type type);
+int		var_add(t_var **vars, char *line, t_var_type type);
+
 // Utilities
 
 void	*free_array(char **arr);
+void	*free_vars(t_var *vars);
 int		free_data(t_data *data);
 void	clean_exit(t_data *data, int status);
 int		errmsg(char *s1, char *s2, char *s3, int status);

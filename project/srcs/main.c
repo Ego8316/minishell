@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/12 16:59:17 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/13 02:07:33 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,35 @@ t_token	*test_token(char *s1, char *s2, char *s3)
 	return (arg1);
 }
 
-
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	t_data	data;
-// 	(void)argc;
-// 	argv[0] = 0;
-// 	if (!data_init(&data, envp))
-// 		return (1);
-// 	char	*value = get_value(&data, "dsqdqs");
-// 	printf("%s\n", value);
-// 	free(value);
-// 	free_data(&data);
-// }
-
-
-int	main(void)
+void	print_vars(t_var *vars)
 {
-	while (1)
-		run_cmd_from_user();
+	t_var	*v;
+
+	v = vars;
+	while (v)
+	{
+		printf("%s=%s\n", v->identifier, v->value);
+		v = v->nxt;
+	}
 }
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_data	data;
+	
+	(void)argc;
+	argv[0] = 0;
+	if (!data_init(&data, envp))
+		return (1);
+	print_vars(data.vars);
+	free_data(&data);
+	return (0);
+}
+
+
+// int	main(void)
+// {
+// 	while (1)
+// 		run_cmd_from_user();
+// }
 

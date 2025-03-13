@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:03:55 by ego               #+#    #+#             */
-/*   Updated: 2025/03/12 20:56:27 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/12 23:29:33 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ void	*free_array(char **arr)
 
 /**
  * @brief Frees all the variables' identifier and value
- * and returns 1.
+ * and returns NULL.
  * 
  * @param vars Pointer to the var structure.
  * 
- * @return 1.
+ * @return NULL.
  */
-int	free_vars(t_var *vars)
+void	*free_vars(t_var *vars)
 {
 	t_var	*tmp;
 
@@ -55,7 +55,7 @@ int	free_vars(t_var *vars)
 		free(vars);
 		vars = tmp;
 	}
-	return (1);
+	return (NULL);
 }
 
 /**
