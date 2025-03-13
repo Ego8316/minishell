@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/13 17:24:40 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/14 00:06:14 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	main(int argc, char **argv, char **envp)
 	var_add_line(&(data.vars), "MAMA", MARKED);
 	// export_builtin(&data, 0);
 	t_var *var = var_get(&(data.vars), "MAMAAA=");
+	data.envp = copy_envp(data.vars);
 	printf("%p\n", var);
 	if (var)
 		printf("%s=%s\n>%i\n", var->identifier, var->value, var->type);

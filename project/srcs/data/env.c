@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:22:07 by ego               #+#    #+#             */
-/*   Updated: 2025/03/13 18:53:18 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/14 00:07:33 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ char	**copy_envp(t_var *vars)
 			copy[i] = join_strs(v->identifier, "=", v->value);
 			if (!copy[i])
 				return ((char **)free_array(copy));
+			i++;
 		}
 		v = v->nxt;
-		i++;
 	}
 	copy[i] = NULL;
 	return (copy);

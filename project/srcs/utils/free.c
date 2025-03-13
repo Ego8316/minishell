@@ -6,11 +6,28 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:03:55 by ego               #+#    #+#             */
-/*   Updated: 2025/03/12 23:29:33 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/14 00:15:48 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/**
+ * @brief Frees a string if it is not NULL and sets it to NULL.
+ * 
+ * @param s String to free.
+ * 
+ * @return NULL.
+ */
+void	*free_str(char **s)
+{
+	if (s && *s)
+	{
+		free(*s);
+		*s = NULL;
+	}
+	return (NULL);
+}
 
 /**
  * @brief Frees all there is to free in a NULL-terminated
@@ -22,14 +39,15 @@ void	*free_array(char **arr)
 {
 	int	i;
 
+	if (!arr)
+		return (NULL);
 	i = 0;
-	while (arr && arr[i])
+	while (arr[i])
 	{
-		free(arr[i]);
+		free_str(&arr[i]);
 		i++;
 	}
-	if (arr)
-		free(arr);
+	free(arr);
 	return (NULL);
 }
 
@@ -48,10 +66,8 @@ void	*free_vars(t_var *vars)
 	while (vars)
 	{
 		tmp = vars->nxt;
-		if (vars->identifier)
-			free(vars->identifier);
-		if (vars->value)
-			free(vars->value);
+		free_str(&vars->identifier);
+		free_str(&vars->value);
 		free(vars);
 		vars = tmp;
 	}
@@ -69,10 +85,8 @@ void	*free_vars(t_var *vars)
 int	free_data(t_data *data)
 {
 	free_array(data->envp);
-	if (data->pwd)
-		free(data->pwd);
-	if (data->oldpwd)
-		free(data->oldpwd);
+	free_str(&data->pwd);
+	free_str(&data->oldpwd);
 	free_vars(data->vars);
 	return (1);
 }

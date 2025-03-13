@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:27 by ego               #+#    #+#             */
-/*   Updated: 2025/03/13 18:38:59 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/14 00:15:54 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int	handle_var(t_data *data, t_var *var, char *line)
 		var->type = ENV;
 	else if (var && eq)
 	{
-		free(var->value);
+		free_str(&var->value);
 		var->value = line_get_value(line);
 		if (!var->value)
 			ret = 0;
