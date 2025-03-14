@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:16:52 by ego               #+#    #+#             */
-/*   Updated: 2025/03/14 14:17:16 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/14 14:20:19 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,19 @@ t_var	*var_new_node(char *line, t_var_type type)
 	node->type = type;
 	node->nxt = NULL;
 	return (node);
+}
+
+int	get_vars_size(t_var *vars)
+{
+	t_var	*v;
+	int		size;
+
+	size = 0;
+	v = vars;
+	while (v)
+	{
+		size++;
+		v = v->nxt;
+	}
+	return (size);
 }

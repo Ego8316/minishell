@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/14 00:17:21 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/14 14:21:32 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,6 @@ t_bool	parse_bracket(t_parse_data *data);
 t_bool	parse_text(t_parse_data *data);
 t_bool	parse_loop(t_parse_data *data);
 
-// Data
-
-t_bool	data_init(t_data *data, char **envp);
-
 // Builtins
 
 int		echo_builtin(t_token *args);
@@ -119,11 +115,15 @@ int		pwd_builtin(t_data *data, t_token *args);
 
 // Data
 
-t_var	*var_new_node(char *line, t_var_type type);
-int		var_add_line(t_var **vars, char *line, t_var_type type);
-char	*line_get_value(char *line);
+t_bool	data_init(t_data *data, char **envp);
 char	**copy_envp(t_var *vars);
+int		var_add_line(t_var **vars, char *line, t_var_type type);
 t_var	*var_get(t_var **vars, char *line);
+int		var_set(t_var **vars, char *line);
+int		line_get_identifier_len(char *line);
+char	*line_get_value(char *line);
+t_var	*var_new_node(char *line, t_var_type type);
+int		get_vars_size(t_var *vars);
 
 // Utilities
 

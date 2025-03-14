@@ -6,26 +6,11 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:22:07 by ego               #+#    #+#             */
-/*   Updated: 2025/03/14 14:10:20 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/14 14:20:02 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	get_vars_size(t_var *vars)
-{
-	t_var	*v;
-	int		size;
-
-	size = 0;
-	v = vars;
-	while (v)
-	{
-		size++;
-		v = v->nxt;
-	}
-	return (size);
-}
 
 /**
  * @brief Copies the environment variables from the var list.
