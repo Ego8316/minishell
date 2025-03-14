@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 20:45:35 by ego               #+#    #+#             */
-/*   Updated: 2025/03/14 15:32:27 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/14 16:40:20 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	var_add_line(t_var **vars, char *line, t_var_type type)
  * @return Pointer to the variable if there is a match,
  * NULL otherwise.
  */
-t_var	*var_get(t_var **vars, char *line)
+char	*var_get(t_var **vars, char *line)
 {
 	t_var	*v;
 
@@ -72,6 +72,27 @@ t_var	*var_get(t_var **vars, char *line)
 		v = v->nxt;
 	}
 	return (NULL);
+}
+
+/**
+ * @brief Searches through the var list for a variable with
+ * same identifier as provided. Allocates memory and returns
+ * its value (an empty string if ID not found).
+ * 
+ * @param vars Pointer to the beginning of the var list.
+ * @param identifier Variable's identifier.
+ * 
+ * @return Allocated copy of the value, NULL if allocation fails.
+ */
+t_var	*var_get_value(t_var *vars, char *identifier)
+{
+	t_var	*v;
+
+	v = var_get(&vars, identifier);
+	if (!v)
+		return (ft_strdup(""));
+	else
+		return (ft_strdup(v->value));
 }
 
 /**

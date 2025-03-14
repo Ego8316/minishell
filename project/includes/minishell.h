@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/14 14:41:10 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/14 16:40:10 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ t_bool	data_init(t_data *data, char **envp);
 char	**copy_envp(t_var *vars);
 int		var_add_line(t_var **vars, char *line, t_var_type type);
 t_var	*var_get(t_var **vars, char *line);
+char	*var_get_value(t_var *vars, char *identifier);
 int		var_set(t_var **vars, char *line);
 int		line_get_identifier_len(char *line);
 char	*line_get_value(char *line);

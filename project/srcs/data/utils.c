@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:16:52 by ego               #+#    #+#             */
-/*   Updated: 2025/03/14 14:20:19 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/14 16:44:40 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,13 @@ t_var	*var_new_node(char *line, t_var_type type)
 	return (node);
 }
 
+/**
+ * @brief Computes the number of variables of all types.
+ * 
+ * @param vars Var list.
+ * 
+ * @return The number of elements in the list.
+ */
 int	get_vars_size(t_var *vars)
 {
 	t_var	*v;
