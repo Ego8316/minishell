@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:40 by ego               #+#    #+#             */
-/*   Updated: 2025/03/14 14:40:47 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/14 17:24:41 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ static void	unset_arg(t_data *data, char *arg)
  * nothing for unfound identifier. If the
  * identifier corresponds to an environment
  * variable, also removes it from envp.
+ * 
+ * @param data Pointer to the data structure.
+ * @param args Arguments.
  * 
  * @return 0 for success.
  */

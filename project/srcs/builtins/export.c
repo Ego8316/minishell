@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:27 by ego               #+#    #+#             */
-/*   Updated: 2025/03/14 00:15:54 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/14 17:24:28 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ static int	handle_var(t_data *data, t_var *var, char *line)
  * variables with "declare -x " before.
  * 
  * @param data Pointer to the data structure.
+ * @param args Arguments.
  * 
  * @return 0 on success, 1 otherwise.
  */

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 20:45:35 by ego               #+#    #+#             */
-/*   Updated: 2025/03/14 16:40:20 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/14 18:04:04 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	var_add_line(t_var **vars, char *line, t_var_type type)
  * @return Pointer to the variable if there is a match,
  * NULL otherwise.
  */
-char	*var_get(t_var **vars, char *line)
+t_var	*var_get(t_var **vars, char *line)
 {
 	t_var	*v;
 
@@ -84,7 +84,7 @@ char	*var_get(t_var **vars, char *line)
  * 
  * @return Allocated copy of the value, NULL if allocation fails.
  */
-t_var	*var_get_value(t_var *vars, char *identifier)
+char	*var_get_value(t_var *vars, char *identifier)
 {
 	t_var	*v;
 
