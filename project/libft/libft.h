@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 20:20:42 by ego               #+#    #+#             */
-/*   Updated: 2025/03/04 17:49:05 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/14 14:09:40 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ char	*ft_strtrim(const char *s, const char *set);
 char	**ft_split(const char *s, char c);
 char	*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
+char	*join_strs(char *s1, char *s2, char *s3);
 
 // Character utilities
 

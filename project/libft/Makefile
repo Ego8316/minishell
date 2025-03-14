@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/25 18:54:06 by ego               #+#    #+#              #
-#    Updated: 2025/03/04 17:32:51 by ego              ###   ########.fr        #
+#    Updated: 2025/03/14 14:10:10 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ SRCS	=	ft_isalpha.c		\
 			ft_putstr_fd.c		\
 			ft_putendl_fd.c		\
 			ft_putnbr_fd.c		\
+			join_strs.c			\
 			get_next_line.c
 BSRCS	=	ft_lstnew.c			\
 			ft_lstadd_front.c	\

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/14 00:06:14 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/14 13:57:50 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	print_vars(t_var *vars)
 	v = vars;
 	while (v)
 	{
-		printf("%s=%s\n", v->identifier, v->value);
+		printf("%s=%s\tt:%i\n", v->identifier, v->value, v->type);
 		v = v->nxt;
 	}
 }
@@ -54,13 +54,10 @@ int	main(int argc, char **argv, char **envp)
 	if (!data_init(&data, envp))
 		return (1);
 	// print_vars(data.vars);
-	var_add_line(&(data.vars), "MAMA", MARKED);
+	t_token	*test = test_token("A=3", "34C=456", "_AB");
+	export_builtin(&data, test);
+	print_vars(data.vars);
 	// export_builtin(&data, 0);
-	t_var *var = var_get(&(data.vars), "MAMAAA=");
-	data.envp = copy_envp(data.vars);
-	printf("%p\n", var);
-	if (var)
-		printf("%s=%s\n>%i\n", var->identifier, var->value, var->type);
 	free_data(&data);
 	return (0);
 }
