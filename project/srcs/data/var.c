@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 20:45:35 by ego               #+#    #+#             */
-/*   Updated: 2025/03/14 14:17:11 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/14 14:58:43 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,11 @@ int	var_add_line(t_var **vars, char *line, t_var_type type)
 		*vars = var_new_node(line, type);
 		return (*vars != NULL);
 	}
-	v = *vars;
-	while (v->nxt)
-		v = v->nxt;
-	v->nxt = var_new_node(line, type);
-	if (!v->nxt)
+	v = var_new_node(line, type);
+	if (!v)
 		return (0);
+	v->nxt = *vars;
+	*vars = v;
 	return (1);
 }
 
