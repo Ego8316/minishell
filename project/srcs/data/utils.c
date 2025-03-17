@@ -80,8 +80,8 @@ t_var	*var_new_node(char *line, t_var_type type)
 	node->value = line_get_value(line);
 	if (!node->value)
 	{
-		free(node);
 		free(node->identifier);
+		free(node);
 		return (NULL);
 	}
 	node->type = type;
