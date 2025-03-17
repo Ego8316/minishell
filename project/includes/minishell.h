@@ -28,7 +28,7 @@ typedef enum e_bool
 	TRUE = 1
 }	t_bool;
 
-// 0 <null>, 1 resolved cmd/arg, 2 |, 3 &, 4 ||, 5 &&, 6 <, 7 >, 8 >>, 9 <<
+// 0 <null>, 1 cmd/arg, 2 |, 3 &, 4 ||, 5 &&, 6 <, 7 >, 8 >>, 9 <<, 10 unresolved
 typedef enum e_token_type
 {
 	UNDETERMINED = 0,
@@ -40,7 +40,8 @@ typedef enum e_token_type
 	REDIRIN = 6,
 	REDIROUT = 7,
 	OUTAPPEND = 8,
-	INDELI = 9
+	INDELI = 9,
+	UNRESOLVED_TEXT = 10,
 }	t_token_type;
 
 typedef enum e_var_type
@@ -85,7 +86,7 @@ typedef struct s_data
 }	t_data;
 
 //==Functions===
-void	run_cmd_from_user(void);
+void	run_cmd_from_user(t_var *vars);
 
 //Parsing
 
@@ -95,9 +96,6 @@ t_bool	token_make(t_token_type type, char *str, int depth, t_token **out);
 t_bool	token_free_list(t_token **list);
 t_bool	token_add_last(t_token_type type, char *str, int depth, t_token **list);
 
-t_bool	is_char_oper(char c);
-t_bool	syntax_error(t_parse_data *data, int i);
-
 //Internal parsing (private)
 
 t_bool	expand_cmd(t_parse_data *data);
@@ -105,6 +103,9 @@ t_bool	parse_operator(t_parse_data *data);
 t_bool	parse_bracket(t_parse_data *data);
 t_bool	parse_text(t_parse_data *data);
 t_bool	parse_loop(t_parse_data *data);
+t_bool	substitute_variables(t_token *tokens, t_var *vars);
+t_bool	is_char_oper(char c);
+t_bool	syntax_error(t_parse_data *data, int i);
 
 // Builtins
 

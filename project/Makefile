@@ -13,7 +13,7 @@
 NAME = minishell
 
 CC = gcc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -fsanitize=address
 LIBFT = -L libft -lft -lreadline
 
 SRC_DIR = srcs/

@@ -47,10 +47,7 @@ static char	*parse_double_quote(t_parse_data *data)
 		if (c == '\"')
 			break;
 		old = text;
-		if (c == '$')
-			text = ft_strjoin(old, "VARPLACEHOLDER"); //add var parsing call later
-		else
-			text = append_str(old, c);
+		text = append_str(old, c);
 		if (old)
 			free(old);
 		if (!text)
@@ -103,8 +100,6 @@ static char	*parse_word(t_parse_data *data)
 			text = ft_strjoin(old, parse_single_quote(data));
 		else if (c == '\"')
 			text = ft_strjoin(old, parse_double_quote(data));
-		else if (c == '$')
-			text = ft_strjoin(old, "VARPLACEHOLDER"); //add var parsing call later
 		else
 			text = append_str(old, c);
 		if (old)
@@ -118,13 +113,18 @@ static char	*parse_word(t_parse_data *data)
 
 t_bool	parse_text(t_parse_data *data)
 {
-	char	*text;
-	char	c;
+	char			*text;
+	char			c;
+	t_token_type	type;
 
+	type = UNRESOLVED_TEXT;
 	data->expect_cmd = FALSE;
 	c = data->cmd[data->i++];
 	if (c == '\'')
+	{
 		text = parse_single_quote(data);
+		type = TEXT;
+	}
 	else if (c == '\"')
 		text = parse_double_quote(data);
 	else
@@ -135,7 +135,7 @@ t_bool	parse_text(t_parse_data *data)
 	}
 	if (!text)
 		return (FALSE);
-	return (token_add_last(TEXT, text, data->depth, &data->tokens));
+	return (token_add_last(type, text, data->depth, &data->tokens));
 }
 /*
 typedef struct s_parse_data

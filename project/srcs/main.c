@@ -48,6 +48,7 @@ void	print_vars(t_var *vars)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
+	int		i;
 	
 	(void)argc;
 	argv[0] = 0;
@@ -61,14 +62,10 @@ int	main(int argc, char **argv, char **envp)
 	printf("-------------------\n");
 	env_builtin(&data, 0);
 	print_vars(data.vars);
+	printf("-------------------\n");
+	i = 0;
+	while (i++ < 5)
+		run_cmd_from_user(data.vars);
 	free_data(&data);
 	return (0);
 }
-
-
-// int	main(void)
-// {
-// 	while (1)
-// 		run_cmd_from_user();
-// }
-

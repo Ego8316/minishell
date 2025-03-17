@@ -16,22 +16,6 @@
  * @brief Gets and runs a command from user.
  */
 
-/*
-typedef enum e_token_type
-{
-	UNDETERMINED = 0,
-	TEXT = 1,
-	PIPE = 2,
-	BGEXEC = 3,
-	OROPER = 4,
-	ANDOPER = 5,
-	REDIRIN = 6,
-	REDIROUT = 7,
-	OUTAPPEND = 8,
-	INDELI = 9
-}	t_token_type;
-*/
-
 static void print_token_type(t_token_type type)
 {
 	if (type == UNDETERMINED)
@@ -54,26 +38,41 @@ static void print_token_type(t_token_type type)
 		printf("OUTAPPEND >>");
 	else if (type == INDELI)
 		printf("INDELI <<");
+	else if (type == UNRESOLVED_TEXT)
+		printf("UNRESOLVED_TEXT");
 }
 
-void	run_cmd_from_user(void)
+void print_token_list(t_token *tokens)
+{
+	while (tokens)
+	{
+		printf("Token type ");
+		print_token_type(tokens->type);
+		printf(" depth %i", tokens->depth);
+		if (tokens->type == TEXT || tokens->type == UNRESOLVED_TEXT)
+			printf(" '%s'", tokens->str);
+		printf("\n");
+		tokens = tokens->nxt;
+	}
+}
+
+void	run_cmd_from_user(t_var *vars)
 {
 	t_token *tokens;
-	t_token *check;
 
-	if (try_parse_command(readline("[minishell]: "), &tokens))
+	if (!try_parse_command(readline("[minishell]: "), &tokens))
 	{
-		check = tokens;
-		while (check)
-		{
-			printf("Token type ");
-			print_token_type(check->type);
-			printf(" depth %i", check->depth);
-			if (check->type == TEXT)
-				printf(" '%s'", check->str);
-			printf("\n");
-			check = check->nxt;
-		}
-		token_free_list(&tokens);
+		printf("Fatal error parsing command!\n");
 	}
+	printf("\nPre substitution tokens:\n");
+	print_token_list(tokens);
+
+	if (substitute_variables(tokens, vars))
+	{
+		printf("\nPost substitution tokens:\n");
+		print_token_list(tokens);
+	}
+	else
+		printf("Fatal error in sustituting variables!\n");
+	token_free_list(&tokens);
 }
