@@ -66,10 +66,8 @@ t_bool	parse_loop(t_parse_data *data)
 {
 	int		ret;
 	int		prev_depth;
-	t_bool	prev_expect_cmd;
 
 	prev_depth = data->depth;
-	prev_expect_cmd = data->expect_cmd;
 	ret = 1;
 	while (ret > 0 && (prev_depth == 0 || data->depth >= prev_depth))
 	{
@@ -78,7 +76,7 @@ t_bool	parse_loop(t_parse_data *data)
 			return (FALSE);
 	}
 	data->depth = prev_depth - (prev_depth > 0);
-	data->expect_cmd = prev_expect_cmd;
+	data->expect_cmd = FALSE;
 	return (TRUE);
 }
 
