@@ -21,3 +21,7 @@ Weird cases to take care of if we start minishell from minishell, but that shoul
 Can be used to get the initial working directory, but should not be used afterwards since we will be working with a copy of envp.
 
 `char *getcwd(char *buf, int size)` When called with `buf = NULL` and `size = NULL`, allocates and returns a string corresponding to the current working directory.
+
+### Prompt
+If we are to display the same prompt as bash (with the full path), we have to be careful in cases where variables like HOME are not set.
+We can also print LOGNAME@NAME and handle cases where one of these two (or both) are not set, but that may be overkill (once again not explicitly mentioned in the subject).
