@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:16:52 by ego               #+#    #+#             */
-/*   Updated: 2025/03/14 16:44:40 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/18 14:32:46 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,41 +52,6 @@ char	*line_get_value(char *line)
 		return (ft_strdup(line + i + 1));
 	else
 		return (ft_strdup(""));
-}
-
-/**
- * @brief Allocates memory for a new var list node.
- * Takes as a parameter a line in the form "VAR=value"
- * and splits into identifier and value. If the value
- * or the equal sign is missing, puts an empty string
- * as value by default. Identifier validity has to
- * be checked beforehand.
- * 
- * @param line Line to be parsed.
- * @param type Var type.
- * 
- * @return The new allocated node, NULL if allocation fails.
- */
-t_var	*var_new_node(char *line, t_var_type type)
-{
-	t_var	*node;
-
-	node = (t_var *)malloc(sizeof(t_var));
-	if (!node)
-		return (NULL);
-	node->identifier = ft_strndup(line, line_get_identifier_len(line));
-	if (!node->identifier)
-		return (free(node), NULL);
-	node->value = line_get_value(line);
-	if (!node->value)
-	{
-		free(node->identifier);
-		free(node);
-		return (NULL);
-	}
-	node->type = type;
-	node->nxt = NULL;
-	return (node);
 }
 
 /**

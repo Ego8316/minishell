@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/14 15:31:20 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/18 14:43:42 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	print_vars(data.vars);
 	t_token	*test = test_token("MAMA", "    a=3", "");
-	var_set(&data.vars, "MAMA=5");
+	var_set_line(&data.vars, "MAMA=5");
 	env_builtin(&data, 0);
 	export_builtin(&data, test);
 	printf("-------------------\n");

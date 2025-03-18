@@ -2,3 +2,5 @@
 *.o
 project/minishell
 .vscode
+test.c
+a.out

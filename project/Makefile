@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/03/14 14:17:29 by ego              ###   ########.fr        #
+#    Updated: 2025/03/18 14:32:37 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,8 @@ SRC_FILES += builtins/cd.c		\
 SRC_FILES += data/init.c	\
 			 data/utils.c	\
 			 data/env.c		\
-			 data/var.c
+			 data/var.c		\
+			 data/var_line.c
 SRC_FILES += utils/error.c	\
 			 utils/free.c
 			

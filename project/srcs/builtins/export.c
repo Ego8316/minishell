@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:27 by ego               #+#    #+#             */
-/*   Updated: 2025/03/14 17:24:28 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/18 14:43:57 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int	export_builtin(t_data *data, t_token *args)
 					args->str, "': not a valid identifier\n", 1);
 		else
 		{
-			var = var_get(&data->vars, args->str);
+			var = var_get_line(&data->vars, args->str);
 			if (!handle_var(data, var, args->str))
 				clean_exit(data, errmsg("malloc: failed allocation", 0, 0, 1));
 		}

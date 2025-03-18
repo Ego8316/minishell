@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 12:51:34 by ego               #+#    #+#             */
-/*   Updated: 2025/03/18 12:48:01 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/18 14:45:18 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static t_var	*copy_vars(char **envp)
 	t_var	*node;
 	int		i;
 
-	head = var_new_node(envp[0], ENV);
+	head = var_new_node_line(envp[0], ENV);
 	if (!head)
 		return (NULL);
 	node = head;
