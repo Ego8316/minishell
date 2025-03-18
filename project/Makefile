@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/03/18 15:16:11 by ego              ###   ########.fr        #
+#    Updated: 2025/03/18 17:07:23 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ SRC_FILES += utils/error.c	\
 			
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
-OBJ_DIR = objs/
+OBJ_DIR = objs
 OBJ_FILES = $(patsubst %.c, %.o, $(SRC_FILES))
 OBJ = $(addprefix $(OBJ_DIR), $(OBJ_FILES))
 
