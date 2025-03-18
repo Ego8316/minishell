@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:35:52 by ego               #+#    #+#             */
-/*   Updated: 2025/03/18 15:11:36 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/18 15:16:29 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	cd_builtin(t_data *data, t_token *args)
 	if (!args || args->type != TEXT)
 		return (cd_home(data));
 	if (args && args->type == TEXT && args->nxt && args->nxt->type == TEXT)
-		return (errmsg("minishell: cd: too many arguments", 0, 0, 1));
+		return (errmsg("minishell: cd: too many arguments\n", 0, 0, 1));
 	if (args && args->type == TEXT && !*args->str)
 		return (0);
 	if (args && args->type == TEXT && !ft_strcmp(args->str, "-"))
