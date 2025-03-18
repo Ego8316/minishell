@@ -6,21 +6,79 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:35:52 by ego               #+#    #+#             */
-/*   Updated: 2025/03/18 14:52:14 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/18 15:11:36 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Changes the directory to the value stored in HOME.
+ * If HOME is not set, displays an error message. Otherwise,
+ * changes the directory and updates the var list and data
+ * pwd and oldpwd. Exits the program in case of allocation
+ * failure.
+ * 
+ * @param data Pointer to the data structure.
+ * 
+ * @return The exit code.
+ */
 static int	cd_home(t_data *data)
 {
-	(void)data;
+	t_var	*home;
+
+	home = var_get(&data->vars, "HOME");
+	if (!home)
+		return (errmsg("minishell: cd: HOME not set\n", 0, 0, 1));
+	chdir(home->value);
+	if (errno)
+	{
+		ft_putstr_fd("minishell: cd: ", 2);
+		perror(home->value);
+		return (errno);
+	}
+	free(data->oldpwd);
+	data->oldpwd = data->pwd;
+	data->pwd = getcwd(0, 0);
+	if (!data->pwd || !var_set(&data->vars, "OLDPWD", data->oldpwd)
+		|| !var_set(&data->vars, "PWD", data->pwd))
+		clean_exit(data, errmsg("malloc: failed allocation\n", 0, 0, 1));
 	return (0);
 }
 
+/**
+ * @brief Changes the directory to the value stored in OLDPWD.
+ * If OLDPWD is not set, displays an error message. Otherwise,
+ * changes the directory and updates the var list and data
+ * pwd and oldpwd. Exits the program in case of allocation
+ * failure. If everything went fine, displays the new path.
+ * 
+ * @param data Pointer to the data structure.
+ * 
+ * @return The exit code.
+ */
 static int	cd_oldpwd(t_data *data)
 {
-	(void)data;
+	t_var	*oldpwd;
+	char	*tmp;
+
+	oldpwd = var_get(&data->vars, "OLDPWD");
+	if (!oldpwd)
+		return (errmsg("minishell: cd: OLDPWD not set\n", 0, 0, 1));
+	chdir(oldpwd->value);
+	if (errno)
+	{
+		ft_putstr_fd("minishell: cd: ", 2);
+		perror(oldpwd->value);
+		return (errno);
+	}
+	tmp = data->oldpwd;
+	data->oldpwd = data->pwd;
+	data->pwd = tmp;
+	if (!var_set(&data->vars, "OLDPWD", data->oldpwd)
+		|| !var_set(&data->vars, "PWD", data->pwd))
+		clean_exit(data, errmsg("malloc: failed allocation\n", 0, 0, 1));
+	printf("%s\n", data->pwd);
 	return (0);
 }
 
@@ -61,7 +119,8 @@ int	cd_builtin(t_data *data, t_token *args)
 	free(data->oldpwd);
 	data->oldpwd = data->pwd;
 	data->pwd = getcwd(0, 0);
-	if (!data->pwd)
+	if (!data->pwd || !var_set(&data->vars, "OLDPWD", data->oldpwd)
+		|| !var_set(&data->vars, "PWD", data->pwd))
 		clean_exit(data, errmsg("malloc: failed allocation\n", 0, 0, 1));
 	return (0);
 }
