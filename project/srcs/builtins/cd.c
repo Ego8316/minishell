@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:35:52 by ego               #+#    #+#             */
-/*   Updated: 2025/03/18 14:19:54 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/18 14:52:14 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	cd_home(t_data *data)
 	return (0);
 }
 
-static int cd_oldpwd(t_data *data)
+static int	cd_oldpwd(t_data *data)
 {
 	(void)data;
 	return (0);

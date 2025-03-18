@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 20:45:35 by ego               #+#    #+#             */
-/*   Updated: 2025/03/18 14:42:51 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/18 14:52:07 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static t_var	*var_new_node(char *identifier, char *value, t_var_type type)
 	node->nxt = NULL;
 	return (node);
 }
-
 
 /**
  * @brief Searches through the var list for a variable with
