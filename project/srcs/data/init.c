@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 12:51:34 by ego               #+#    #+#             */
-/*   Updated: 2025/03/13 23:47:37 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/18 12:48:01 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,21 @@ static t_var	*copy_vars(char **envp)
  */
 t_bool	data_init(t_data *data, char **envp)
 {
+	char	*oldpwd;
+
+	oldpwd = getenv("OLDPWD");
+	if (!oldpwd)
+		data->oldpwd = NULL;
+	else
+	{
+		data->oldpwd = ft_strdup(oldpwd);
+		if (!data->oldpwd)
+			return (0);
+	}
 	data->envp = NULL;
 	data->pwd = getcwd(0, 0);
-	data->oldpwd = ft_strdup(getenv("OLDPWD"));
 	data->vars = copy_vars(envp);
-	if (!data->pwd || !data->oldpwd || !data->vars)
+	if (!data->pwd || !data->vars)
 		return (0);
 	return (1);
 }
