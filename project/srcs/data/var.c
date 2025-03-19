@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 20:45:35 by ego               #+#    #+#             */
-/*   Updated: 2025/03/18 14:52:07 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/18 23:03:07 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,8 @@ int	var_add(t_var **vars, char *identifier, char *value, t_var_type type)
 
 /**
  * @brief Sets an environment variable given an identifier and
- * a value. If the var is not found in the var list, adds it to
- * the list. If the var is found, changes its value to the new one.
+ * a value. If the var is not found in the var list, does nothing.
+ * If the var is found, changes its value to the new one.
  * 
  * @param vars Pointer to the beginning of the var list.
  * @param identifier The identifier.
@@ -143,7 +143,7 @@ int	var_set(t_var **vars, char *identifier, char *value)
 
 	v = var_get(vars, identifier);
 	if (!v)
-		return (var_add(vars, identifier, value, ENV));
+		return (1);
 	free_str(&v->value);
 	v->value = ft_strdup(value);
 	if (!v->value)

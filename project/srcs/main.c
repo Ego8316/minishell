@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/18 15:28:20 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/18 21:34:47 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,15 @@ int	main(int argc, char **argv, char **envp)
 	argv[0] = 0;
 	if (!data_init(&data, envp))
 		return (1);
-	t_token *test = test_token("HOME", 0, 0);
-	unset_builtin(&data, test);
+	// t_token *test = test_token("HOME", 0, 0);
+	// unset_builtin(&data, test);
+	var_set(&data.vars, "HOME", "");
 	cd_builtin(&data, 0);
 	pwd_builtin(&data, 0);
 	// i = 0;
 	// while (i++ < 5)
 	// 	run_cmd_from_user(data.vars);
-	free_test(test);
+	// free_test(test);
 	free_data(&data);
 	return (0);
 }

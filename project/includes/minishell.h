@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/18 14:50:33 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/19 00:52:37 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ void	*free_array(char **arr);
 void	*free_vars(t_var *vars);
 int		free_data(t_data *data);
 void	clean_exit(t_data *data, int status);
+void	swap_str(char **s1, char **s2);
 int		errmsg(char *s1, char *s2, char *s3, int status);
 
 #endif

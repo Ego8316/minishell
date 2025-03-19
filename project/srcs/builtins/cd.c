@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:35:52 by ego               #+#    #+#             */
-/*   Updated: 2025/03/18 15:16:29 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/19 00:53:19 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static int	cd_home(t_data *data)
 	home = var_get(&data->vars, "HOME");
 	if (!home)
 		return (errmsg("minishell: cd: HOME not set\n", 0, 0, 1));
+	if (!*home->value)
+		return (0);
 	chdir(home->value);
 	if (errno)
 	{
@@ -60,11 +62,17 @@ static int	cd_home(t_data *data)
 static int	cd_oldpwd(t_data *data)
 {
 	t_var	*oldpwd;
-	char	*tmp;
 
 	oldpwd = var_get(&data->vars, "OLDPWD");
 	if (!oldpwd)
 		return (errmsg("minishell: cd: OLDPWD not set\n", 0, 0, 1));
+	if (!*oldpwd->value)
+	{
+		printf("\n");
+		if (!var_set(&data->vars, "OLDPWD", data->pwd))
+			clean_exit(data, errmsg("malloc: failed allocation\n", 0, 0, 1));
+		return (0);
+	}
 	chdir(oldpwd->value);
 	if (errno)
 	{
@@ -72,9 +80,7 @@ static int	cd_oldpwd(t_data *data)
 		perror(oldpwd->value);
 		return (errno);
 	}
-	tmp = data->oldpwd;
-	data->oldpwd = data->pwd;
-	data->pwd = tmp;
+	swap_str(&data->oldpwd, &data->pwd);
 	if (!var_set(&data->vars, "OLDPWD", data->oldpwd)
 		|| !var_set(&data->vars, "PWD", data->pwd))
 		clean_exit(data, errmsg("malloc: failed allocation\n", 0, 0, 1));
@@ -101,6 +107,7 @@ static int	cd_oldpwd(t_data *data)
  */
 int	cd_builtin(t_data *data, t_token *args)
 {
+	errno = 0;
 	if (!args || args->type != TEXT)
 		return (cd_home(data));
 	if (args && args->type == TEXT && args->nxt && args->nxt->type == TEXT)

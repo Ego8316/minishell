@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:16:52 by ego               #+#    #+#             */
-/*   Updated: 2025/03/18 14:32:46 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/19 00:52:27 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,19 @@ int	get_vars_size(t_var *vars)
 		v = v->nxt;
 	}
 	return (size);
+}
+
+/**
+ * @brief Swaps two string pointers.
+ * 
+ * @param s1 Pointer to the first string.
+ * @param s2 Pointer to the second string.
+ */
+void	swap_str(char **s1, char **s2)
+{
+	char	*tmp;
+
+	tmp = *s2;
+	*s2 = *s1;
+	*s1 = tmp;
 }
