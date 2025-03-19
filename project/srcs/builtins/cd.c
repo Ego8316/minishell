@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:35:52 by ego               #+#    #+#             */
-/*   Updated: 2025/03/19 00:53:19 by ego              ###   ########.fr       */
+/*   Updated: 2025/03/19 20:18:59 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ static int	cd_home(t_data *data)
 		return (errmsg("minishell: cd: HOME not set\n", 0, 0, 1));
 	if (!*home->value)
 		return (0);
-	chdir(home->value);
-	if (errno)
+	if (chdir(home->value) == -1)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
 		perror(home->value);
@@ -73,8 +72,7 @@ static int	cd_oldpwd(t_data *data)
 			clean_exit(data, errmsg("malloc: failed allocation\n", 0, 0, 1));
 		return (0);
 	}
-	chdir(oldpwd->value);
-	if (errno)
+	if (chdir(oldpwd->value) == -1)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
 		perror(oldpwd->value);
@@ -107,7 +105,6 @@ static int	cd_oldpwd(t_data *data)
  */
 int	cd_builtin(t_data *data, t_token *args)
 {
-	errno = 0;
 	if (!args || args->type != TEXT)
 		return (cd_home(data));
 	if (args && args->type == TEXT && args->nxt && args->nxt->type == TEXT)
@@ -116,8 +113,7 @@ int	cd_builtin(t_data *data, t_token *args)
 		return (0);
 	if (args && args->type == TEXT && !ft_strcmp(args->str, "-"))
 		return (cd_oldpwd(data));
-	chdir(args->str);
-	if (errno)
+	if (chdir(args->str) == -1)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
 		perror(args->str);
