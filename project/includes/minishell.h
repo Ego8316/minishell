@@ -61,15 +61,6 @@ typedef struct s_token
 	struct s_token	*nxt;
 }					t_token;
 
-typedef struct s_parse_data
-{
-	char	*cmd;
-	int		i;
-	t_bool	expect_cmd;
-	int		depth;
-	t_token *tokens;
-}			t_parse_data;
-
 typedef struct s_var
 {
 	t_var_type		type;
@@ -77,6 +68,16 @@ typedef struct s_var
 	char			*value;
 	struct s_var	*nxt;
 }	t_var;
+
+typedef struct s_parse_data
+{
+	char	*cmd;
+	int		i;
+	t_bool	expect_cmd;
+	int		depth;
+	t_token *tokens;
+	t_var *vars;
+}			t_parse_data;
 
 typedef struct s_data
 {
@@ -91,7 +92,7 @@ void	run_cmd_from_user(t_var *vars);
 
 //Parsing
 
-t_bool	try_parse_command(char *cmd, t_token **out_tokens);
+t_bool	try_parse_command(char *cmd, t_token **out_tokens, t_var *vars);
 
 t_bool	token_make(t_token_type type, char *str, int depth, t_token **out);
 t_bool	token_free_list(t_token **list);
@@ -104,9 +105,9 @@ t_bool	parse_operator(t_parse_data *data);
 t_bool	parse_bracket(t_parse_data *data);
 t_bool	parse_text(t_parse_data *data);
 t_bool	parse_loop(t_parse_data *data);
-t_bool	substitute_variables(t_token *tokens, t_var *vars);
 t_bool	is_char_oper(char c);
 t_bool	syntax_error(t_parse_data *data, int i);
+char	*substitute_vars(char *str, t_var *vars);
 
 // Builtins
 

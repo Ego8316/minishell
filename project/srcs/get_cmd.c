@@ -60,19 +60,9 @@ void	run_cmd_from_user(t_var *vars)
 {
 	t_token *tokens;
 
-	if (!try_parse_command(readline("[minishell]: "), &tokens))
-	{
+	if (!try_parse_command(readline("[minishell]: "), &tokens, vars))
 		printf("Fatal error parsing command!\n");
-	}
-	printf("\nPre substitution tokens:\n");
-	print_token_list(tokens);
-
-	if (substitute_variables(tokens, vars))
-	{
-		printf("\nPost substitution tokens:\n");
-		print_token_list(tokens);
-	}
 	else
-		printf("Fatal error in sustituting variables!\n");
+		print_token_list(tokens);
 	token_free_list(&tokens);
 }

@@ -30,9 +30,9 @@ t_bool	substitute_str(char **cmd, char *val, int start, int end)
 	ft_memcpy(new, *cmd, start - 1);
 	ft_memcpy(new + (start - 1), val, lenv);
 	ft_memcpy(new + (start - 1 + lenv), *cmd, lenc - end);
-	printf("val '%s'\n", val);
-	printf("val len '%i'\n", lenv);
-	printf("string '%s'\n", new);
+	//printf("val '%s'\n", val);
+	//printf("val len '%i'\n", lenv);
+	//printf("string '%s'\n", new);
 	free(val);
 	free(*cmd);
 	*cmd = new;
@@ -60,30 +60,21 @@ static t_bool	parse_variable(char **cmd, int *i, t_var *vars)
 	if (!var_val)
 		return (FALSE);
 	//*i += ft_strlen(var_val) - 1;
-	printf("SUBSTIUTION DATA DEBUG!\n");
-	printf("start: %i, end: %i, val: '%s'\n",start, end, var_val);
+	//printf("SUBSTIUTION DATA DEBUG!\n");
+	//printf("start: %i, end: %i, val: '%s'\n",start, end, var_val);
 	return (substitute_str(cmd, var_val, start, end));
 }
 
-static t_bool	substitute_token(t_token *token, t_var *vars)
+char	*substitute_vars(char *str, t_var *vars)
 {
 	int	i;
 
 	i = 0;
-	token->type = TEXT;
-	while (token->str[i])
-		if (token->str[i++] == '$' && !parse_variable(&(token->str), &i, vars))
-			return (FALSE);
-	return (TRUE);
-}
-
-t_bool	substitute_variables(t_token *tokens, t_var *vars)
-{
-	while (tokens)
-	{
-		if (tokens->type == UNRESOLVED_TEXT && !substitute_token(tokens, vars))
-			return (FALSE);
-		tokens = tokens->nxt;
-	}
-	return (TRUE);
+	while (str[i])
+		if (str[i++] == '$' && !parse_variable(&(str), &i, vars))
+		{
+			free(str);
+			return (0);
+		}
+	return (str);
 }

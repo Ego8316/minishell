@@ -82,7 +82,7 @@ void	print_vars(t_var *vars)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
-	// int		i;
+	int		i;
 	
 	(void)argc;
 	argv[0] = 0;
@@ -93,10 +93,10 @@ int	main(int argc, char **argv, char **envp)
 	var_set(&data.vars, "HOME", "");
 	cd_builtin(&data, 0);
 	pwd_builtin(&data, 0);
-	// i = 0;
-	// while (i++ < 5)
-	// 	run_cmd_from_user(data.vars);
-	// free_test(test);
+	i = 0;
+	while (i++ < 5)
+		run_cmd_from_user(data.vars);
+	//free_test(test);
 	free_data(&data);
 	return (0);
 }

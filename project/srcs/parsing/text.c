@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-static char *append_str(char *str, char c)
+static char *str_join_free(char *str, char *str2)
 {
-	char	*append;
+	char	*res;
 
 	if (!str)
 	{
@@ -23,68 +23,52 @@ static char *append_str(char *str, char c)
 			return (0);
 		str[0] = 0;
 	}
+	res = ft_strjoin(str, str2);
+	if (str)
+		free(str);
+	return (res);
+}
+
+static char *append_str_free(char *str, char c)
+{
+	char	*append;
+
 	append = malloc(sizeof(char) * 2);
 	if (!append)
 		return (0);
 	append[0] = c;
 	append[1] = 0;
-	return (ft_strjoin(str, append));
+	return (str_join_free(str, append));
 }
 
-static char	*parse_double_quote(t_parse_data *data)
+static char	*parse_quote(t_parse_data *data, char q)
 {
 	char	*text;
-	char	*old;
 	char	c;
 
 	text = 0;
+	data->i++;
 	while (1)
 	{
 		while (!data->cmd[data->i])
 			if (!expand_cmd(data))
 				return (0);
+		//printf("quotes parse loop on '%c' %i\n", data->cmd[data->i], data->i);
 		c = data->cmd[data->i++];
-		if (c == '\"')
+		if (c == q)
 			break;
-		old = text;
-		text = append_str(old, c);
-		if (old)
-			free(old);
+		text = append_str_free(text, c);
 		if (!text)
 			return (0);
 	}
-	return (text);
-}
-
-static char	*parse_single_quote(t_parse_data *data)
-{
-	char	*text;
-	char	*old;
-	char	c;
-
-	text = 0;
-	while (1)
-	{
-		while (!data->cmd[data->i])
-			if (!expand_cmd(data))
-				return (0);
-		c = data->cmd[data->i++];
-		if (c == '\'')
-			break;
-		old = text;
-		text = append_str(old, c);
-		if (old)
-			free(old);
-		if (!text)
-			return (0);
-	}
+	if (q == '\"')
+		return (substitute_vars(text, data->vars));
 	return (text);
 }
 
 static char	*parse_word(t_parse_data *data)
 {
 	char	*text;
-	char	*old;
 	char	c;
 
 	//printf("starting word parse with '%c'\n", data->cmd[data->i]);
@@ -93,49 +77,36 @@ static char	*parse_word(t_parse_data *data)
 	{
 		//printf("word parse loop on '%c' %i\n", data->cmd[data->i], data->i);
 		c = data->cmd[data->i++];
-		if (!c || ft_isspace(c) || is_char_oper(c))
+		if (!c || ft_isspace(c) || is_char_oper(c) || c =='\'' || c == '\"')
 			break;
-		old = text;
-		if (c == '\'')
-			text = ft_strjoin(old, parse_single_quote(data));
-		else if (c == '\"')
-			text = ft_strjoin(old, parse_double_quote(data));
-		else
-			text = append_str(old, c);
-		if (old)
-			free(old);
+		text = append_str_free(text, c);
 		if (!text)
 			return (0);
 	}
+	data->i--;
 	//printf("ending word parse with '%s'\n", text);
-	return (text);
+	return (substitute_vars(text, data->vars));
 }
 
 t_bool	parse_text(t_parse_data *data)
 {
-	char			*text;
-	char			c;
-	t_token_type	type;
+	char	*text;
+	char	c;
 
-	type = UNRESOLVED_TEXT;
 	data->expect_cmd = FALSE;
-	c = data->cmd[data->i++];
-	if (c == '\'')
+	text = 0;
+	c = data->cmd[data->i];
+	while (c && !ft_isspace(c) && !is_char_oper(c))
 	{
-		text = parse_single_quote(data);
-		type = TEXT;
+		if (c == '\'' || c == '\"')
+			text = str_join_free(text, parse_quote(data, c));
+		else
+			text = str_join_free(text, parse_word(data));
+		if (!text)
+			return (FALSE);
+		c = data->cmd[data->i];
 	}
-	else if (c == '\"')
-		text = parse_double_quote(data);
-	else
-	{
-		data->i--;
-		text = parse_word(data);
-		data->i--;
-	}
-	if (!text)
-		return (FALSE);
-	return (token_add_last(type, text, data->depth, &data->tokens));
+	return (token_add_last(TEXT, text, data->depth, &data->tokens));
 }
 /*
 typedef struct s_parse_data

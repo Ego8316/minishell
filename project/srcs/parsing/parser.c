@@ -30,7 +30,7 @@ t_bool	expand_cmd(t_parse_data *data)
 	return (data->cmd != 0);
 }
 
-static t_parse_data	get_parse_data(char *cmd)
+static t_parse_data	get_parse_data(char *cmd, t_var *vars)
 {
 	t_parse_data	data;
 	data.cmd = cmd;
@@ -39,6 +39,7 @@ static t_parse_data	get_parse_data(char *cmd)
 	data.expect_cmd = FALSE;
 	data.tokens = 0;
 	data.depth = 0;
+	data.vars = vars;
 	return (data);
 }
 
@@ -91,14 +92,14 @@ t_bool	parse_loop(t_parse_data *data)
  * @return Returns true if successful.
  * Returns false on malloc and syntax errors.
  */
-t_bool	try_parse_command(char *cmd, t_token **out_tokens)
+t_bool	try_parse_command(char *cmd, t_token **out_tokens, t_var *vars)
 {
 	t_parse_data	data;
 
 	*out_tokens = 0;
-	if (!cmd)
+	if (!cmd || !vars)
 		return (TRUE);
-	data = get_parse_data(cmd);
+	data = get_parse_data(cmd, vars);
 	if (!parse_loop(&data))
 	{
 		free (data.cmd);
