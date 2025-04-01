@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/19 00:52:37 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/01 16:12:58 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ typedef struct s_data
 	char	*pwd;
 	char	*oldpwd;
 	t_var	*vars;
-	t_token *tokens;
+	t_token	*tokens;
 }	t_data;
 
 //==Functions===

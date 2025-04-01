@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:03:55 by ego               #+#    #+#             */
-/*   Updated: 2025/03/14 00:15:48 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/01 16:13:53 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ int	free_data(t_data *data)
 	free_str(&data->pwd);
 	free_str(&data->oldpwd);
 	free_vars(data->vars);
+	if (data->tokens)
+		token_free_list(&data->tokens);
 	return (1);
 }
 
