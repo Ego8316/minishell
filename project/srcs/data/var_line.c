@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:29:36 by ego               #+#    #+#             */
-/*   Updated: 2025/03/18 14:50:21 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/01 16:51:41 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,5 +133,26 @@ int	var_set_line(t_var **vars, char *line)
 		return (0);
 	if (v->type == MARKED)
 		v->type = ENV;
+	return (1);
+}
+
+/**
+ * @brief Checks if the given string is a valid indentifier.
+ * A valid identifier should not be empty, should start only
+ * by an alphabetic character or an underscore.
+ */
+int	is_valid_identifier(char *arg)
+{
+	int	i;
+
+	i = 0;
+	if (!arg || !(ft_isalpha(arg[0]) || arg[0] == '_'))
+		return (0);
+	while (arg[i] && arg[i] != '=')
+	{
+		if (!ft_isalnum(arg[i]) && arg[i] != '_')
+			return (0);
+		i++;
+	}
 	return (1);
 }

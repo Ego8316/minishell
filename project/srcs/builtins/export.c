@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:27 by ego               #+#    #+#             */
-/*   Updated: 2025/03/18 14:43:57 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/01 16:51:48 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,27 +33,6 @@ static int	print_declare_env(t_data *data)
 		v = v->nxt;
 	}
 	return (0);
-}
-
-/**
- * @brief Checks if the given string is a valid indentifier.
- * A valid identifier should not be empty, should start only
- * by an alphabetic character or an underscore.
- */
-static int	check_valid_identifier(char *arg)
-{
-	int	i;
-
-	i = 0;
-	if (!arg || !(ft_isalpha(arg[0]) || arg[0] == '_'))
-		return (0);
-	while (arg[i] && arg[i] != '=')
-	{
-		if (!ft_isalnum(arg[i]) && arg[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
 }
 
 /**
@@ -121,7 +100,7 @@ int	export_builtin(t_data *data, t_token *args)
 	status = 0;
 	while (args && args->type == TEXT)
 	{
-		if (!check_valid_identifier(args->str))
+		if (!is_valid_identifier(args->str))
 			status = errmsg("minishell: export: `",
 					args->str, "': not a valid identifier\n", 1);
 		else

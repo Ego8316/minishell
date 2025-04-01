@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/01 16:48:14 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/01 16:52:13 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,17 +123,15 @@ int		unset_builtin(t_data *data, t_token *args);
 
 t_bool	data_init(t_data *data, char **envp);
 char	**copy_envp(t_var *vars);
-
 t_var	*var_new_node_line(char *line, t_var_type type);
 int		var_add_line(t_var **vars, char *line, t_var_type type);
 t_var	*var_get_line(t_var **vars, char *line);
 int		var_set_line(t_var **vars, char *line);
-
+int		is_valid_identifier(char *arg);
 t_var	*var_get(t_var **vars, char *identifier);
 char	*var_get_value(t_var *vars, char *identifier);
 int		var_add(t_var **vars, char *identifier, char *value, t_var_type type);
 int		var_set(t_var **vars, char *identifier, char *value);
-
 int		line_get_identifier_len(char *line);
 char	*line_get_value(char *line);
 int		get_vars_size(t_var *vars);

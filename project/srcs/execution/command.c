@@ -6,9 +6,17 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:47:46 by ego               #+#    #+#             */
-/*   Updated: 2025/04/01 16:47:55 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/01 16:52:39 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	execute_commands(t_data *data)
+{
+	char	**paths;
+
+	paths = get_paths(data);
+	free_array(paths);
+	return (0);
+}
