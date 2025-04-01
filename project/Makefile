@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/03/18 17:58:07 by ego              ###   ########.fr        #
+#    Updated: 2025/04/01 16:31:00 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,10 +86,11 @@ $(NAME): $(OBJ_DIR) $(OBJ)
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
-	@mkdir -p $(OBJ_DIR)/builtins
-	@mkdir -p $(OBJ_DIR)/data
-	@mkdir -p $(OBJ_DIR)/utils
-	@mkdir -p $(OBJ_DIR)/parsing
+	@mkdir -p $(OBJ_DIR)builtins
+	@mkdir -p $(OBJ_DIR)data
+	@mkdir -p $(OBJ_DIR)utils
+	@mkdir -p $(OBJ_DIR)parsing
+	@mkdir -p $(OBJ_DIR)execution
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 	@$(CC) $(FLAGS) $(INCL) -c $< -o $@
