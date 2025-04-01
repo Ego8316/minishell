@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/04/01 16:31:00 by ego              ###   ########.fr        #
+#    Updated: 2025/04/01 16:48:41 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRC_FILES += parsing/parser.c	\
 			 parsing/operators.c\
 			 parsing/text.c		\
 			 parsing/variables.c\
-			 parsing/brackets.c\
+			 parsing/brackets.c	\
 			 parsing/utils.c	\
 			 parsing/token.c	
 SRC_FILES += builtins/cd.c		\
@@ -40,6 +40,8 @@ SRC_FILES += data/init.c	\
 			 data/var_line.c
 SRC_FILES += utils/error.c	\
 			 utils/free.c
+SRC_FILES += execution/command.c	\
+			 execution/path.c
 			
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 

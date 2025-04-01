@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/01 16:12:58 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/01 16:48:14 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,10 @@ int		var_set(t_var **vars, char *identifier, char *value);
 int		line_get_identifier_len(char *line);
 char	*line_get_value(char *line);
 int		get_vars_size(t_var *vars);
+
+// Execution
+
+char	**get_paths(t_data *data);
 
 // Utilities
 
