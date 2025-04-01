@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:27 by ego               #+#    #+#             */
-/*   Updated: 2025/04/01 16:51:48 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/01 17:20:37 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	print_declare_env(t_data *data)
 		if (v->type == MARKED)
 			printf("declare -x %s\n", v->identifier);
 		if (v->type == ENV)
-			printf("declare -x %s=%s\n", v->identifier, v->value);
+			printf("declare -x %s=\"%s\"\n", v->identifier, v->value);
 		v = v->nxt;
 	}
 	return (0);
@@ -68,7 +68,7 @@ static int	handle_var(t_data *data, t_var *var, char *line)
 	if (!var)
 		ret = var_add_line(&data->vars, line, eq * ENV + (1 - eq) * MARKED);
 	else if (var->type < ENV && !eq)
-		var->type = ENV;
+		var->type = MARKED;
 	else if (var && eq)
 	{
 		free_str(&var->value);

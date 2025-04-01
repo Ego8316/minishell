@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:54:41 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/14 13:52:31 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/01 17:16:52 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,7 @@ void	run_cmd_from_user(t_data *d)
 		printf("Fatal error parsing command!\n");
 	else
 		print_token_list(d->tokens);
+	if (!d->tokens)
+		return ;
+	execute_commands(d, d->tokens);
 }

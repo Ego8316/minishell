@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/01 16:52:13 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/01 16:58:49 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ int		get_vars_size(t_var *vars);
 
 // Execution
 
+int		execute_commands(t_data *data, t_token *cmds);
 char	**get_paths(t_data *data);
 
 // Utilities
