@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/04/01 16:48:41 by ego              ###   ########.fr        #
+#    Updated: 2025/04/01 18:27:26 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC_FILES += parsing/parser.c	\
 SRC_FILES += builtins/cd.c		\
 			 builtins/echo.c	\
 			 builtins/env.c		\
+			 builtins/exit.c	\
 			 builtins/export.c	\
 			 builtins/pwd.c		\
 			 builtins/unset.c

@@ -6,11 +6,13 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/18 21:34:47 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/01 18:29:07 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	g_last_exit_code = 0;
 
 t_token	*test_token(char *s1, char *s2, char *s3)
 {

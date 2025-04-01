@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/01 16:58:49 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/01 18:26:53 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
+
+extern int	g_last_exit_code;
 
 //===Enums===
 typedef enum e_bool
@@ -115,6 +117,7 @@ char	*substitute_vars(char *str, t_var *vars);
 int		cd_builtin(t_data *data, t_token *args);
 int		echo_builtin(t_token *args);
 int		env_builtin(t_data *data, t_token *args);
+int		exit_builtin(t_data *data, t_token *args);
 int		export_builtin(t_data *data, t_token *args);
 int		pwd_builtin(t_data *data, t_token *args);
 int		unset_builtin(t_data *data, t_token *args);
