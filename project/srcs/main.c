@@ -95,7 +95,7 @@ int	main(int argc, char **argv, char **envp)
 	pwd_builtin(&data, 0);
 	i = 0;
 	while (i++ < 5)
-		run_cmd_from_user(data.vars);
+		run_cmd_from_user(&data);
 	//free_test(test);
 	free_data(&data);
 	return (0);

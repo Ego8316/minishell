@@ -92,21 +92,20 @@ t_bool	parse_loop(t_parse_data *data)
  * @return Returns true if successful.
  * Returns false on malloc and syntax errors.
  */
-t_bool	try_parse_command(char *cmd, t_token **out_tokens, t_var *vars)
+t_bool	try_parse_command(char *cmd, t_data *d)
 {
 	t_parse_data	data;
 
-	*out_tokens = 0;
-	if (!cmd || !vars)
+	if (!cmd || !d->vars)
 		return (TRUE);
-	data = get_parse_data(cmd, vars);
+	data = get_parse_data(cmd, d->vars);
 	if (!parse_loop(&data))
 	{
 		free (data.cmd);
 		return (token_free_list(&(data.tokens)));
 	}
 	free(data.cmd);
-	*out_tokens = data.tokens;
+	d->tokens = data.tokens;
 	return (TRUE);
 }
 

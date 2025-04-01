@@ -85,14 +85,15 @@ typedef struct s_data
 	char	*pwd;
 	char	*oldpwd;
 	t_var	*vars;
+	t_token *tokens;
 }	t_data;
 
 //==Functions===
-void	run_cmd_from_user(t_var *vars);
+void	run_cmd_from_user(t_data *d);
 
 //Parsing
 
-t_bool	try_parse_command(char *cmd, t_token **out_tokens, t_var *vars);
+t_bool	try_parse_command(char *cmd, t_data *d);
 
 t_bool	token_make(t_token_type type, char *str, int depth, t_token **out);
 t_bool	token_free_list(t_token **list);

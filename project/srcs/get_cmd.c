@@ -56,13 +56,10 @@ void print_token_list(t_token *tokens)
 	}
 }
 
-void	run_cmd_from_user(t_var *vars)
+void	run_cmd_from_user(t_data *d)
 {
-	t_token *tokens;
-
-	if (!try_parse_command(readline("[minishell]: "), &tokens, vars))
+	if (!try_parse_command(readline("[minishell]: "), d))
 		printf("Fatal error parsing command!\n");
 	else
-		print_token_list(tokens);
-	token_free_list(&tokens);
+		print_token_list(d->tokens);
 }
