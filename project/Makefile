@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/04/01 18:27:26 by ego              ###   ########.fr        #
+#    Updated: 2025/04/03 21:15:29 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRC_FILES += data/init.c	\
 SRC_FILES += utils/error.c	\
 			 utils/free.c
 SRC_FILES += execution/command.c	\
+			 execution/pipeline.c	\
 			 execution/path.c
 SRC_FILES += signals/signal_init.c
 			

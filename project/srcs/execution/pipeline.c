@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:53:15 by ego               #+#    #+#             */
-/*   Updated: 2025/04/03 21:08:52 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/03 21:16:03 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	*generate_pipes(int n)
 	int	i;
 
 	pipes = (int *)malloc(2 * (n - 1) * sizeof(int));
-	if (!pipe)
+	if (!pipes)
 		return (NULL);
 	i = 0;
 	while (i < n - 1)
@@ -78,5 +78,6 @@ int execute_pipeline(t_data *data, t_token *cmds)
 	pipes = generate_pipes(n);
 	pids = (int *)malloc(n * sizeof(int));
 	if (!pipes || !pids)
-		return (0);
+		clean_exit(data, 1);
+	return (0);
 }
