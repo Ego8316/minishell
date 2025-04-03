@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/01 18:26:53 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/03 21:13:12 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,22 @@ typedef struct s_data
 	t_var	*vars;
 	t_token	*tokens;
 }	t_data;
+
+typedef struct s_pipeline
+{
+	int	n;
+	int	*pipes;
+	int	*pids;
+}	t_pipeline;
+
+typedef struct s_command
+{
+	char	*name;
+	char	*pathname;
+	char	**argv;
+	int		fd_in;
+	int		fd_out;
+}	t_command;
 
 //==Functions===
 void	run_cmd_from_user(t_data *d);
