@@ -96,7 +96,8 @@ int	main(int argc, char **argv, char **envp)
 	cd_builtin(&data, 0);
 	pwd_builtin(&data, 0);
 	i = 0;
-	while (i++ < 5)
+	init_signal();
+	while (i++ < 5 && !has_killsig())
 		run_cmd_from_user(&data);
 	//free_test(test);
 	free_data(&data);

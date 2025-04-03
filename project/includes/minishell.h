@@ -112,6 +112,11 @@ t_bool	is_char_oper(char c);
 t_bool	syntax_error(t_parse_data *data, int i);
 char	*substitute_vars(char *str, t_var *vars);
 
+// Signals
+
+void	init_signal();
+t_bool	has_killsig();
+
 // Builtins
 
 int		cd_builtin(t_data *data, t_token *args);

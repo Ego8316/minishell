@@ -17,6 +17,8 @@ t_bool	expand_cmd(t_parse_data *data)
 	char	*new;
 	char	*current;
 
+	if (has_killsig())
+		return (FALSE);
 	current = data->cmd;
 	data->cmd = ft_strjoin(current, " ");
 	free(current);

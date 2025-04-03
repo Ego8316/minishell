@@ -43,6 +43,7 @@ SRC_FILES += utils/error.c	\
 			 utils/free.c
 SRC_FILES += execution/command.c	\
 			 execution/path.c
+SRC_FILES += signals/signal_init.c
 			
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
@@ -94,6 +95,7 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)utils
 	@mkdir -p $(OBJ_DIR)parsing
 	@mkdir -p $(OBJ_DIR)execution
+	@mkdir -p $(OBJ_DIR)signals
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 	@$(CC) $(FLAGS) $(INCL) -c $< -o $@
