@@ -6,71 +6,109 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:47:46 by ego               #+#    #+#             */
-/*   Updated: 2025/04/01 18:27:06 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/04 00:37:13 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Simple switch to handle builtins.
+ * @brief Counts the number of arguments for
+ * the given command.
  * 
- * @param data Pointer to the data structure.
- * @param cmd Token corresponding to the current command.
+ * @param t Token list.
  * 
- * @return Whatever the builtin returns, -1 if the command
- * is not a builtin.
+ * @return Argument count.
  */
-int	execute_builtin(t_data *data, t_token *cmd)
+int	get_argc(t_token *t)
 {
-	if (!ft_strcmp(cmd->str, "cd"))
-		return (cd_builtin(data, cmd->nxt));
-	if (!ft_strcmp(cmd->str, "echo"))
-		return (echo_builtin(cmd->nxt));
-	if (!ft_strcmp(cmd->str, "env"))
-		return (env_builtin(data, cmd->nxt));
-	if (!ft_strcmp(cmd->str, "exit"))
-		return (exit_builtin(data, cmd->nxt));
-	if (!ft_strcmp(cmd->str, "export"))
-		return (export_builtin(data, cmd->nxt));
-	if (!ft_strcmp(cmd->str, "pwd"))
-		return (pwd_builtin(data, cmd->nxt));
-	if (!ft_strcmp(cmd->str, "unset"))
-		return (unset_builtin(data, cmd->nxt));
-	return (-1);
+	int	argc;
+
+	argc = 0;
+	while (t && t->type != PIPE && t->type != ANDOPER && t->type != OROPER)
+	{
+		if (t->type == TEXT)
+			argc++;
+		if (t->type >= REDIRIN && t->type <= INDELI)
+			t = t->nxt;
+		t = t->nxt;
+	}
+	return (argc);
 }
 
 /**
- * @brief From the given starting point of the token list, counts
- * the number of commands.
+ * @brief Allocates memory for an array of strings
+ * and duplicates each argument into that array.
  * 
- * @param cmds Token list.
+ * @param tokens Token list.
  * 
- * @return The number of commands before encountering a boolean operator.
+ * @return Allocated array of strings, NULL if
+ * allocation fails.
  */
-int	get_cmds_number(t_token *cmds)
+char	**get_argv(t_token *t)
 {
-	int	number;
+	int		i;
+	char	**argv;
 
-	number = cmds != 0;
-	while (cmds && cmds->type != ANDOPER && cmds->type != OROPER)
+	i = 0;
+	argv = (char **)malloc((get_argc(t) + 1) * sizeof(char *));
+	if (!argv)
+		return (NULL);
+	while (t && t->type != PIPE && t->type != ANDOPER && t->type != OROPER)
 	{
-		if (cmds->type == PIPE)
-			number++;
-		cmds = cmds->nxt;
+		if (t->type == TEXT)
+		{
+			argv[i] = ft_strdup(t->str);
+			if (!argv[i])
+				return (free_array(argv));
+			i++;
+		}
+		if (t->type >= REDIRIN && t->type <= INDELI)
+			t = t->nxt;
+		t = t->nxt;
 	}
-	return (number);
+	argv[i] = 0;
+	return (argv);
+}
+
+
+/**
+ * @brief Allocates memory for a command structure
+ * and parses the token list to fill it.
+ * 
+ * @param t Token list.
+ * 
+ * @param Allocated field command structure, NULL
+ * if allocation fails.
+ */
+t_command	*get_command(t_token *t)
+{
+	t_command *cmd;
+
+	cmd = (t_command *)malloc(sizeof(cmd));
+	if (!cmd)
+		return (NULL);
+	cmd->argv = get_argv(t);
+	cmd->name = NULL;
+	if (cmd->argv[0])
+		cmd->name = ft_strdup(cmd->argv[0]);
+	return (cmd);
 }
 
 int	execute_commands(t_data *data, t_token *cmds)
 {
-	int	ret;
+	char	**argv;
+	int		i;
 
-	ret = execute_builtin(data, cmds);
-	if (ret != -1)
-		return (ret);
-	if (is_valid_identifier(cmds->str))
-		var_set_line(&data->vars, cmds->str);
-	token_free_list(&data->tokens);
+	argv = get_argv(cmds);
+	if (!argv)
+		clean_exit(data, 0);
+	i = 0;
+	while (argv[i])
+	{
+		printf("\t%s\n", argv[i]);
+		i++;
+	}
+	free_array(argv);
 	return (0);
 }

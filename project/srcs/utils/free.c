@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:03:55 by ego               #+#    #+#             */
-/*   Updated: 2025/04/01 16:13:53 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/04 00:59:25 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * @brief Frees a string if it is not NULL and sets it to NULL.
  * 
- * @param s String to free.
+ * @param s Pointer to the string to free.
  * 
  * @return NULL.
  */
@@ -32,6 +32,8 @@ void	*free_str(char **s)
 /**
  * @brief Frees all there is to free in a NULL-terminated
  * array of strings and returns NULL.
+ * 
+ * @param arr Array to free.
  * 
  * @return NULL.
  */

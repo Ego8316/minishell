@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/03 21:13:12 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/04 00:38:44 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,12 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <errno.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
+
+# define TMP ".tmp"
 
 extern int	g_last_exit_code;
 
@@ -164,6 +167,7 @@ int		get_vars_size(t_var *vars);
 
 int		execute_commands(t_data *data, t_token *cmds);
 char	**get_paths(t_data *data);
+int		get_heredoc(char *limiter, int fd, t_var *vars);
 
 // Utilities
 
@@ -171,6 +175,7 @@ void	*free_str(char **s);
 void	*free_array(char **arr);
 void	*free_vars(t_var *vars);
 int		free_data(t_data *data);
+void	*free_command(t_command *cmd);
 void	clean_exit(t_data *data, int status);
 void	swap_str(char **s1, char **s2);
 int		errmsg(char *s1, char *s2, char *s3, int status);

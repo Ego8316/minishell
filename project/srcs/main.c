@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/01 18:29:07 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/04 00:59:35 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,22 +84,17 @@ void	print_vars(t_var *vars)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
-	int		i;
 	
 	(void)argc;
 	argv[0] = 0;
 	if (!data_init(&data, envp))
 		return (1);
-	// t_token *test = test_token("HOME", 0, 0);
-	// unset_builtin(&data, test);
-	var_set(&data.vars, "HOME", "");
-	cd_builtin(&data, 0);
-	pwd_builtin(&data, 0);
-	i = 0;
+	// int fd = open(TMP, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	// get_heredoc("lim", fd, data.vars);
+	int i = 0;
 	init_signal();
 	while (i++ < 5 && !has_killsig())
 		run_cmd_from_user(&data);
-	//free_test(test);
 	free_data(&data);
 	return (0);
 }
