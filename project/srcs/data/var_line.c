@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:29:36 by ego               #+#    #+#             */
-/*   Updated: 2025/04/01 16:51:41 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/04 14:32:06 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,10 @@ int	var_set_line(t_var **vars, char *line)
  * @brief Checks if the given string is a valid indentifier.
  * A valid identifier should not be empty, should start only
  * by an alphabetic character or an underscore.
+ * 
+ * @param arg The string to be checked.
+ * 
+ * @return 1 if it is a valid identifier, 0 otherwise.
  */
 int	is_valid_identifier(char *arg)
 {

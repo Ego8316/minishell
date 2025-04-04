@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 23:23:42 by ego               #+#    #+#             */
-/*   Updated: 2025/04/04 02:11:39 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/04 02:34:35 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	*free_command(t_command *cmd)
 	free_str(&cmd->name);
 	free_str(&cmd->pathname);
 	free_str(&cmd->heredoc_name);
-	printf("ICI\n");
 	free_array(cmd->argv);
 	free(cmd);
 	return (NULL);

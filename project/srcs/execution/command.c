@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:47:46 by ego               #+#    #+#             */
-/*   Updated: 2025/04/04 02:18:25 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/04 15:10:12 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ char	**get_argv(t_token *t)
 	{
 		if (t->type == TEXT)
 		{
+			printf("argv %i : %s\n", i, t->str);
 			argv[i] = ft_strdup(t->str);
+			printf(">>%s\n", argv[i]);
 			if (!argv[i])
 				return (free_array(argv));
 			i++;
@@ -78,7 +80,7 @@ char	**get_argv(t_token *t)
  * @param t Token list.
  * @param vars Variables (for heredoc).
  * 
- * @return 1 on success, 0 on failure.
+ * @return 1 on success, 0 on failure, -1 if allocation fails.
  */
 int	get_input_redirection(t_command *cmd, t_token *t, t_var *vars)
 {
@@ -93,11 +95,18 @@ int	get_input_redirection(t_command *cmd, t_token *t, t_var *vars)
 				unlink(cmd->heredoc_name);
 				free_str(&cmd->heredoc_name);
 			}
-			cmd->fd_in = get_infile(t->nxt->str, t->nxt->type, cmd, vars);
+			cmd->fd_in = get_infile(t->nxt->str, t->type, cmd, vars);
+			if (cmd->fd_in == -2)
+				return (-1);
 			if (cmd->fd_in == -1)
+			{
+				ft_putstr_fd("minishell: ", STDERR_FILENO);
+				perror(t->nxt->str);
 				return (0);
+			}
 			t = t->nxt;
 		}
+		t = t->nxt;
 	}
 	return (1);
 }
@@ -108,7 +117,9 @@ int	get_output_redirection(t_command *cmd, t_token *t)
 	{
 		if (t->type == REDIROUT || t->type == OUTAPPEND)
 		{
-			cmd->fd_out = get_outfile(t->nxt->str, t->nxt->type);
+			if (cmd->fd_out != -1)
+				close(cmd->fd_out);
+			cmd->fd_out = get_outfile(t->nxt->str, t->type);
 			if (cmd->fd_out == -1)
 				return (0);
 			t = t->nxt;
@@ -140,13 +151,15 @@ t_command	*get_command(t_data *data, t_token *t)
 	cmd->heredoc_name = NULL;
 	cmd->fd_in = -1;
 	cmd->fd_out = -1;
-	printf("%s\n", data->pwd);
-	// get_input_redirection(cmd, t, data->vars);
-	// get_output_redirection(cmd, t);
-	cmd->argv = get_argv(t);
-	// cmd->name = NULL;
-	// if (cmd->argv[0])
-	// 	cmd->name = ft_strdup(cmd->argv[0]);
+	get_input_redirection(cmd, t, data->vars);
+	get_output_redirection(cmd, t);
+	cmd->argv = get_argv(skip_assignments(t));
+	cmd->name = NULL;
+	if (cmd->argv[0])
+	{
+		cmd->name = ft_strdup(cmd->argv[0]);
+		// cmd->argv[0] = NULL;
+	}
 	return (cmd);
 }
 
@@ -156,7 +169,9 @@ int	execute_commands(t_data *data, t_token *cmds)
 	int			i;
 
 	cmd = get_command(data, cmds);
+	do_assignments(cmds, data->vars);
 	i = 0;
+	// printf(">>%p\n", cmd->argv[0]);
 	while (cmd->argv[i])
 	{
 		printf("\t%s\n", cmd->argv[i]);
