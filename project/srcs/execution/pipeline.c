@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:53:15 by ego               #+#    #+#             */
-/*   Updated: 2025/04/04 01:01:01 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/04 15:27:09 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,48 +90,6 @@ int	*generate_pipes(int n)
 	}
 	return (pipes);
 }
-
-// /**
-//  * @brief Gathers data for the current command in the pipeline.
-//  * Allocates memory for a command structure and fields it.
-//  * 
-//  * @return The allocated command structure, NULL if allocation fails.
-//  */
-// t_command	*parse_command(t_token *tokens)
-// {
-// 	t_command	*cmd;
-// 	t_token		*t;
-// 	int			args;
-
-// 	cmd = (t_command *)malloc(sizeof(t_command));
-// 	if (!cmd)
-// 		return (NULL);
-// 	t = tokens;
-// 	while (t && t->type != PIPE && t->type != ANDOPER && t->type != OROPER)
-// 	{
-// 		if (t->type == TEXT)
-// 			args++;
-// 		if (t->type >= REDIRIN && t->type <= INDELI)
-// 		{
-// 			get_files(t->nxt->str, t->type);
-// 			t = t->nxt;
-// 		}
-// 		t = t->nxt;
-// 	}
-// }
-
-// /**
-//  * @brief Parses the pipeline execution block
-//  * and gets everything ready for execution.
-//  *	- Counts the number of commands.
-//  *	- For each command, gets the redirections.
-//  *	- Creates all pipes required.
-//  *	- Creates the PID array.
-//  */
-// int	generate_pipeline(t_data *data, t_token *cmds)
-// {
-
-// }
 
 /**
  * @brief Executes a pipeline.

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:47:46 by ego               #+#    #+#             */
-/*   Updated: 2025/04/04 15:10:12 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/04 15:25:29 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ char	**get_argv(t_token *t)
 }
 
 /**
- * @brief Goes through the token list the get all the redirections.
+ * @brief Goes through the token list the get all the input redirections.
+ * When encountering a new redirection, closes the previously opened one
+ * if needed. If previous one was a heredoc, deletes the corresponding
+ * temporary file and frees the heredoc_name string.
  * 
  * @param cmd Current command being parsed.
  * @param t Token list.
@@ -111,6 +114,16 @@ int	get_input_redirection(t_command *cmd, t_token *t, t_var *vars)
 	return (1);
 }
 
+/**
+ * @brief Goes through the token list the get all the output redirections.
+ * When encountering a new redirection, closes the previously opened one
+ * if needed.
+ * 
+ * @param cmd Current command being parsed.
+ * @param t Token list.
+ * 
+ * @return 1 on success, 0 on failure.
+ */
 int	get_output_redirection(t_command *cmd, t_token *t)
 {
 	while (t && t->type != PIPE && t->type != ANDOPER && t->type != OROPER)
@@ -156,10 +169,7 @@ t_command	*get_command(t_data *data, t_token *t)
 	cmd->argv = get_argv(skip_assignments(t));
 	cmd->name = NULL;
 	if (cmd->argv[0])
-	{
 		cmd->name = ft_strdup(cmd->argv[0]);
-		// cmd->argv[0] = NULL;
-	}
 	return (cmd);
 }
 
@@ -171,14 +181,11 @@ int	execute_commands(t_data *data, t_token *cmds)
 	cmd = get_command(data, cmds);
 	do_assignments(cmds, data->vars);
 	i = 0;
-	// printf(">>%p\n", cmd->argv[0]);
 	while (cmd->argv[i])
 	{
 		printf("\t%s\n", cmd->argv[i]);
 		i++;
 	}
-	// if (cmd->heredoc_name)
-	// 	unlink(cmd->heredoc_name);
 	free_command(cmd);
 	return (0);
 }
