@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 00:01:59 by ego               #+#    #+#             */
-/*   Updated: 2025/04/04 00:58:21 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/04 01:28:31 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,11 @@
  */
 int	put_bash_warning(const char *limiter)
 {
-	ft_putstr_fd("\nminishell: warning: here-document at line 1", STDOUT_FILENO);
-	ft_putstr_fd(" delimited by end-of-file (wanted `", STDOUT_FILENO);
-	ft_putstr_fd(limiter, STDOUT_FILENO);
-	ft_putstr_fd("')\n", STDOUT_FILENO);
+	ft_putstr_fd("minishell: warning: here-document at line ", STDERR_FILENO);
+	ft_putnbr_fd(1, STDERR_FILENO);
+	ft_putstr_fd(" delimited by end-of-file (wanted `", STDERR_FILENO);
+	ft_putstr_fd(limiter, STDERR_FILENO);
+	ft_putstr_fd("')\n", STDERR_FILENO);
 	return (1);
 }
 
@@ -37,20 +38,20 @@ int	put_bash_warning(const char *limiter)
  * 
  * @return The new allocated heredoc name, NULL if allocation fails.
  */
-// static char	*get_heredoc_name(void)
-// {
-// 	static int	i;
-// 	char		*name;
-// 	char		*number;
+char	*get_heredoc_name(void)
+{
+	static int	i;
+	char		*name;
+	char		*number;
 
-// 	number = ft_itoa(i);
-// 	if (!number)
-// 		return (NULL);
-// 	name = ft_strjoin(TMP, number);
-// 	free(number);
-// 	i++;
-// 	return (name);
-// }
+	number = ft_itoa(i);
+	if (!number)
+		return (NULL);
+	name = ft_strjoin(TMP, number);
+	free(number);
+	i++;
+	return (name);
+}
 
 /**
  * @brief Copies user input to a temporary file until finding limiter.

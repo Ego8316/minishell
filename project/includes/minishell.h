@@ -6,13 +6,14 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/04 00:38:44 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/04 02:11:07 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //===Defines===
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define TMP ".tmp"
 
 //===Includes===
 # include <stdlib.h>
@@ -23,7 +24,6 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 
-# define TMP ".tmp"
 
 extern int	g_last_exit_code;
 
@@ -104,6 +104,7 @@ typedef struct s_command
 {
 	char	*name;
 	char	*pathname;
+	char	*heredoc_name;
 	char	**argv;
 	int		fd_in;
 	int		fd_out;
@@ -167,6 +168,11 @@ int		get_vars_size(t_var *vars);
 
 int		execute_commands(t_data *data, t_token *cmds);
 char	**get_paths(t_data *data);
+
+int		get_infile(char *infile, t_token_type type, t_command *cmd, t_var *vars);
+int		get_outfile(char *outfile, t_token_type type);
+
+char	*get_heredoc_name(void);
 int		get_heredoc(char *limiter, int fd, t_var *vars);
 
 // Utilities

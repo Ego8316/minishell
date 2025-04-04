@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:53:15 by ego               #+#    #+#             */
-/*   Updated: 2025/04/03 22:59:59 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/04 01:01:01 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int	*generate_pipes(int n)
  * 	- Counts the number of commands.
  * 	- Creates all pipes required.
  */
-int execute_pipeline(t_data *data, t_token *cmds)
+int	execute_pipeline(t_data *data, t_token *cmds)
 {
 	int	n;
 	int	*pipes;
