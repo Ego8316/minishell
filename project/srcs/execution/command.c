@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:47:46 by ego               #+#    #+#             */
-/*   Updated: 2025/04/06 14:22:35 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 14:39:02 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	**get_argv(t_token *t)
  * @param t Token list.
  * @param vars Variables (for heredoc).
  * 
- * @return 1 on success, 0 on failure, -1 if allocation fails.
+ * @return 1 on success, 0 on failure, -2 if allocation fails.
  */
 int	get_input_redirection(t_cmd *cmd, t_token *t, t_var *vars)
 {
@@ -97,8 +97,8 @@ int	get_input_redirection(t_cmd *cmd, t_token *t, t_var *vars)
 				free_str(&cmd->heredoc_name);
 			}
 			cmd->fd_in = get_infile(t->nxt->str, t->type, cmd, vars);
-			if (cmd->fd_in == -2)
-				return (-1);
+			if (cmd->fd_in == M_ERR)
+				return (M_ERR);
 			if (cmd->fd_in == -1)
 			{
 				ft_putstr_fd("minishell: ", STDERR_FILENO);
@@ -172,7 +172,7 @@ t_cmd	*get_command(t_data *data, t_token *t)
 	cmd->name = NULL;
 	if (cmd->argv && cmd->argv[0])
 		cmd->name = ft_strdup(cmd->argv[0]);
-	if (!cmd->argv || (cmd->argv[0] && !cmd->name) || cmd->redir_in == -1)
+	if (!cmd->argv || (cmd->argv[0] && !cmd->name) || cmd->redir_in == M_ERR)
 		return (free_command(cmd));
 	return (cmd);
 }

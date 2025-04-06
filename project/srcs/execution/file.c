@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 23:39:44 by ego               #+#    #+#             */
-/*   Updated: 2025/04/06 14:23:01 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 14:39:08 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	get_infile(char *infile, t_token_type type, t_cmd *cmd, t_var *vars)
 		if (!get_heredoc(infile, fd, vars))
 		{
 			close(fd);
-			return (-2);
+			return (M_ERR);
 		}
 		close(fd);
 		return (open(cmd->heredoc_name, O_RDONLY));

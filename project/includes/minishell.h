@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/06 14:22:26 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 14:47:48 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # define TMP ".tmp"
+# define M_ERR -2
 
 //===Includes===
 # include <stdlib.h>
@@ -95,9 +96,12 @@ typedef struct s_data
 
 typedef struct s_pipeline
 {
-	int	n;
-	int	*pipes;
-	int	*pids;
+	int		n;
+	int		*pipes;
+	int		*pids;
+	char	**paths;
+	int		stdin_backup;
+	int		stdout_backup;
 }	t_pipeline;
 
 typedef struct s_command

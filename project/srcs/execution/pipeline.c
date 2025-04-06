@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:53:15 by ego               #+#    #+#             */
-/*   Updated: 2025/04/06 14:22:45 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 14:49:43 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,23 @@ int	execute_builtin(t_data *data, char **argv)
 	if (!ft_strcmp(*argv, "unset"))
 		return (unset_builtin(data, argv + 1));
 	return (-1);
+}
+
+/**
+ * @brief Tries and execute an extern command.
+ * 
+ * @param data Pointer to the data structure.
+ * @param argv Command's argv.
+ * 
+ * @return Command's exit code, 127 if command not found
+ * and -2 if allocation fails.
+ */
+int	execute_extern(t_data *data, char **argv)
+{
+	(void)data;
+	// execve(argv[0], argv, data->envp);
+	(void)argv;
+	return (1);
 }
 
 /**
@@ -99,23 +116,35 @@ int	*generate_pipes(int n)
  * redirections.
  * 
  * @param data Pointer to the data structure.
- * @param cmds Token list starting at the command to execute.
+ * @param t Token list starting at the command to execute.
  * 
  * @return Status code of the command.
  */
-int	execute_command(t_data *data, t_token *cmds)
+int	execute_command(t_data *data, t_token *t)
 {
 	t_cmd	*cmd;
+	int		ret;
 
-	cmd = get_command(data, cmds);
-	if (!cmd)
+	ret = 0;
+	cmd = get_command(data, t);
+	int	stdin_backup = dup(STDIN_FILENO);
+	int	stdout_backup = dup(STDOUT_FILENO);
+	if (!cmd || (!*cmd->argv && !do_assignments(t, data->vars)))
 		clean_exit(data, errmsg("malloc: failed allocation\n", 0, 0, 1));
-	if (!*cmd->argv)
-		do_assignments(cmds, data->vars);
-	else
-		execute_builtin(data, cmd->argv);
+	if (cmd->fd_in != -1)
+		dup2(cmd->fd_in, STDIN_FILENO);
+	if (cmd->fd_out != -1)
+		dup2(cmd->fd_out, STDOUT_FILENO);
+	if (*cmd->argv)
+	{
+		ret = execute_builtin(data, cmd->argv);
+	}
+	if (cmd->fd_in != -1)
+		dup2(stdin_backup, STDIN_FILENO);
+	if (cmd->fd_out != -1)
+		dup2(stdout_backup, STDOUT_FILENO);
 	free_command(cmd);
-	return (0);
+	return (ret);
 }
 
 /**
