@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:36:09 by ego               #+#    #+#             */
-/*   Updated: 2025/04/01 16:49:11 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 15:24:04 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	**get_paths(t_data *data)
 
 	path = var_get(&data->vars, "PATH");
 	if (!path)
-		return (NULL);
+		return (ft_split("", ':'));
 	paths = ft_split(path->value, ':');
 	if (!paths)
 		clean_exit(data, errmsg("malloc: failed allocation\n", 0, 0, 1));

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/06 14:47:48 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 15:21:28 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ typedef struct s_pipeline
 	char	**paths;
 	int		stdin_backup;
 	int		stdout_backup;
-}	t_pipeline;
+}	t_pipe;
 
 typedef struct s_command
 {
@@ -185,6 +185,8 @@ t_token	*skip_assignments(t_token *t);
 int		do_assignments(t_token *t, t_var *vars);
 t_cmd	*get_command(t_data *data, t_token *t);
 
+t_pipe	*get_pipeline(t_data *data, t_token *t);
+
 // Utilities
 
 void	*free_str(char **s);
@@ -192,6 +194,7 @@ void	*free_array(char **arr);
 void	*free_vars(t_var *vars);
 int		free_data(t_data *data);
 void	*free_command(t_cmd *cmd);
+void	*free_pipeline(t_pipe *pipe);
 void	clean_exit(t_data *data, int status);
 void	swap_str(char **s1, char **s2);
 int		errmsg(char *s1, char *s2, char *s3, int status);
