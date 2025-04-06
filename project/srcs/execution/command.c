@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:47:46 by ego               #+#    #+#             */
-/*   Updated: 2025/04/04 15:25:29 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 14:18:07 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,7 @@ char	**get_argv(t_token *t)
 	{
 		if (t->type == TEXT)
 		{
-			printf("argv %i : %s\n", i, t->str);
 			argv[i] = ft_strdup(t->str);
-			printf(">>%s\n", argv[i]);
 			if (!argv[i])
 				return (free_array(argv));
 			i++;
@@ -134,7 +132,11 @@ int	get_output_redirection(t_command *cmd, t_token *t)
 				close(cmd->fd_out);
 			cmd->fd_out = get_outfile(t->nxt->str, t->type);
 			if (cmd->fd_out == -1)
+			{
+				ft_putstr_fd("minishell: ", STDERR_FILENO);
+				perror(t->nxt->str);
 				return (0);
+			}
 			t = t->nxt;
 		}
 		t = t->nxt;
@@ -164,28 +166,13 @@ t_command	*get_command(t_data *data, t_token *t)
 	cmd->heredoc_name = NULL;
 	cmd->fd_in = -1;
 	cmd->fd_out = -1;
-	get_input_redirection(cmd, t, data->vars);
-	get_output_redirection(cmd, t);
+	cmd->redir_in = get_input_redirection(cmd, t, data->vars);
+	cmd->redir_out = get_output_redirection(cmd, t);
 	cmd->argv = get_argv(skip_assignments(t));
 	cmd->name = NULL;
-	if (cmd->argv[0])
+	if (cmd->argv && cmd->argv[0])
 		cmd->name = ft_strdup(cmd->argv[0]);
+	if (!cmd->argv || (cmd->argv[0] && !cmd->name) || cmd->redir_in == -1)
+		return (free_command(cmd));
 	return (cmd);
-}
-
-int	execute_commands(t_data *data, t_token *cmds)
-{
-	t_command	*cmd;
-	int			i;
-
-	cmd = get_command(data, cmds);
-	do_assignments(cmds, data->vars);
-	i = 0;
-	while (cmd->argv[i])
-	{
-		printf("\t%s\n", cmd->argv[i]);
-		i++;
-	}
-	free_command(cmd);
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:32:59 by ego               #+#    #+#             */
-/*   Updated: 2025/03/13 18:37:19 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 14:05:26 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@
  * the environment.
  * 
  * @param data Pointer to the data structure.
- * @param args Arguments (should not be any).
+ * @param argv Arguments (should not be any).
  * 
  * @return Exit status.
  */
-int	env_builtin(t_data *data, t_token *args)
+int	env_builtin(t_data *data, char **argv)
 {
 	t_var	*v;
 
-	if (args && args->type == TEXT)
+	if (*argv)
 		return (errmsg("env: too many arguments\n", 0, 0, 1));
 	v = data->vars;
 	while (v)

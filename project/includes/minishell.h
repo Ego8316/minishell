@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/04 15:07:11 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 14:10:42 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ typedef struct s_command
 	char	**argv;
 	int		fd_in;
 	int		fd_out;
+	int		redir_in;
+	int		redir_out;
 }	t_command;
 
 //==Functions===
@@ -139,13 +141,13 @@ t_bool	has_killsig();
 
 // Builtins
 
-int		cd_builtin(t_data *data, t_token *args);
-int		echo_builtin(t_token *args);
-int		env_builtin(t_data *data, t_token *args);
-int		exit_builtin(t_data *data, t_token *args);
-int		export_builtin(t_data *data, t_token *args);
-int		pwd_builtin(t_data *data, t_token *args);
-int		unset_builtin(t_data *data, t_token *args);
+int		cd_builtin(t_data *data, char **argv);
+int		echo_builtin(char **argv);
+int		env_builtin(t_data *data, char **argv);
+int		exit_builtin(t_data *data, char **argv);
+int		export_builtin(t_data *data, char **argv);
+int		pwd_builtin(t_data *data, char **argv);
+int		unset_builtin(t_data *data, char **argv);
 
 // Data
 
@@ -166,7 +168,7 @@ int		get_vars_size(t_var *vars);
 
 // Execution
 
-int		execute_commands(t_data *data, t_token *cmds);
+int		execute_command(t_data *data, t_token *cmds);
 char	**get_paths(t_data *data);
 
 int		get_infile(char *infile, t_token_type type, t_command *cmd, t_var *vars);
@@ -177,6 +179,7 @@ int		get_heredoc(char *limiter, int fd, t_var *vars);
 
 t_token	*skip_assignments(t_token *t);
 int		do_assignments(t_token *t, t_var *vars);
+t_command	*get_command(t_data *data, t_token *t);
 
 // Utilities
 

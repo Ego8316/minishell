@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:54:41 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/04 02:07:47 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 14:09:31 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,5 @@ void	run_cmd_from_user(t_data *d)
 		print_token_list(d->tokens);
 	if (!d->tokens)
 		return ;
-	execute_commands(d, d->tokens);
+	execute_command(d, d->tokens);
 }

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:00 by ego               #+#    #+#             */
-/*   Updated: 2025/03/14 17:25:21 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 14:04:33 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,26 @@ static t_bool	is_n_option(char *arg)
  * @brief Executes the echo builtin: prints all the given
  * strings and displays a newline depending on the -n option.
  * 
- * @param args Option and arguments.
+ * @param argv Option and arguments.
  * 
  * @return 0 for success.
  */
-int	echo_builtin(t_token *args)
+int	echo_builtin(char **argv)
 {
 	t_bool	nl;
 
 	nl = TRUE;
-	while (args && args->type == TEXT && is_n_option(args->str))
+	while (*argv && is_n_option(*argv))
 	{
 		nl = FALSE;
-		args = args->nxt;
+		argv++;
 	}
-	while (args && args->type == TEXT)
+	while (*argv)
 	{
-		printf("%s", args->str);
-		if (args->nxt && args->nxt->type == TEXT)
+		printf("%s", *argv);
+		if (*(argv + 1))
 			printf(" ");
-		args = args->nxt;
+		argv++;
 	}
 	if (nl)
 		printf("\n");

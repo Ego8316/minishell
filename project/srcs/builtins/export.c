@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:27 by ego               #+#    #+#             */
-/*   Updated: 2025/04/01 17:20:37 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 14:19:32 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	handle_var(t_data *data, t_var *var, char *line)
 	if (!var)
 		ret = var_add_line(&data->vars, line, eq * ENV + (1 - eq) * MARKED);
 	else if (var->type < ENV && !eq)
-		var->type = MARKED;
+		var->type = ENV;
 	else if (var && eq)
 	{
 		free_str(&var->value);
@@ -86,30 +86,30 @@ static int	handle_var(t_data *data, t_var *var, char *line)
  * variables with "declare -x " before.
  * 
  * @param data Pointer to the data structure.
- * @param args Arguments.
+ * @param argv Arguments.
  * 
  * @return 0 on success, 1 otherwise.
  */
-int	export_builtin(t_data *data, t_token *args)
+int	export_builtin(t_data *data, char **argv)
 {
 	int		status;
 	t_var	*var;
 
-	if (!args || args->type != TEXT)
+	if (!*argv)
 		return (print_declare_env(data));
 	status = 0;
-	while (args && args->type == TEXT)
+	while (*argv)
 	{
-		if (!is_valid_identifier(args->str))
+		if (!is_valid_identifier(*argv))
 			status = errmsg("minishell: export: `",
-					args->str, "': not a valid identifier\n", 1);
+					*argv, "': not a valid identifier\n", 1);
 		else
 		{
-			var = var_get_line(&data->vars, args->str);
-			if (!handle_var(data, var, args->str))
+			var = var_get_line(&data->vars, *argv);
+			if (!handle_var(data, var, *argv))
 				clean_exit(data, errmsg("malloc: failed allocation", 0, 0, 1));
 		}
-		args = args->nxt;
+		argv++;
 	}
 	return (status);
 }

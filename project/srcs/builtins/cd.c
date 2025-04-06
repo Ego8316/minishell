@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:35:52 by ego               #+#    #+#             */
-/*   Updated: 2025/03/19 20:18:59 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 14:00:45 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,24 +99,24 @@ static int	cd_oldpwd(t_data *data)
  *  More than one argument: too many arguments
  * Any other stuff can just be sent to chdir
  * @param data Pointer to the data structure.
- * @param args Arguments.
+ * @param argv Arguments.
  * 
  * @return 0 if success, 1 otherwise.
  */
-int	cd_builtin(t_data *data, t_token *args)
+int	cd_builtin(t_data *data, char **argv)
 {
-	if (!args || args->type != TEXT)
+	if (!*argv)
 		return (cd_home(data));
-	if (args && args->type == TEXT && args->nxt && args->nxt->type == TEXT)
+	if (*argv && *(argv + 1))
 		return (errmsg("minishell: cd: too many arguments\n", 0, 0, 1));
-	if (args && args->type == TEXT && !*args->str)
+	if (*argv && !**argv)
 		return (0);
-	if (args && args->type == TEXT && !ft_strcmp(args->str, "-"))
+	if (*argv && !ft_strcmp(*argv, "-"))
 		return (cd_oldpwd(data));
-	if (chdir(args->str) == -1)
+	if (chdir(*argv) == -1)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
-		perror(args->str);
+		perror(*argv);
 		return (errno);
 	}
 	free(data->oldpwd);

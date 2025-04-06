@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:34 by ego               #+#    #+#             */
-/*   Updated: 2025/03/12 15:25:36 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 14:08:36 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
  * the working directory.
  * 
  * @param data Pointer to the data structure.
- * @param args Arguments.
+ * @param argv Arguments.
  * 
  * @return Exit status.
  */
-int	pwd_builtin(t_data *data, t_token *args)
+int	pwd_builtin(t_data *data, char **argv)
 {
-	(void)args;
+	(void)argv;
 	printf("%s\n", data->pwd);
 	return (0);
 }

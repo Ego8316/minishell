@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:40 by ego               #+#    #+#             */
-/*   Updated: 2025/03/14 17:24:41 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 14:09:14 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ static void	unset_arg(t_data *data, char *arg)
  * 
  * @return 0 for success.
  */
-int	unset_builtin(t_data *data, t_token *args)
+int	unset_builtin(t_data *data, char **argv)
 {
-	while (args && args->type == TEXT)
+	while (*argv)
 	{
-		unset_arg(data, args->str);
-		args = args->nxt;
+		unset_arg(data, *argv);
+		argv++;
 	}
 	return (0);
 }

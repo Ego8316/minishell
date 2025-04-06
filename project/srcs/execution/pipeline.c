@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:53:15 by ego               #+#    #+#             */
-/*   Updated: 2025/04/04 15:27:09 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 14:14:22 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,27 @@
  * @brief Simple switch to handle builtins.
  * 
  * @param data Pointer to the data structure.
- * @param cmd Token corresponding to the current command.
+ * @param argv Command's argv.
  * 
  * @return Whatever the builtin returns, -1 if the command
  * is not a builtin.
  */
-int	execute_builtin(t_data *data, t_token *cmd)
+int	execute_builtin(t_data *data, char **argv)
 {
-	if (!ft_strcmp(cmd->str, "cd"))
-		return (cd_builtin(data, cmd->nxt));
-	if (!ft_strcmp(cmd->str, "echo"))
-		return (echo_builtin(cmd->nxt));
-	if (!ft_strcmp(cmd->str, "env"))
-		return (env_builtin(data, cmd->nxt));
-	if (!ft_strcmp(cmd->str, "exit"))
-		return (exit_builtin(data, cmd->nxt));
-	if (!ft_strcmp(cmd->str, "export"))
-		return (export_builtin(data, cmd->nxt));
-	if (!ft_strcmp(cmd->str, "pwd"))
-		return (pwd_builtin(data, cmd->nxt));
-	if (!ft_strcmp(cmd->str, "unset"))
-		return (unset_builtin(data, cmd->nxt));
+	if (!ft_strcmp(*argv, "cd"))
+		return (cd_builtin(data, argv + 1));
+	if (!ft_strcmp(*argv, "echo"))
+		return (echo_builtin(argv + 1));
+	if (!ft_strcmp(*argv, "env"))
+		return (env_builtin(data, argv + 1));
+	if (!ft_strcmp(*argv, "exit"))
+		return (exit_builtin(data, argv + 1));
+	if (!ft_strcmp(*argv, "export"))
+		return (export_builtin(data, argv + 1));
+	if (!ft_strcmp(*argv, "pwd"))
+		return (pwd_builtin(data, argv + 1));
+	if (!ft_strcmp(*argv, "unset"))
+		return (unset_builtin(data, argv + 1));
 	return (-1);
 }
 
@@ -89,6 +89,33 @@ int	*generate_pipes(int n)
 		i++;
 	}
 	return (pipes);
+}
+
+/**
+ * @brief Executes a single command (not in a pipeline).
+ * Builds a command structure for the current command
+ * and exits the whole program if there is an allocation
+ * error. Otherwise, actually executes the command with
+ * redirections.
+ * 
+ * @param data Pointer to the data structure.
+ * @param cmds Token list starting at the command to execute.
+ * 
+ * @return Status code of the command.
+ */
+int	execute_command(t_data *data, t_token *cmds)
+{
+	t_command	*cmd;
+
+	cmd = get_command(data, cmds);
+	if (!cmd)
+		clean_exit(data, errmsg("malloc: failed allocation\n", 0, 0, 1));
+	if (!*cmd->argv)
+		do_assignments(cmds, data->vars);
+	else
+		execute_builtin(data, cmd->argv);
+	free_command(cmd);
+	return (0);
 }
 
 /**
