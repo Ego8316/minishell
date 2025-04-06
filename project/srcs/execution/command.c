@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:47:46 by ego               #+#    #+#             */
-/*   Updated: 2025/04/06 14:18:07 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 14:22:35 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	**get_argv(t_token *t)
  * 
  * @return 1 on success, 0 on failure, -1 if allocation fails.
  */
-int	get_input_redirection(t_command *cmd, t_token *t, t_var *vars)
+int	get_input_redirection(t_cmd *cmd, t_token *t, t_var *vars)
 {
 	while (t && t->type != PIPE && t->type != ANDOPER && t->type != OROPER)
 	{
@@ -122,7 +122,7 @@ int	get_input_redirection(t_command *cmd, t_token *t, t_var *vars)
  * 
  * @return 1 on success, 0 on failure.
  */
-int	get_output_redirection(t_command *cmd, t_token *t)
+int	get_output_redirection(t_cmd *cmd, t_token *t)
 {
 	while (t && t->type != PIPE && t->type != ANDOPER && t->type != OROPER)
 	{
@@ -154,11 +154,11 @@ int	get_output_redirection(t_command *cmd, t_token *t)
  * @param Allocated filled command structure, NULL
  * if allocation fails.
  */
-t_command	*get_command(t_data *data, t_token *t)
+t_cmd	*get_command(t_data *data, t_token *t)
 {
-	t_command *cmd;
+	t_cmd *cmd;
 
-	cmd = (t_command *)malloc(sizeof(t_command));
+	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
 	cmd->name = NULL;

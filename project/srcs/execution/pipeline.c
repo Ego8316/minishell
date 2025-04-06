@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:53:15 by ego               #+#    #+#             */
-/*   Updated: 2025/04/06 14:14:22 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 14:22:45 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	execute_builtin(t_data *data, char **argv)
  * 
  * @return The number of commands before encountering a boolean operator.
  */
-int	count_commands(t_token *cmds)
+int	count_cmds(t_token *cmds)
 {
 	int	number;
 
@@ -105,7 +105,7 @@ int	*generate_pipes(int n)
  */
 int	execute_command(t_data *data, t_token *cmds)
 {
-	t_command	*cmd;
+	t_cmd	*cmd;
 
 	cmd = get_command(data, cmds);
 	if (!cmd)
@@ -129,7 +129,7 @@ int	execute_pipeline(t_data *data, t_token *cmds)
 	int	*pipes;
 	int	*pids;
 
-	n = count_commands(cmds);
+	n = count_cmds(cmds);
 	pipes = generate_pipes(n);
 	pids = (int *)malloc(n * sizeof(int));
 	if (!pipes || !pids)

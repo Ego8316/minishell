@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 23:23:42 by ego               #+#    #+#             */
-/*   Updated: 2025/04/06 14:17:07 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 14:22:55 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * 
  * @return NULL.
  */
-void	*free_command(t_command *cmd)
+void	*free_command(t_cmd *cmd)
 {
 	free_str(&cmd->name);
 	free_str(&cmd->pathname);

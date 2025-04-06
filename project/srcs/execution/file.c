@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 23:39:44 by ego               #+#    #+#             */
-/*   Updated: 2025/04/04 01:38:57 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 14:23:01 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
  * @return File descriptor on success, -1 on failure and -2
  * if allocation fails.
  */
-int	get_infile(char *infile, t_token_type type, t_command *cmd, t_var *vars)
+int	get_infile(char *infile, t_token_type type, t_cmd *cmd, t_var *vars)
 {
 	int		fd;
 

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/06 14:10:42 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 14:22:26 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ typedef struct s_command
 	int		fd_out;
 	int		redir_in;
 	int		redir_out;
-}	t_command;
+}	t_cmd;
 
 //==Functions===
 void	run_cmd_from_user(t_data *d);
@@ -171,7 +171,7 @@ int		get_vars_size(t_var *vars);
 int		execute_command(t_data *data, t_token *cmds);
 char	**get_paths(t_data *data);
 
-int		get_infile(char *infile, t_token_type type, t_command *cmd, t_var *vars);
+int		get_infile(char *infile, t_token_type type, t_cmd *cmd, t_var *vars);
 int		get_outfile(char *outfile, t_token_type type);
 
 char	*get_heredoc_name(void);
@@ -179,7 +179,7 @@ int		get_heredoc(char *limiter, int fd, t_var *vars);
 
 t_token	*skip_assignments(t_token *t);
 int		do_assignments(t_token *t, t_var *vars);
-t_command	*get_command(t_data *data, t_token *t);
+t_cmd	*get_command(t_data *data, t_token *t);
 
 // Utilities
 
@@ -187,7 +187,7 @@ void	*free_str(char **s);
 void	*free_array(char **arr);
 void	*free_vars(t_var *vars);
 int		free_data(t_data *data);
-void	*free_command(t_command *cmd);
+void	*free_command(t_cmd *cmd);
 void	clean_exit(t_data *data, int status);
 void	swap_str(char **s1, char **s2);
 int		errmsg(char *s1, char *s2, char *s3, int status);
