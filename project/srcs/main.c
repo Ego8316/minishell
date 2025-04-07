@@ -92,12 +92,16 @@ int	main(int argc, char **argv, char **envp)
 	// int fd = open(TMP, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	// get_heredoc("lim", fd, data.vars);
 	// execute_commands(&data, test_token("salut", "ca", "va"));
-	int i = 0;
 	init_signal();
+	char *str = read_term_line("prompt: ");
+	printf ("input: %s\n", str);
+/*
+	int i = 0;
 	while (i++ < 5 && !has_killsig())
 	{
 		run_cmd_from_user(&data);
 	}
+	*/
 	free_data(&data);
 	return (0);
 }

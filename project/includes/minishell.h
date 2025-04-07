@@ -24,6 +24,10 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
+# include <sys/types.h>
+# include <signal.h>
+# include <termios.h>
+# include <unistd.h>
 
 
 extern int	g_last_exit_code;
@@ -142,6 +146,13 @@ char	*substitute_vars(char *str, t_var *vars);
 
 void	init_signal();
 t_bool	has_killsig();
+
+// Input
+
+char	*read_term_line(const char* prompt);
+char	*str_append_free(char *str, char c);
+char	*str_remove_free(char *str, size_t count);
+char	*str_new();
 
 // Builtins
 

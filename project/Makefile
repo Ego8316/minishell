@@ -49,7 +49,9 @@ SRC_FILES += execution/assignments.c	\
 			 execution/heredoc.c		\
 			 execution/path.c			\
 			 execution/pipeline.c
-SRC_FILES += signals/signal_init.c
+SRC_FILES += signals/signal_init.c	\
+			 signals/input.c		\
+			 signals/input_utils.c	
 			
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
