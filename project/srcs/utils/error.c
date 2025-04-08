@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:14:21 by ego               #+#    #+#             */
-/*   Updated: 2025/04/08 14:25:49 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/08 14:54:54 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,11 @@ int	errmsg_errnum(int prefix, char *s, int errnum)
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(s, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putendl_fd(strerror(errnum), STDERR_FILENO);
+	if (errnum == CMD_NOT_EXEC)
+		ft_putendl_fd(IS_DIR_MSG, STDERR_FILENO);
+	else if (errnum == CMD_NOT_FOUND)
+		ft_putendl_fd(CMD_NOT_FOUND_MSG, STDERR_FILENO);
+	else
+		ft_putendl_fd(strerror(errnum), STDERR_FILENO);
 	return (errnum);
 }

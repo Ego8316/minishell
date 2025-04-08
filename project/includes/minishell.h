@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/08 14:31:58 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/08 17:17:34 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@
 # define CMD_NOT_EXEC 126
 # define CMD_NOT_FOUND 127
 # define M_ERR_MSG "malloc: failed allocation\n"
-# define IS_DIR_MSG ": Is a directory\n"
-# define CMD_NOT_FOUND_MSG ": command not found\n"
-# define NO_SUCH_MSG ": No such file or directory\n"
+# define IS_DIR_MSG "Is a directory"
+# define CMD_NOT_FOUND_MSG "command not found"
 
 //===Includes===
 # include <stdlib.h>
@@ -100,6 +99,18 @@ typedef struct s_parse_data
 	t_var *vars;
 }			t_parse_data;
 
+typedef struct s_command
+{
+	char	*name;
+	char	*pathname;
+	char	*heredoc_name;
+	char	**argv;
+	int		fd_in;
+	int		fd_out;
+	int		redir_in;
+	int		redir_out;
+}	t_cmd;
+
 typedef struct s_pipeline
 {
 	int		n;
@@ -107,6 +118,7 @@ typedef struct s_pipeline
 	pid_t	*pids;
 	char	**paths;
 	char	**envp;
+	t_cmd	**cmds;
 	int		stdin_backup;
 	int		stdout_backup;
 }	t_pipe;
@@ -119,18 +131,6 @@ typedef struct s_data
 	t_token	*tokens;
 	t_pipe	*pipe;
 }	t_data;
-
-typedef struct s_command
-{
-	char	*name;
-	char	*pathname;
-	char	*heredoc_name;
-	char	**argv;
-	int		fd_in;
-	int		fd_out;
-	int		redir_in;
-	int		redir_out;
-}	t_cmd;
 
 //==Functions===
 void	run_cmd_from_user(t_data *d);
@@ -196,6 +196,8 @@ int		get_vars_size(t_var *vars);
 // Execution
 
 int		execute_builtin(t_data *data, char **argv);
+int		execute_system_bin(t_pipe *pipe, t_cmd *cmd);
+int		execute_local_bin(t_pipe *pipe, t_cmd *cmd);
 int		execute_pipeline(t_data *data, t_token *t);
 char	**get_paths(t_data *data);
 char	*get_pathname(char *name, char **paths);
@@ -211,13 +213,15 @@ t_token	*skip_assignments(t_token *t);
 int		do_assignments(t_token *t, t_var *vars);
 t_cmd	*get_command(t_data *data, t_token *t);
 
+t_token	*get_to_next_command(t_token *t);
 t_pipe	*get_pipeline(t_data *data, t_token *t);
 
 int		redirect_io(int fd_in, int fd_out);
 void	restore_standard_io(t_pipe *pipe);
 
+void	close_pipes(t_pipe *pipe);
 int		wait_and_get_exit_code(pid_t pid);
-void	child_routine(t_data *data, t_token *t);
+int		child_routine(t_data *data, t_cmd *cmd, int i);
 int		parent_routine(t_data *data);
 
 // Utilities
@@ -226,7 +230,9 @@ void	*free_str(char **s);
 void	*free_array(char **arr);
 void	*free_vars(t_var *vars);
 int		free_data(t_data *data);
+void	kill_all_children(t_pipe *pipe);
 void	*free_command(t_cmd *cmd);
+void	*free_commands(t_cmd **cmds, int n);
 void	*free_pipeline(t_pipe *pipe);
 void	clean_exit(t_data *data, int status);
 void	swap_str(char **s1, char **s2);

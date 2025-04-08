@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 23:23:42 by ego               #+#    #+#             */
-/*   Updated: 2025/04/08 01:30:04 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/08 17:15:38 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,33 @@ void	*free_command(t_cmd *cmd)
 }
 
 /**
+ * @brief Frees an array of commands and returns NULL.
+ * 
+ * @param cmds Array to be freed.
+ * @param n Size of the array.
+ * 
+ * @return NULL.
+ */
+void	*free_commands(t_cmd **cmds, int n)
+{
+	int	i;
+
+	i = 0;
+	while (i < n)
+	{
+		free_command(cmds[i]);
+		i++;
+	}
+	free(cmds);
+	return (NULL);
+}
+
+/**
  * @brief Kills all children.
  * 
  * @param pipe Pointer to the pipe structure.
  */
-static void	kill_all_children(t_pipe *pipe)
+void	kill_all_children(t_pipe *pipe)
 {
 	int	i;
 
@@ -73,12 +95,10 @@ void	*free_pipeline(t_pipe *pipe)
 		free_array(pipe->paths);
 		free_array(pipe->envp);
 		if (pipe->pids)
-		{
-			kill_all_children(pipe);
 			free(pipe->pids);
-		}
 		if (pipe->pipes)
 			free(pipe->pipes);
+		free_commands(pipe->cmds, pipe->n);
 		close(pipe->stdin_backup);
 		close(pipe->stdout_backup);
 		free(pipe);

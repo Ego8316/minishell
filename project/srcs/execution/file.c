@@ -6,11 +6,25 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 23:39:44 by ego               #+#    #+#             */
-/*   Updated: 2025/04/08 01:42:11 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/08 16:52:18 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/**
+ * @brief Close all pipe file descriptors.
+ * 
+ * @param pipe Pointer to the pipeline structure.
+ */
+void	close_pipes(t_pipe *pipe)
+{
+	int	i;
+
+	i = -1;
+	while (++i < 2 * (pipe->n - 1))
+		close(pipe->pipes[i]);
+}
 
 /**
  * @brief Opens infile. If heredoc is present, infile actually

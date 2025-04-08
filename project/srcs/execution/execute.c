@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 15:12:00 by ego               #+#    #+#             */
-/*   Updated: 2025/04/08 14:27:48 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/08 17:20:36 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,9 @@ int	execute_system_bin(t_pipe *pipe, t_cmd *cmd)
 	if (!cmd->pathname)
 		return (M_ERR);
 	if (!*cmd->pathname)
-		return (errmsg(cmd->name, CMD_NOT_FOUND_MSG, 0, CMD_NOT_FOUND));
-	free_str(&cmd->argv[0]);
-	cmd->argv[0] = cmd->pathname;
+		return (errmsg_errnum(0, cmd->name, CMD_NOT_FOUND));
 	if (execve(cmd->pathname, cmd->argv, pipe->envp) == -1)
-		return (errmsg_errnum(0, "execve: ", errno));
+		return (errmsg_errnum(0, "execve", errno));
 	return (1);
 }
 
@@ -78,11 +76,11 @@ int	execute_local_bin(t_pipe *pipe, t_cmd *cmd)
 	if (is_dir(cmd->name))
 		return (errmsg_errnum(1, cmd->name, CMD_NOT_EXEC));
 	if (access(cmd->name, F_OK) != 0)
-		return (errmsg_errnum(1, cmd->name, CMD_NOT_FOUND));
+		return (errmsg_errnum(1, cmd->name, errno));
 	if (access(cmd->name, F_OK | X_OK) != 0)
 		return (errmsg_errnum(1, cmd->name, errno));
-	if (execve(cmd->pathname, cmd->argv, pipe->envp) == -1)
-		return (errmsg_errnum(0, "execve: ", errno));
+	if (execve(cmd->name, cmd->argv, pipe->envp) == -1)
+		return (errmsg_errnum(0, "execve", errno));
 	return (1);
 }
 
@@ -95,55 +93,35 @@ int	execute_local_bin(t_pipe *pipe, t_cmd *cmd)
  * 
  * @param data Pointer to the data structure.
  * @param t Token list starting at the command to execute.
+ * @param cmd Single command to execute.
  * 
- * @return Status code of the command, -2 if allocation fails.
+ * @return Exit code of the command, -2 if allocation fails.
  */
-int	execute_command(t_data *data, t_token *t)
+static int	execute_command(t_data *data, t_token *t, t_cmd *cmd)
 {
-	t_cmd	*cmd;
 	int		ret;
 	pid_t	pid;
 
-	cmd = get_command(data, t);
-	if (!cmd || (!*cmd->argv && !do_assignments(t, data->vars)))
-		return (free_command(cmd), M_ERR);
+	if (!*cmd->argv && !do_assignments(t, data->vars))
+		return (M_ERR);
 	if (!cmd->redir_in || !cmd->redir_out)
-		return (free_command(cmd), 1);
+		return (1);
 	if (!*cmd->argv)
-		return (free_command(cmd), 0);
+		return (0);
 	redirect_io(cmd->fd_in, cmd->fd_out);
 	ret = execute_builtin(data, cmd->argv);
 	if (ret != CMD_NOT_FOUND)
-		return (free_command(cmd), ret);
+		return (ret);
 	pid = fork();
 	if (pid == 0)
 	{
-		if (!ft_strchr(cmd->name, '/') && **data->pipe->envp)
+		if (!ft_strchr(cmd->name, '/') && *data->pipe->paths)
 			ret = execute_system_bin(data->pipe, cmd);
 		else
 			ret = execute_local_bin(data->pipe, cmd);
 		clean_exit(data, ret);
 	}
-	return (free_command(cmd), wait_and_get_exit_code(pid));
-}
-
-/**
- * @brief Goes through the token list to get to the next
- * starting command.
- * 
- * @param t Token list.
- * 
- * @return Token list starting at the next command.
- */
-t_token	*get_to_next_command(t_token *t)
-{
-	while (t && t->type != ANDOPER && t->type != OROPER)
-	{
-		if (t->type == PIPE)
-			return (t->nxt);
-		t = t->nxt;
-	}
-	return (t);
+	return (wait_and_get_exit_code(pid));
 }
 
 /**
@@ -152,6 +130,10 @@ t_token	*get_to_next_command(t_token *t)
  * for the current execution block.
  * 
  * @param data Pointer to the data structure.
+ * @param t Token list starting at the current execution block.
+ * 
+ * @return 1 on failure (if a fork failed for instance), -2 if
+ * allocation fails, exit code of the last child otherwise.
  */
 int	execute_pipeline(t_data *data, t_token *t)
 {
@@ -161,7 +143,7 @@ int	execute_pipeline(t_data *data, t_token *t)
 	if (!data->pipe)
 		return (M_ERR);
 	if (data->pipe->n == 1)
-		return (execute_command(data, t));
+		return (execute_command(data, t, data->pipe->cmds[0]));
 	i = -1;
 	while (++i < data->pipe->n)
 	{
@@ -172,7 +154,7 @@ int	execute_pipeline(t_data *data, t_token *t)
 			return (free_pipeline(data->pipe), 1);
 		}
 		else if (data->pipe->pids[i] == 0)
-			child_routine(data, t);
+			clean_exit(data, child_routine(data, data->pipe->cmds[i], i));
 		t = get_to_next_command(t);
 	}
 	return (parent_routine(data));
