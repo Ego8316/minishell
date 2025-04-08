@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 00:01:59 by ego               #+#    #+#             */
-/*   Updated: 2025/04/08 19:13:20 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/08 19:26:57 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,14 @@ void	write_line_to_heredoc(char *line, int fd, t_data *data)
 	i = -1;
 	j = 0;
 	while (line[++i])
+	{
 		if (line[i] == '$')
 		{
 			write(fd, line + j, i - j);
 			i += write_var_to_heredoc(line + i + 1, fd, data) + 1;
 			j = i;
 		}
+	}
 	ft_putendl_fd(line + j, fd);
 }
 
