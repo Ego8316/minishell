@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/08 14:25:57 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/08 14:31:58 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,6 @@ int		get_vars_size(t_var *vars);
 // Execution
 
 int		execute_builtin(t_data *data, char **argv);
-int		execute_extern(t_pipe *pipe, t_cmd *cmd);
 int		execute_pipeline(t_data *data, t_token *t);
 char	**get_paths(t_data *data);
 char	*get_pathname(char *name, char **paths);

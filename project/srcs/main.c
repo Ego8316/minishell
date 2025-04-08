@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/08 14:30:47 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/08 14:31:30 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int	main(int argc, char **argv, char **envp)
 	argv[0] = 0;
 	if (!data_init(&data, envp))
 		return (1);
-	int i = 0;
 	init_signal();
 	char *str = read_term_line("prompt: ");
 	printf ("input: %s\n", str);
