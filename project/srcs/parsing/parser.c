@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:54:42 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/04 02:08:24 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/08 18:18:03 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ t_bool	try_parse_command(char *cmd, t_data *d)
 
 	if (!cmd || !d->vars)
 		return (TRUE);
+	add_history(cmd);
+	d->line++;
 	data = get_parse_data(cmd, d->vars);
 	if (!parse_loop(&data))
 	{

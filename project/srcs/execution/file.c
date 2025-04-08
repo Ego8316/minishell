@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 23:39:44 by ego               #+#    #+#             */
-/*   Updated: 2025/04/08 16:52:18 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/08 18:16:57 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ void	close_pipes(t_pipe *pipe)
  * 
  * @param infile Name of the input file, or the limiter.
  * @param type Token type (either < or <<).
- * @param vars Variables (for heredoc).
+ * @param data Pointer to the data structure (for heredoc).
  * 
  * @return File descriptor on success, -1 on failure and -2
  * if allocation fails.
  */
-int	get_infile(char *infile, t_token_type type, t_cmd *cmd, t_var *vars)
+int	get_infile(char *infile, t_token_type type, t_cmd *cmd, t_data *data)
 {
 	int		fd;
 
@@ -50,7 +50,7 @@ int	get_infile(char *infile, t_token_type type, t_cmd *cmd, t_var *vars)
 		if (!cmd->heredoc_name)
 			return (-2);
 		fd = open(cmd->heredoc_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (!get_heredoc(infile, fd, vars))
+		if (!get_heredoc(infile, fd, data))
 		{
 			close(fd);
 			return (M_ERR);

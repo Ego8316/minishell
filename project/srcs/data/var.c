@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 20:45:35 by ego               #+#    #+#             */
-/*   Updated: 2025/03/18 23:03:07 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/08 18:49:43 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static t_var	*var_new_node(char *identifier, char *value, t_var_type type)
  * same identifier as provided.
  * 
  * @param vars Pointer to the beginning of the var list.
- * @param line Identifier.
+ * @param identifier Identifier.
  * 
  * @return Pointer to the variable if there is a match,
  * NULL otherwise.

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/08 17:17:34 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/08 18:18:59 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ typedef struct s_data
 	t_var	*vars;
 	t_token	*tokens;
 	t_pipe	*pipe;
+	int		line;
 }	t_data;
 
 //==Functions===
@@ -202,12 +203,12 @@ int		execute_pipeline(t_data *data, t_token *t);
 char	**get_paths(t_data *data);
 char	*get_pathname(char *name, char **paths);
 
-int		get_infile(char *infile, t_token_type type, t_cmd *cmd, t_var *vars);
+int		get_infile(char *infile, t_token_type type, t_cmd *cmd, t_data *data);
 int		get_outfile(char *outfile, t_token_type type);
 int		is_dir(char *pathname);
 
 char	*get_heredoc_name(void);
-int		get_heredoc(char *limiter, int fd, t_var *vars);
+int		get_heredoc(char *limiter, int fd, t_data *data);
 
 t_token	*skip_assignments(t_token *t);
 int		do_assignments(t_token *t, t_var *vars);

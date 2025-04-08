@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:54:41 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/08 17:42:23 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/08 19:03:48 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ void	run_cmd_from_user(t_data *d)
 {
 	if (!try_parse_command(readline("[minishell]: "), d))
 		printf("Fatal error parsing command!\n");
-	else
-		print_token_list(d->tokens);
+	// else
+	// 	print_token_list(d->tokens);
 	if (!d->tokens)
 		return ;
 	g_last_exit_code = execute_pipeline(d, d->tokens);

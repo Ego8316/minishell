@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:47:46 by ego               #+#    #+#             */
-/*   Updated: 2025/04/08 17:41:40 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/08 18:18:15 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,11 @@ char	**get_argv(t_token *t)
  * 
  * @param cmd Current command being parsed.
  * @param t Token list.
- * @param vars Variables (for heredoc).
+ * @param data Pointer to the data structure (for heredoc).
  * 
  * @return 1 on success, 0 on failure, -2 if allocation fails.
  */
-int	get_input_redirection(t_cmd *cmd, t_token *t, t_var *vars)
+int	get_input_redirection(t_cmd *cmd, t_token *t, t_data *data)
 {
 	while (t && t->type != PIPE && t->type != ANDOPER && t->type != OROPER)
 	{
@@ -96,7 +96,7 @@ int	get_input_redirection(t_cmd *cmd, t_token *t, t_var *vars)
 				unlink(cmd->heredoc_name);
 				free_str(&cmd->heredoc_name);
 			}
-			cmd->fd_in = get_infile(t->nxt->str, t->type, cmd, vars);
+			cmd->fd_in = get_infile(t->nxt->str, t->type, cmd, data);
 			if (cmd->fd_in == M_ERR)
 				return (M_ERR);
 			if (cmd->fd_in == -1)
@@ -166,7 +166,7 @@ t_cmd	*get_command(t_data *data, t_token *t)
 	cmd->heredoc_name = NULL;
 	cmd->fd_in = -1;
 	cmd->fd_out = -1;
-	cmd->redir_in = get_input_redirection(cmd, t, data->vars);
+	cmd->redir_in = get_input_redirection(cmd, t, data);
 	cmd->redir_out = get_output_redirection(cmd, t);
 	cmd->argv = get_argv(skip_assignments(t));
 	cmd->name = NULL;
