@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 00:01:59 by ego               #+#    #+#             */
-/*   Updated: 2025/04/08 19:26:57 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/08 21:42:37 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,12 @@ int	write_var_to_heredoc(char *line, int fd, t_data *data)
 	t_var	*var;
 
 	i = 0;
-	while (line[i] && line[i] != ' ')
+	if (line[i] == '?' && (!line[i + 1] || line[i + 1] == ' '))
+	{
+		ft_putnbr_fd(g_last_exit_code, fd);
+		return (1);
+	}
+	while (line[i] && line[i] != ' ' && line[i] != '$')
 		i++;
 	tmp = line[i];
 	line[i] = 0;
@@ -97,17 +102,26 @@ void	write_line_to_heredoc(char *line, int fd, t_data *data)
 {
 	int		i;
 	int		j;
+	int		len;
 
-	i = -1;
+	i = 0;
 	j = 0;
-	while (line[++i])
+	len = ft_strlen(line);
+	while (i < len)
 	{
-		if (line[i] == '$')
+		while (line[i] == '$' && (line[i + 1] && line[i + 1] != ' '))
 		{
 			write(fd, line + j, i - j);
 			i += write_var_to_heredoc(line + i + 1, fd, data) + 1;
 			j = i;
 		}
+		if (line[i] == '\\' && (line[i + 1] == '\\' || line[i + 1] == '$'))
+		{
+			ft_memmove(line + i, line + i + 1, len - i - 1);
+			line[len - 1] = 0;
+			len--;
+		}
+		i++;
 	}
 	ft_putendl_fd(line + j, fd);
 }

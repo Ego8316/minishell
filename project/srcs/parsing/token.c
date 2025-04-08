@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
+/*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:17:50 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/12 15:11:35 by pkurt            ###   ########.fr       */
+/*   Updated: 2025/04/08 22:44:16 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_bool	token_free_list(t_token **list)
 	while (token)
 	{
 		*list = token->nxt;
-		free (token);
+		free(token);
 		token = *list;
 	}
 	return (FALSE);

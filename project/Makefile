@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/04/08 14:30:31 by ego              ###   ########.fr        #
+#    Updated: 2025/04/08 20:55:28 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -130,4 +130,4 @@ norm:
 	@norminette $(SRC) $(INC_DIR)
 
 leaks:
-	@valgrind --suppressions=.ignore_readline_leaks.supp --leak-check=full --show-leak-kinds=all ./minishell
+	@valgrind --suppressions=.ignore_readline_leaks.supp --leak-check=full --show-leak-kinds=all --track-origins=yes ./minishell
