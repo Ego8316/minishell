@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   brackets.c                                         :+:      :+:    :+:   */
+/*   signal_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,10 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <sys/types.h>
-#include <signal.h>
-#include <termios.h>
-#include <unistd.h>
 
 void	kill_sig(int what)
 {

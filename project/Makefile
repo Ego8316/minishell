@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/04/07 19:58:56 by ego              ###   ########.fr        #
+#    Updated: 2025/04/08 14:30:31 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,9 @@ SRC_FILES += execution/assignments.c	\
 			 execution/pipeline.c		\
 			 execution/redirections.c	\
 			 execution/routines.c
-SRC_FILES += signals/signal_init.c
+SRC_FILES += signals/signal_init.c	\
+			 signals/input.c		\
+			 signals/input_utils.c	
 			
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
