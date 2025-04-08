@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:03:55 by ego               #+#    #+#             */
-/*   Updated: 2025/04/04 00:59:25 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/07 19:05:36 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,13 @@ void	*free_vars(t_var *vars)
  */
 int	free_data(t_data *data)
 {
-	free_array(data->envp);
 	free_str(&data->pwd);
 	free_str(&data->oldpwd);
 	free_vars(data->vars);
 	if (data->tokens)
 		token_free_list(&data->tokens);
+	if (data->pipe)
+		free_pipeline(data->pipe);
 	return (1);
 }
 

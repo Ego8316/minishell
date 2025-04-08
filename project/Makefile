@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/04/06 15:14:31 by ego              ###   ########.fr        #
+#    Updated: 2025/04/07 19:58:56 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,9 @@ SRC_FILES += execution/assignments.c	\
 			 execution/free.c			\
 			 execution/heredoc.c		\
 			 execution/path.c			\
-			 execution/pipeline.c
+			 execution/pipeline.c		\
+			 execution/redirections.c	\
+			 execution/routines.c
 SRC_FILES += signals/signal_init.c
 			
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
@@ -124,3 +126,6 @@ test: all
 
 norm:
 	@norminette $(SRC) $(INC_DIR)
+
+leaks:
+	@valgrind --suppressions=.ignore_readline_leaks.supp --leak-check=full --show-leak-kinds=all ./minishell

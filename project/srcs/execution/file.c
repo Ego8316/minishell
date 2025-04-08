@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 23:39:44 by ego               #+#    #+#             */
-/*   Updated: 2025/04/06 14:39:08 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/08 01:42:11 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,20 @@ int	get_outfile(char *outfile, t_token_type type)
 		return (open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644));
 	else
 		return (open(outfile, O_WRONLY | O_CREAT | O_APPEND, 0644));
+}
+
+/**
+ * @brief Chekcs if the pathname given is a directory.
+ * 
+ * @param pathname Pathname to be checked.
+ * 
+ * @return 1 if the pathname is a directory, 0 otherwise.
+ */
+int	is_dir(char *pathname)
+{
+	struct stat	statbuf;
+
+	ft_memset(&statbuf, 0, sizeof(struct stat));
+	stat(pathname, &statbuf);
+	return (S_ISDIR(statbuf.st_mode));
 }

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:14:21 by ego               #+#    #+#             */
-/*   Updated: 2025/03/11 14:17:51 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/08 14:25:49 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,24 @@ int	errmsg(char *s1, char *s2, char *s3, int status)
 	if (s3)
 		ft_putstr_fd(s3, STDERR_FILENO);
 	return (status);
+}
+
+/**
+ * @brief Displays on the standard error an error message of the
+ * form "minishell: %s: strerr(errnum)\n" and returns errnum.
+ * 
+ * @param prefix Whether to print "minishell: " or not.
+ * @param s String corresponding to what caused the error.
+ * @param errnum Error's number.
+ * 
+ * @return Error's number.
+ */
+int	errmsg_errnum(int prefix, char *s, int errnum)
+{
+	if (prefix)
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(s, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putendl_fd(strerror(errnum), STDERR_FILENO);
+	return (errnum);
 }

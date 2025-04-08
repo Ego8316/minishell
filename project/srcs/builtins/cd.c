@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:35:52 by ego               #+#    #+#             */
-/*   Updated: 2025/04/06 14:00:45 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/08 01:48:51 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	cd_home(t_data *data)
 	data->pwd = getcwd(0, 0);
 	if (!data->pwd || !var_set(&data->vars, "OLDPWD", data->oldpwd)
 		|| !var_set(&data->vars, "PWD", data->pwd))
-		clean_exit(data, errmsg("malloc: failed allocation\n", 0, 0, 1));
+		return (M_ERR);
 	return (0);
 }
 
@@ -69,7 +69,7 @@ static int	cd_oldpwd(t_data *data)
 	{
 		printf("\n");
 		if (!var_set(&data->vars, "OLDPWD", data->pwd))
-			clean_exit(data, errmsg("malloc: failed allocation\n", 0, 0, 1));
+			return (M_ERR);
 		return (0);
 	}
 	if (chdir(oldpwd->value) == -1)
@@ -81,7 +81,7 @@ static int	cd_oldpwd(t_data *data)
 	swap_str(&data->oldpwd, &data->pwd);
 	if (!var_set(&data->vars, "OLDPWD", data->oldpwd)
 		|| !var_set(&data->vars, "PWD", data->pwd))
-		clean_exit(data, errmsg("malloc: failed allocation\n", 0, 0, 1));
+		return (M_ERR);
 	printf("%s\n", data->pwd);
 	return (0);
 }
@@ -101,7 +101,7 @@ static int	cd_oldpwd(t_data *data)
  * @param data Pointer to the data structure.
  * @param argv Arguments.
  * 
- * @return 0 if success, 1 otherwise.
+ * @return 0 if success, 1 otherwise, -2 if allocation fails.
  */
 int	cd_builtin(t_data *data, char **argv)
 {
@@ -115,7 +115,7 @@ int	cd_builtin(t_data *data, char **argv)
 		return (cd_oldpwd(data));
 	if (chdir(*argv) == -1)
 	{
-		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
 		perror(*argv);
 		return (errno);
 	}
@@ -124,6 +124,6 @@ int	cd_builtin(t_data *data, char **argv)
 	data->pwd = getcwd(0, 0);
 	if (!data->pwd || !var_set(&data->vars, "OLDPWD", data->oldpwd)
 		|| !var_set(&data->vars, "PWD", data->pwd))
-		clean_exit(data, errmsg("malloc: failed allocation\n", 0, 0, 1));
+		return (M_ERR);
 	return (0);
 }

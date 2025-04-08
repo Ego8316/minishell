@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:27 by ego               #+#    #+#             */
-/*   Updated: 2025/04/06 14:19:32 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/07 19:08:41 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static int	handle_var(t_data *data, t_var *var, char *line)
  * @param data Pointer to the data structure.
  * @param argv Arguments.
  * 
- * @return 0 on success, 1 otherwise.
+ * @return 0 on success, 1 otherwise, -2 if allocation fails.
  */
 int	export_builtin(t_data *data, char **argv)
 {
@@ -107,7 +107,7 @@ int	export_builtin(t_data *data, char **argv)
 		{
 			var = var_get_line(&data->vars, *argv);
 			if (!handle_var(data, var, *argv))
-				clean_exit(data, errmsg("malloc: failed allocation", 0, 0, 1));
+				return (M_ERR);
 		}
 		argv++;
 	}

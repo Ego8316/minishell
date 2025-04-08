@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/04 02:12:20 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/06 15:44:46 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,6 @@ int	main(int argc, char **argv, char **envp)
 	argv[0] = 0;
 	if (!data_init(&data, envp))
 		return (1);
-	// int fd = open(TMP, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	// get_heredoc("lim", fd, data.vars);
-	// execute_commands(&data, test_token("salut", "ca", "va"));
 	int i = 0;
 	init_signal();
 	while (i++ < 5 && !has_killsig())

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 12:51:34 by ego               #+#    #+#             */
-/*   Updated: 2025/04/04 00:49:40 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/07 19:05:11 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ t_bool	data_init(t_data *data, char **envp)
 		if (!data->oldpwd)
 			return (0);
 	}
-	data->envp = NULL;
 	data->pwd = getcwd(0, 0);
 	data->vars = copy_vars(envp);
 	data->tokens = NULL;
+	data->pipe = NULL;
 	if (!data->pwd || !data->vars)
 		return (0);
 	return (1);
