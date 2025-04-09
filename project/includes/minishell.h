@@ -96,16 +96,6 @@ typedef struct s_var
 	struct s_var	*nxt;
 }	t_var;
 
-typedef struct s_parse_data
-{
-	char	*cmd;
-	int		i;
-	t_bool	expect_cmd;
-	int		depth;
-	t_token *tokens;
-	t_var *vars;
-}			t_parse_data;
-
 typedef struct s_command
 {
 	char	*name;
@@ -140,6 +130,17 @@ typedef struct s_data
 	int		line;
 	char	*prefix;
 }	t_data;
+
+typedef struct s_parse_data
+{
+	char	*cmd;
+	int		i;
+	t_bool	expect_cmd;
+	int		depth;
+	t_token *tokens;
+	t_var *vars;
+	struct s_data *data;
+}			t_parse_data;
 
 //==Functions===
 void	run_cmd_from_user(t_data *d);
