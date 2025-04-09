@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:47:46 by ego               #+#    #+#             */
-/*   Updated: 2025/04/08 18:18:15 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/09 13:42:29 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,71 +72,32 @@ char	**get_argv(t_token *t)
 }
 
 /**
- * @brief Goes through the token list the get all the input redirections.
- * When encountering a new redirection, closes the previously opened one
- * if needed. If previous one was a heredoc, deletes the corresponding
- * temporary file and frees the heredoc_name string.
+ * @brief Gets the command redirections and stops at the first that fails.
  * 
- * @param cmd Current command being parsed.
+ * @param cmd Current command structure.
  * @param t Token list.
- * @param data Pointer to the data structure (for heredoc).
+ * @param data Pointer to the data structure.
  * 
- * @return 1 on success, 0 on failure, -2 if allocation fails.
+ * @return 1 on success, 0 if a redirection fails and -2 if allocation fails.
  */
-int	get_input_redirection(t_cmd *cmd, t_token *t, t_data *data)
+static int	get_command_redirections(t_cmd *cmd, t_token *t, t_data *data)
 {
+	cmd->redir_in = 1;
+	cmd->redir_out = 1;
 	while (t && t->type != PIPE && t->type != ANDOPER && t->type != OROPER)
 	{
 		if (t->type == REDIRIN || t->type == INDELI)
 		{
-			if (cmd->fd_in != -1)
-				close(cmd->fd_in);
-			if (cmd->heredoc_name)
-			{
-				unlink(cmd->heredoc_name);
-				free_str(&cmd->heredoc_name);
-			}
-			cmd->fd_in = get_infile(t->nxt->str, t->type, cmd, data);
-			if (cmd->fd_in == M_ERR)
-				return (M_ERR);
-			if (cmd->fd_in == -1)
-			{
-				ft_putstr_fd("minishell: ", STDERR_FILENO);
-				perror(t->nxt->str);
-				return (0);
-			}
+			cmd->redir_in = get_input_redirection(cmd, t, data);
+			if (cmd->redir_in != 1)
+				return (cmd->redir_in);
 			t = t->nxt;
 		}
-		t = t->nxt;
-	}
-	return (1);
-}
-
-/**
- * @brief Goes through the token list the get all the output redirections.
- * When encountering a new redirection, closes the previously opened one
- * if needed.
- * 
- * @param cmd Current command being parsed.
- * @param t Token list.
- * 
- * @return 1 on success, 0 on failure.
- */
-int	get_output_redirection(t_cmd *cmd, t_token *t)
-{
-	while (t && t->type != PIPE && t->type != ANDOPER && t->type != OROPER)
-	{
 		if (t->type == REDIROUT || t->type == OUTAPPEND)
 		{
-			if (cmd->fd_out != -1)
-				close(cmd->fd_out);
-			cmd->fd_out = get_outfile(t->nxt->str, t->type);
-			if (cmd->fd_out == -1)
-			{
-				ft_putstr_fd("minishell: ", STDERR_FILENO);
-				perror(t->nxt->str);
-				return (0);
-			}
+			cmd->redir_out = get_output_redirection(cmd, t);
+			if (cmd->redir_out != 1)
+				return (cmd->redir_out);
 			t = t->nxt;
 		}
 		t = t->nxt;
@@ -166,8 +127,8 @@ t_cmd	*get_command(t_data *data, t_token *t)
 	cmd->heredoc_name = NULL;
 	cmd->fd_in = -1;
 	cmd->fd_out = -1;
-	cmd->redir_in = get_input_redirection(cmd, t, data);
-	cmd->redir_out = get_output_redirection(cmd, t);
+	if (get_command_redirections(cmd, t, data) == M_ERR)
+		return (free(cmd), NULL);
 	cmd->argv = get_argv(skip_assignments(t));
 	cmd->name = NULL;
 	if (cmd->argv && cmd->argv[0])
