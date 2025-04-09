@@ -158,7 +158,7 @@ char	*substitute_vars(char *str, t_var *vars);
 // Signals
 
 void	init_signal();
-t_bool	has_killsig();
+int	is_exiting(int *value);
 
 // Input
 

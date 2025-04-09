@@ -89,11 +89,9 @@ int	main(int argc, char **argv, char **envp)
 	argv[0] = 0;
 	if (!data_init(&data, envp))
 		return (1);
-	// init_signal();
-	// char *str = read_term_line("prompt: ");
-	// printf ("input: %s\n", str);
+	init_signal();
 	int i = 0;
-	while (i++ < 10 && !has_killsig())
+	while (i++ < 10)
 	{
 		run_cmd_from_user(&data);
 	}
