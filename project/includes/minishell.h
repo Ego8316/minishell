@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/09 16:24:13 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/10 00:58:46 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 # include <signal.h>
 # include <termios.h>
 # include <unistd.h>
-
+# include <dirent.h>
 
 extern int	g_last_exit_code;
 
