@@ -17,10 +17,8 @@ t_bool	expand_cmd(t_parse_data *data)
 	char	*new;
 	char	*current;
 
-	if (has_killsig())
-		return (FALSE);
 	current = data->cmd;
-	data->cmd = ft_strjoin(current, " ");
+	data->cmd = ft_strjoin(current, "\n");
 	free(current);
 	if (!data->cmd)
 		return (FALSE);
@@ -100,7 +98,6 @@ t_bool	try_parse_command(char *cmd, t_data *d)
 
 	if (!cmd || !d->vars)
 		return (TRUE);
-	add_history(cmd);
 	d->line++;
 	data = get_parse_data(cmd, d->vars);
 	if (!parse_loop(&data))
@@ -108,6 +105,7 @@ t_bool	try_parse_command(char *cmd, t_data *d)
 		free (data.cmd);
 		return (token_free_list(&(data.tokens)));
 	}
+	add_history(data.cmd);
 	free(data.cmd);
 	d->tokens = data.tokens;
 	return (TRUE);
