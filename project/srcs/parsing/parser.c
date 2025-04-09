@@ -24,14 +24,22 @@ t_bool	expand_cmd(t_parse_data *data)
 		return (FALSE);
 	current = data->cmd;
 	new = readline("> ");
-	data->cmd = ft_strjoin(current, new);
-	printf("'%s'\n", data->cmd);
+	if (new)
+	{
+		data->cmd = ft_strjoin(current, new);
+		printf("'%s'\n", data->cmd);
+	}
 	free(new);
 	free(current);
+	if (!new)
+	{
+		token_free_list(&(data->tokens));
+		clean_exit(data->data, 0);
+	}
 	return (data->cmd != 0);
 }
 
-static t_parse_data	get_parse_data(char *cmd, t_var *vars)
+static t_parse_data	get_parse_data(char *cmd, t_data *d)
 {
 	t_parse_data	data;
 	data.cmd = cmd;
@@ -40,7 +48,8 @@ static t_parse_data	get_parse_data(char *cmd, t_var *vars)
 	data.expect_cmd = FALSE;
 	data.tokens = 0;
 	data.depth = 0;
-	data.vars = vars;
+	data.vars = d->vars;
+	data.data = d;
 	return (data);
 }
 
@@ -99,7 +108,7 @@ t_bool	try_parse_command(char *cmd, t_data *d)
 
 	if (!cmd || !d->vars)
 		return (TRUE);
-	data = get_parse_data(cmd, d->vars);
+	data = get_parse_data(cmd, d);
 	if (!parse_loop(&data))
 	{
 		free (data.cmd);
