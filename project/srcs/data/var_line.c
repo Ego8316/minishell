@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:29:36 by ego               #+#    #+#             */
-/*   Updated: 2025/04/04 14:32:06 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/09 14:26:01 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,15 @@ int	var_add_line(t_var **vars, char *line, t_var_type type)
 t_var	*var_get_line(t_var **vars, char *line)
 {
 	t_var	*v;
+	int		id_len;
 
 	if (!vars)
 		return (NULL);
 	v = *vars;
 	while (v)
 	{
-		if (!ft_strncmp(v->identifier, line, line_get_identifier_len(line)))
+		id_len = line_get_identifier_len(line);
+		if (!ft_strncmp(v->identifier, line, id_len) && !v->identifier[id_len])
 			return (v);
 		v = v->nxt;
 	}

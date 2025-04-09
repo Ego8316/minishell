@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:47:46 by ego               #+#    #+#             */
-/*   Updated: 2025/04/09 13:42:29 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/09 13:59:37 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,12 +125,12 @@ t_cmd	*get_command(t_data *data, t_token *t)
 	cmd->name = NULL;
 	cmd->pathname = NULL;
 	cmd->heredoc_name = NULL;
+	cmd->argv = NULL;
 	cmd->fd_in = -1;
 	cmd->fd_out = -1;
 	if (get_command_redirections(cmd, t, data) == M_ERR)
-		return (free(cmd), NULL);
+		return (free_command(cmd), NULL);
 	cmd->argv = get_argv(skip_assignments(t));
-	cmd->name = NULL;
 	if (cmd->argv && cmd->argv[0])
 		cmd->name = ft_strdup(cmd->argv[0]);
 	if (!cmd->argv || (cmd->argv[0] && !cmd->name) || cmd->redir_in == M_ERR)
