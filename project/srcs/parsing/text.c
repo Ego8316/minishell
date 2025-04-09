@@ -46,7 +46,7 @@ static char	*parse_quote(t_parse_data *data, char q)
 	char	*text;
 	char	c;
 
-	text = 0;
+	text = str_new();
 	data->i++;
 	while (1)
 	{
@@ -55,9 +55,10 @@ static char	*parse_quote(t_parse_data *data, char q)
 				return (0);
 		//printf("quotes parse loop on '%c' %i\n", data->cmd[data->i], data->i);
 		c = data->cmd[data->i++];
-		if (c == q)
+		if (c == q && (q != '\"' || isnescp(data->cmd, data->i - 1, q)))
 			break;
-		text = append_str_free(text, c);
+		if (q != '\"' || c != '\\' || data->cmd[data->i] != q)
+			text = append_str_free(text, c);
 		if (!text)
 			return (0);
 	}
@@ -72,12 +73,12 @@ static char	*parse_word(t_parse_data *data)
 	char	c;
 
 	//printf("starting word parse with '%c'\n", data->cmd[data->i]);
-	text = 0;
+	text = str_new();
 	while (1)
 	{
 		//printf("word parse loop on '%c' %i\n", data->cmd[data->i], data->i);
 		c = data->cmd[data->i++];
-		if (!c || ft_isspace(c) || is_char_oper(c) || c =='\'' || c == '\"')
+		if (!c || ft_isspace(c) || is_char_oper(c) || c == '\'' || c == '\"')
 			break;
 		text = append_str_free(text, c);
 		if (!text)
@@ -98,7 +99,7 @@ t_bool	parse_text(t_parse_data *data)
 	c = data->cmd[data->i];
 	while (c && !ft_isspace(c) && !is_char_oper(c))
 	{
-		if (c == '\'' || c == '\"')
+		if (isnescp(data->cmd, data->i, '\'') || isnescp(data->cmd, data->i, '\"'))
 			text = str_join_free(text, parse_quote(data, c));
 		else
 			text = str_join_free(text, parse_word(data));

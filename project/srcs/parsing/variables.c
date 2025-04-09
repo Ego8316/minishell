@@ -29,7 +29,7 @@ t_bool	substitute_str(char **cmd, char *val, int start, int end)
 	new[lenc + lenv - (end - start) - 1] = 0;
 	ft_memcpy(new, *cmd, start - 1);
 	ft_memcpy(new + (start - 1), val, lenv);
-	ft_memcpy(new + (start - 1 + lenv), *cmd, lenc - end);
+	ft_memcpy(new + (start - 1 + lenv), (*cmd) + end, lenc - end);
 	//printf("val '%s'\n", val);
 	//printf("val len '%i'\n", lenv);
 	//printf("string '%s'\n", new);
@@ -56,13 +56,19 @@ static t_bool	parse_variable(char **cmd, int *i, t_var *vars)
 	if (!var_name)
 		return (FALSE);
 	var_val = var_get_value(vars, var_name);
+	//printf("===SUBSTIUTION DATA DEBUG!===\n");
+	//printf("Name '%s'\n", var_name);
 	free(var_name);
 	if (!var_val)
 		return (FALSE);
-	//*i += ft_strlen(var_val) - 1;
-	//printf("SUBSTIUTION DATA DEBUG!\n");
+	*i += ft_strlen(var_val) - 1;
 	//printf("start: %i, end: %i, val: '%s'\n",start, end, var_val);
 	return (substitute_str(cmd, var_val, start, end));
+}
+
+t_bool	isnescp(char *str, int i, char c)
+{
+	return (str[i] == c && (c != '\"' || i < 1 || str[i - 1] != '\\'));
 }
 
 char	*substitute_vars(char *str, t_var *vars)

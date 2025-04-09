@@ -166,6 +166,7 @@ char	*read_term_line(const char* prompt);
 char	*str_append_free(char *str, char c);
 char	*str_remove_free(char *str, size_t count);
 char	*str_new();
+t_bool	isnescp(char *str, int i, char c);
 
 // Builtins
 
