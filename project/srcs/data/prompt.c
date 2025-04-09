@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 14:33:19 by ego               #+#    #+#             */
-/*   Updated: 2025/04/09 15:44:51 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/09 17:02:19 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * 
  * @return Allocated copy of the hostname, NULL if allocation fails.
  */
-static char	*get_hostname()
+static char	*get_hostname(void)
 {
 	char	*hostname;
 	char	*tmp;
@@ -46,7 +46,7 @@ static char	*get_hostname()
  * 
  * @return Allocated copy of the user, NULL if allocation fails.
  */
-static char	*get_user()
+static char	*get_user(void)
 {
 	char	*user;
 
@@ -63,7 +63,7 @@ static char	*get_user()
  * 
  * @return Allocated prefix, NULL if allocation fails. 
  */
-char	*get_prefix()
+char	*get_prefix(void)
 {
 	char	*user;
 	char	*hostname;
@@ -86,12 +86,49 @@ char	*get_prefix()
 	return (prefix);
 }
 
-// /**
-//  * @brief Builds the full prompt.
-//  */
-// char	*get_prompt(t_data *data, int mode)
-// {
-// 	static char	prefix[MAX_PROMPT_SIZE];
+int	add_pwd_to_prompt(t_data *data, char *prompt, int prefix_len)
+{
+	t_var	*home;
+	int		dstsize;
+	int		home_len;
 
+	prompt += prefix_len;
+	home = var_get(&data->vars, "HOME");
+	dstsize = PROMPT_LEN - prefix_len - SUFFIX_LEN;
+	if (!home || !*home->value)
+		return (ft_strlcpy(prompt, data->pwd, dstsize));
+	home_len = ft_strlen(home->value);
+	if (!ft_strncmp(data->pwd, home->value, home_len))
+	{
+		prompt[0] = '~';
+		return (ft_strlcpy(prompt + 1, data->pwd + home_len, dstsize - 1));
+	}
+	return (ft_strlcpy(prompt, data->pwd, dstsize));
+}
 
-// }
+/**
+ * @brief Builds the full prompt.
+ * 
+ * @param data Pointer to the data structure.
+ * @param mode Function's mode to be called with,
+ * 0 to build it, 1 to just get it and 2 to update it.
+ */
+char	*get_prompt(t_data *data, int mode)
+{
+	static char	prompt[PROMPT_LEN];
+	static int	prefix_len;
+
+	if (mode == 0)
+	{
+		ft_bzero(prompt, PROMPT_LEN);
+		prefix_len = ft_strlcpy(prompt, data->prefix, PROMPT_LEN - SUFFIX_LEN);
+	}
+	if (mode == 1)
+		return (prompt);
+	if (mode == 2 && prefix_len < PROMPT_LEN)
+	{
+		add_pwd_to_prompt(data, prompt, prefix_len);
+		ft_strlcat(prompt, PROMPT_SUFFIX, PROMPT_LEN);
+	}
+	return (prompt);
+}

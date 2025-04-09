@@ -6,37 +6,11 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:45:39 by ego               #+#    #+#             */
-/*   Updated: 2025/03/04 17:49:33 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/09 21:30:03 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-/**
- * @brief Goes through the string s to search for
- * the first occurence of the character c. If found,
- * returns the position, -1 otherwise.
- * 
- * @param c Character to find.
- * @param s String to be searched.
- * 
- * @return Position of the character, -1 otherwise.
- */
-static int	ft_char_in_str(char c, char *s)
-{
-	int	i;
-
-	if (!s)
-		return (-1);
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == c)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
 
 /**
  * @brief Frees a char pointer only if needed.

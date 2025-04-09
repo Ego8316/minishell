@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/09 15:32:29 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/09 16:24:13 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@
 # define COLOR_GREEN "\001\033[0;32m\002"
 # define COLOR_BLUE  "\001\033[0;34m\002"
 # define COLOR_RED   "\001\033[0;31m\002"
-# define MAX_PROMPT_SIZE 1024
+# define PROMPT_SUFFIX "\001\033[0m\002$ "
+# define PROMPT_LEN 1024
+# define SUFFIX_LEN 9
 
 //===Includes===
 # include <stdlib.h>
@@ -201,6 +203,7 @@ int		line_get_identifier_len(char *line);
 char	*line_get_value(char *line);
 int		get_vars_size(t_var *vars);
 char	*get_prefix();
+char	*get_prompt(t_data *data, int mode);
 
 // Execution
 

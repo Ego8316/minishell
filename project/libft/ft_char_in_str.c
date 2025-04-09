@@ -1,25 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isprint.c                                       :+:      :+:    :+:   */
+/*   ft_char_in_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/01 13:03:14 by hcavet            #+#    #+#             */
-/*   Updated: 2025/04/09 21:25:56 by ego              ###   ########.fr       */
+/*   Created: 2025/04/09 21:30:14 by ego               #+#    #+#             */
+/*   Updated: 2025/04/09 22:06:36 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/** 
- * @brief Checks if a character is a printable character.
+/**
+ * @brief Goes through the string s to search for
+ * the first occurence of the character c. If found,
+ * returns the position, -1 otherwise.
  * 
- * @param c The character to check.
+ * @param c Character to find.
+ * @param s String to be searched.
  * 
- * @return 1 if the character is a printable character, 0 otherwise.
+ * @return Position of the character, -1 otherwise.
  */
-int	ft_isprint(int c)
+int	ft_char_in_str(char c, const char *s)
 {
-	return (c >= 32 && c <= 126);
+	int	i;
+
+	if (!s)
+		return (-1);
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			return (i);
+		i++;
+	}
+	return (-1);
 }

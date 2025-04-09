@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:27 by ego               #+#    #+#             */
-/*   Updated: 2025/04/09 14:28:45 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/09 21:31:42 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ static int	print_declare_env(t_data *data)
  */
 static int	handle_var(t_data *data, t_var *var, char *line)
 {
-	t_bool	eq;
+	int		eq;
 	int		ret;
 
-	eq = (t_bool)(ft_strchr(line, '=') != NULL);
+	eq = ft_char_in_str('=', line) != -1;
 	ret = 1;
 	if (!var)
 		ret = var_add_line(&data->vars, line, eq * ENV + (1 - eq) * MARKED);

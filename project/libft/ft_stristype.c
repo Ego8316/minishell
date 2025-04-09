@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isprint.c                                       :+:      :+:    :+:   */
+/*   ft_stristype.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/01 13:03:14 by hcavet            #+#    #+#             */
-/*   Updated: 2025/04/09 21:25:56 by ego              ###   ########.fr       */
+/*   Created: 2025/04/09 21:26:16 by ego               #+#    #+#             */
+/*   Updated: 2025/04/09 23:02:40 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/** 
- * @brief Checks if a character is a printable character.
+/**
+ * @brief Checks if a string is only made of one given type.
  * 
- * @param c The character to check.
+ * @param s String to be checked.
+ * @param f Function used to check the type (isspace for example).
  * 
- * @return 1 if the character is a printable character, 0 otherwise.
+ * @return 1 if it is only made of the given type, 0 otherwise.
  */
-int	ft_isprint(int c)
+int	ft_stristype(char *s, int (*f)(int))
 {
-	return (c >= 32 && c <= 126);
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (!f(s[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 20:20:42 by ego               #+#    #+#             */
-/*   Updated: 2025/03/14 14:09:40 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/09 23:02:28 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 char	*join_strs(char *s1, char *s2, char *s3);
 
-// Character utilities
+// Checking utilities
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -65,6 +65,8 @@ int		ft_isprint(int c);
 int		ft_isspace(int c);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
+int		ft_char_in_str(char c, const char *s);
+int		ft_stristype(char *s, int (*f)(int));
 
 // Conversion utilities
 
