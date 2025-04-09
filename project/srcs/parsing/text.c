@@ -26,6 +26,8 @@ static char *str_join_free(char *str, char *str2)
 	res = ft_strjoin(str, str2);
 	if (str)
 		free(str);
+	if (str2)
+		free(str2);
 	return (res);
 }
 

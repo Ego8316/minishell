@@ -25,6 +25,7 @@ t_bool	expand_cmd(t_parse_data *data)
 	current = data->cmd;
 	new = readline("> ");
 	data->cmd = ft_strjoin(current, new);
+	printf("'%s'\n", data->cmd);
 	free(new);
 	free(current);
 	return (data->cmd != 0);
