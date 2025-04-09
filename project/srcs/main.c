@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/09 14:27:53 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/09 15:34:34 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,15 @@ int	main(int argc, char **argv, char **envp)
 	argv[0] = 0;
 	if (!data_init(&data, envp))
 		return (1);
+	printf("%s%s\n", data.prefix, COLOR_RESET);
 	// init_signal();
 	// char *str = read_term_line("prompt: ");
 	// printf ("input: %s\n", str);
-	int i = 0;
-	while (i++ < 10 && !has_killsig())
-	{
-		run_cmd_from_user(&data);
-	}
+	// int i = 0;
+	// while (i++ < 10 && !has_killsig())
+	// {
+	// 	run_cmd_from_user(&data);
+	// }
 	free_data(&data);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/09 13:41:37 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/09 15:32:29 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@
 # define M_ERR_MSG "malloc: failed allocation\n"
 # define IS_DIR_MSG "Is a directory"
 # define CMD_NOT_FOUND_MSG "command not found"
+# define COLOR_RESET "\001\033[0m\002"
+# define COLOR_GREEN "\001\033[0;32m\002"
+# define COLOR_BLUE  "\001\033[0;34m\002"
+# define COLOR_RED   "\001\033[0;31m\002"
+# define MAX_PROMPT_SIZE 1024
 
 //===Includes===
 # include <stdlib.h>
@@ -131,6 +136,7 @@ typedef struct s_data
 	t_token	*tokens;
 	t_pipe	*pipe;
 	int		line;
+	char	*prefix;
 }	t_data;
 
 //==Functions===
@@ -194,6 +200,7 @@ int		var_set(t_var **vars, char *identifier, char *value);
 int		line_get_identifier_len(char *line);
 char	*line_get_value(char *line);
 int		get_vars_size(t_var *vars);
+char	*get_prefix();
 
 // Execution
 

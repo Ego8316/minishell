@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/04/08 20:55:28 by ego              ###   ########.fr        #
+#    Updated: 2025/04/09 15:32:48 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRC_FILES += builtins/cd.c		\
 			 builtins/unset.c
 SRC_FILES += data/env.c			\
 			 data/init.c		\
+			 data/prompt.c		\
 			 data/utils.c		\
 			 data/var_line.c	\
 			 data/var.c
