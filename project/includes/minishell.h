@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/08 18:18:59 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/09 13:41:37 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,8 @@ t_cmd	*get_command(t_data *data, t_token *t);
 t_token	*get_to_next_command(t_token *t);
 t_pipe	*get_pipeline(t_data *data, t_token *t);
 
+int		get_input_redirection(t_cmd *cmd, t_token *t, t_data *data);
+int		get_output_redirection(t_cmd *cmd, t_token *t);
 int		redirect_io(int fd_in, int fd_out);
 void	restore_standard_io(t_pipe *pipe);
 

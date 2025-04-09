@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 00:01:59 by ego               #+#    #+#             */
-/*   Updated: 2025/04/08 21:42:37 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/09 12:55:25 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,16 @@
  * 
  * @param limiter Here-doc limiter.
  * @param data Pointer to the data structure.
- * @param line Number of lines written during the here-doc.
  * 
  * @return 1.
  */
-static int	put_heredoc_warning(const char *limiter, t_data *data, int line)
+static int	put_heredoc_warning(const char *limiter, t_data *data)
 {
 	ft_putstr_fd("minishell: warning: here-document at line ", STDERR_FILENO);
 	ft_putnbr_fd(data->line, STDERR_FILENO);
 	ft_putstr_fd(" delimited by end-of-file (wanted `", STDERR_FILENO);
 	ft_putstr_fd(limiter, STDERR_FILENO);
 	ft_putstr_fd("')\n", STDERR_FILENO);
-	data->line += line;
 	return (1);
 }
 
@@ -138,23 +136,18 @@ void	write_line_to_heredoc(char *line, int fd, t_data *data)
  */
 int	get_heredoc(char *limiter, int fd, t_data *data)
 {
-	int		line_counter;
 	char	*line;
 
-	line_counter = 0;
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
-			return (put_heredoc_warning(limiter, data, line_counter));
-		add_history(line);
-		line_counter++;
+			return (put_heredoc_warning(limiter, data));
 		if (!ft_strcmp(line, limiter))
 			break ;
 		write_line_to_heredoc(line, fd, data);
 		free_str(&line);
 	}
 	free_str(&line);
-	data->line += line_counter;
 	return (1);
 }
