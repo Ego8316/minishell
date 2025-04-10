@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 14:33:19 by ego               #+#    #+#             */
-/*   Updated: 2025/04/09 17:02:19 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/10 18:59:38 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,24 +86,47 @@ char	*get_prefix(void)
 	return (prefix);
 }
 
+/**
+ * @brief Adds the current working directory to the prompt.
+ * First gets the value of PWD in the variables. If not found,
+ * data structure has a backup with the working directory at
+ * all time. Then, if home is set, will search in the working
+ * directory if value of HOME can be substituted in PWD. If
+ * so, replace it by a tilde. If not, simply puts the found
+ * working directory.
+ * 
+ * @param data Pointer to the data structure.
+ * @param prompt Prompt buffer.
+ * @param prefix_len Length of the prefix.
+ * 
+ * @return The length of whatever the function will attempt to copy
+ * into the prompt.
+ */
 int	add_pwd_to_prompt(t_data *data, char *prompt, int prefix_len)
 {
 	t_var	*home;
 	int		dstsize;
 	int		home_len;
+	t_var	*pwd;
+	char	*pwd_value;
 
+	pwd = var_get(&data->vars, "PWD");
+	if (!pwd)
+		pwd_value = data->pwd;
+	else
+		pwd_value = pwd->value;
 	prompt += prefix_len;
 	home = var_get(&data->vars, "HOME");
 	dstsize = PROMPT_LEN - prefix_len - SUFFIX_LEN;
 	if (!home || !*home->value)
-		return (ft_strlcpy(prompt, data->pwd, dstsize));
+		return (ft_strlcpy(prompt, pwd_value, dstsize));
 	home_len = ft_strlen(home->value);
-	if (!ft_strncmp(data->pwd, home->value, home_len))
+	if (ft_strncmp(pwd_value, home->value, home_len + 1) == '/')
 	{
 		prompt[0] = '~';
-		return (ft_strlcpy(prompt + 1, data->pwd + home_len, dstsize - 1));
+		return (ft_strlcpy(prompt + 1, pwd_value + home_len, dstsize - 1));
 	}
-	return (ft_strlcpy(prompt, data->pwd, dstsize));
+	return (ft_strlcpy(prompt, pwd_value, dstsize));
 }
 
 /**
