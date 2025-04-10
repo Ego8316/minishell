@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:54:42 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/09 21:07:25 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/10 18:05:52 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ t_bool	try_parse_command(char *cmd, t_data *d)
 {
 	t_parse_data	data;
 
-	if (!cmd || !d->vars)
+	if (!cmd)
 		return (TRUE);
 	data = get_parse_data(cmd, d);
 	if (!parse_loop(&data))

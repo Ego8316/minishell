@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 12:51:34 by ego               #+#    #+#             */
-/*   Updated: 2025/04/09 21:08:34 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/10 18:05:07 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
  * 
  * @param envp Environment variables to be copied.
  * 
- * @return Pointer to the head of the var list, NULL if allocation fails.
+ * @return Pointer to the head of the var list,
+ * NULL if allocation fails or the environment is empty.
  */
 static t_var	*copy_vars(char **envp)
 {
@@ -26,6 +27,8 @@ static t_var	*copy_vars(char **envp)
 	t_var	*node;
 	int		i;
 
+	if (!*envp)
+		return (NULL);
 	head = var_new_node_line(envp[0], ENV);
 	if (!head)
 		return (NULL);
@@ -68,7 +71,7 @@ t_bool	data_init(t_data *data, char **envp)
 	data->pipe = NULL;
 	data->line = 1;
 	data->prefix = get_prefix();
-	if (!data->pwd || !data->vars || !data->prefix)
+	if (!data->pwd || (!data->vars && *envp) || !data->prefix)
 		return (0);
 	get_prompt(data, 0);
 	get_prompt(data, 2);

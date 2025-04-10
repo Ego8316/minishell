@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 15:00:58 by ego               #+#    #+#             */
-/*   Updated: 2025/04/04 15:09:41 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/10 18:36:22 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_token	*skip_assignments(t_token *t)
  * 
  * @return 1 on success, 0 if allocation fails.
  */
-int	do_assignments(t_token *t, t_var *vars)
+int	do_assignments(t_token *t, t_var **vars)
 {
 	int	assignment;
 
@@ -77,7 +77,7 @@ int	do_assignments(t_token *t, t_var *vars)
 		if (t->type == TEXT)
 		{
 			assignment = is_assignment(t->str);
-			if (assignment && !var_set_line(&vars, t->str))
+			if (assignment && !var_set_line(vars, t->str))
 				return (0);
 			else if (!assignment)
 				return (1);

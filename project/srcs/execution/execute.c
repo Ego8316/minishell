@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 15:12:00 by ego               #+#    #+#             */
-/*   Updated: 2025/04/08 17:20:36 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/10 18:40:18 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ static int	execute_command(t_data *data, t_token *t, t_cmd *cmd)
 	int		ret;
 	pid_t	pid;
 
-	if (!*cmd->argv && !do_assignments(t, data->vars))
+	if (!*cmd->argv && !do_assignments(t, &data->vars))
 		return (M_ERR);
 	if (!cmd->redir_in || !cmd->redir_out)
 		return (1);

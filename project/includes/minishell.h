@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/10 00:58:46 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/10 18:36:53 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,7 @@ char	*get_heredoc_name(void);
 int		get_heredoc(char *limiter, int fd, t_data *data);
 
 t_token	*skip_assignments(t_token *t);
-int		do_assignments(t_token *t, t_var *vars);
+int		do_assignments(t_token *t, t_var **vars);
 t_cmd	*get_command(t_data *data, t_token *t);
 
 t_token	*get_to_next_command(t_token *t);

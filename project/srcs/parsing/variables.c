@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pkurt <idkmymailngl@mail.com>              +#+  +:+       +#+        */
+/*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 19:26:46 by pkurt             #+#    #+#             */
-/*   Updated: 2025/03/11 19:27:45 by pkurt            ###   ########.fr       */
+/*   Updated: 2025/04/10 18:40:29 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ static t_bool	parse_variable(char **cmd, int *i, t_var *vars)
 	if (!var_name)
 		return (FALSE);
 	var_val = var_get_value(vars, var_name);
-	//printf("===SUBSTIUTION DATA DEBUG!===\n");
-	//printf("Name '%s'\n", var_name);
+	// printf("===SUBSTIUTION DATA DEBUG!===\n");
+	// printf("Name '%s' Value '%s'\n", var_name, var_val);
 	free(var_name);
 	if (!var_val)
 		return (FALSE);
