@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 20:45:35 by ego               #+#    #+#             */
-/*   Updated: 2025/04/08 18:49:43 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/10 19:08:23 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int	var_set(t_var **vars, char *identifier, char *value)
 
 	v = var_get(vars, identifier);
 	if (!v)
-		return (1);
+		return (var_add(vars, identifier, value, ENV));
 	free_str(&v->value);
 	v->value = ft_strdup(value);
 	if (!v->value)

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:35:52 by ego               #+#    #+#             */
-/*   Updated: 2025/04/10 18:32:37 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/10 19:16:34 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ static int	cd_home(t_data *data, int fallback)
  * 
  * @param data Pointer to the data structure.
  * 
- * @return The exit code.
+ * @return The exit code, -2 if allocation fails.
  */
 static int	cd_oldpwd(t_data *data)
 {
