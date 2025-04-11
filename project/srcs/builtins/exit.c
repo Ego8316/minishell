@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:20 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 01:30:06 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 14:10:23 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,11 @@ static int	is_numeric(char *arg)
 }
 
 /**
- * @brief Executes the exit builtin command. Handles error cases like invalid
- * arguments (non-numeric input) or too many arguments. Prints an error message
- * and exits if necessary.
+ * @brief Executes the `exit` builtin command: exits the program with provided
+ * exit code.
+ * 
+ * Handles error cases like invalid arguments (non-numeric input) or too many
+ * arguments. Prints an error message and exits if necessary.
  * 
  * @param data Pointer to the main data structure.
  * @param args Arguments. The first argument is expected to be a numeric string

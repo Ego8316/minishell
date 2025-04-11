@@ -6,17 +6,17 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:32:59 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 02:40:21 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 14:11:05 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Executes the `env` builtin: prints all the environment variables.
+ * @brief Executes the `env` builtin command: prints all the environment
+ * variables.
  * 
- * This function iterates over the linked list of environment variables stored
- * in the the main data structure. It prints each environment variable in the
+ * Iterates over the variable list and prints each environment variable in the
  * format "VAR=value" to the standard output.
  * 
  * @warning As per the subject, does not handle any arguments.

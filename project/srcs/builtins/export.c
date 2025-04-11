@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:27 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 02:19:10 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 14:09:15 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ static int	handle_var(t_data *data, t_var *var, char *line)
 }
 
 /**
- * @brief Executes the `export` builtin command. This command adds or updates
- * environment variables. If no arguments are provided, it prints all exported
- * environment variables in the format `declare -x VAR="value"`.
+ * @brief Executes the `export` builtin command: adds or updates environment
+ * variables. If no arguments are provided, it prints all exported environment
+ * variables in the format `declare -x VAR="value"`.
  * 
  * @note If an argument does not represent a valid identifier, prints an error
  * message to the standard error and the function returns 1.

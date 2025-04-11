@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:35:52 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 01:54:25 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 14:12:40 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,10 @@ static int	cd_oldpwd(t_data *data)
 }
 
 /**
- * @brief Executes the `cd` builtin command. Handles the following cases:
+ * @brief Executes the `cd` builtin command: changes current working directory
+ * to the one provided.
+ * 
+ * Handles the following cases:
  * @brief - No argument: changes to $HOME.
  * @brief - "~": changes to $HOME and fallbacks if $HOME is unset.
  * @brief - "-": switches to OLDPWD and prints the new path.
@@ -164,8 +167,9 @@ static int	cd_oldpwd(t_data *data)
  * @brief - Any other argument: attempts to change to that path.
  * 
  * Also handles errors for unset HOME/OLDPWD or too many arguments.
- * On success, updates the internal shell environment variables (PWD
- * and OLDPWD) and the data variables `pwd` and `oldpwd`.
+ * 
+ * On success, updates the internal variables (PWD and OLDPWD) and the data
+ * variables `pwd` and `oldpwd`.
  * 
  * @param data Pointer to the data structure.
  * @param argv Arguments passed to the builtin.

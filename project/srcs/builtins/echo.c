@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:00 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 01:19:54 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 14:11:26 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ static int	is_n_option(char *arg)
 }
 
 /**
- * @brief Executes the `echo` builtin command, printing the provided strings
- * to standard output, and optionally suppressing the trailing newline if the
+ * @brief Executes the `echo` builtin command: prints the provided strings to
+ * the standard output, and optionally suppressing the trailing newline if the
  * `-n` is present.
  * 
  * All arguments are printed with a space between them. The function then

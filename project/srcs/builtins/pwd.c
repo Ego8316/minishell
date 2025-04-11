@@ -6,14 +6,15 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:34 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 02:00:27 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 14:08:52 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Executes the `pwd` builtin: prints the current working directory.
+ * @brief Executes the `pwd` builtin command: prints the current working
+ * directory.
  * 
  * @param data Pointer to the main data structure.
  * @param argv Arguments (should not be any).

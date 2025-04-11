@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 00:46:56 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 04:53:39 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 14:06:17 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
  * only the '*' wildcard. Escaped wildcards (i.e. literal asteriks) are handled
  * via an array of valid wildcard positions obtained during lexicalization.
  * 
+ * @note Only '*' wildcards are supported.
+ * 
  * @param pattern Pattern to match.
  * @param name The string to match against the pattern.
  * @param i Current position in the pattern (to check against escaped '*').
@@ -25,7 +27,6 @@
  * 
  * @return 0 if the name matches the pattern, 1 otherwise.
  * 
- * @note Only '*' wildcards are supported.
  */
 static int	ft_fnmatch(const char *pattern, const char *name, int i, int *arr)
 {

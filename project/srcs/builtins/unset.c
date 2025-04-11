@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:40 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 04:42:31 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 14:07:30 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,8 @@ static void	unset_arg(t_data *data, char *arg)
 }
 
 /**
- * @brief Executes the `unset` builtin: removes the specified environment
- * variable(s) from the environment and the variable list. Does nothing if the
- * variable cannot be found.
+ * @brief Executes the `unset` builtin command: removes the specified variables
+ * from the variable list. Does nothing if the variable cannot be found.
  * 
  * @param data Pointer to the main data structure.
  * @param args Arguments (list of identifiers to unset).
