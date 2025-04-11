@@ -6,20 +6,21 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:16:52 by ego               #+#    #+#             */
-/*   Updated: 2025/03/19 00:52:27 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 02:46:16 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Given a line of the form "VAR=value",
- * returns the identifier VAR's len. Identifier
- * validity has to be checked beforehand.
+ * @brief Given a line of the form "VAR=value", returns the length of the
+ * identifier (VAR).
+ * 
+ * @warning The validity of the identifier must be checked beforehand.
  * 
  * @param line Line to be parsed.
  * 
- * @return Identifier line.
+ * @return Length of the identifier in the line.
  */
 int	line_get_identifier_len(char *line)
 {
@@ -32,14 +33,15 @@ int	line_get_identifier_len(char *line)
 }
 
 /**
- * @brief Given a line of the form "VAR=value",
- * returns the value. Identifier validity
- * has to be checked beforehand.
+ * @brief Given a line of the form "VAR=value", returns the value associated
+ * with the identifier.
+ * 
+ * @warning The validity of the identifier must be checked beforehand.
  * 
  * @param line Line to be parsed.
  * 
- * @return Allocated parsed value,
- * NULL if allocation fails.
+ * @return Allocated string representing the value, NULL if memory allocation
+ * fails.
  */
 char	*line_get_value(char *line)
 {
@@ -55,11 +57,11 @@ char	*line_get_value(char *line)
 }
 
 /**
- * @brief Computes the number of variables of all types.
+ * @brief Computes the number of variables of all types in the variable list.
  * 
- * @param vars Var list.
+ * @param vars Pointer to the variable list.
  * 
- * @return The number of elements in the list.
+ * @return The total number of variables in the list.
  */
 int	get_vars_size(t_var *vars)
 {
@@ -77,7 +79,7 @@ int	get_vars_size(t_var *vars)
 }
 
 /**
- * @brief Swaps two string pointers.
+ * @brief Swaps the values of two string pointers.
  * 
  * @param s1 Pointer to the first string.
  * @param s2 Pointer to the second string.

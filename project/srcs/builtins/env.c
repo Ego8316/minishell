@@ -6,20 +6,25 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:32:59 by ego               #+#    #+#             */
-/*   Updated: 2025/04/06 14:05:26 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 02:40:21 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Executes the env builtin: simply prints
- * the environment.
+ * @brief Executes the `env` builtin: prints all the environment variables.
  * 
- * @param data Pointer to the data structure.
+ * This function iterates over the linked list of environment variables stored
+ * in the the main data structure. It prints each environment variable in the
+ * format "VAR=value" to the standard output.
+ * 
+ * @warning As per the subject, does not handle any arguments.
+ * 
+ * @param data Pointer to the main data structure.
  * @param argv Arguments (should not be any).
  * 
- * @return Exit status.
+ * @return Exit status: 0 if successful, 1 if any arguments are provided.
  */
 int	env_builtin(t_data *data, char **argv)
 {

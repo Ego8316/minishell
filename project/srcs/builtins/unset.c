@@ -6,19 +6,18 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:40 by ego               #+#    #+#             */
-/*   Updated: 2025/04/06 14:09:14 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 04:42:31 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Goes through the var list to delete the node
- * with identifier identical to the argument given.
- * Does nothing if no such node can be found.
+ * @brief Searches for a variable in the list and removes the node with the
+ * identifier that matches the argument. Does nothing if no match is found.
  * 
- * @param data Pointer to the data structure.
- * @param arg Supposedly the identifier.
+ * @param data Pointer to the main data structure.
+ * @param arg The identifier of the variable to be removed.
  */
 static void	unset_arg(t_data *data, char *arg)
 {
@@ -49,16 +48,14 @@ static void	unset_arg(t_data *data, char *arg)
 }
 
 /**
- * @brief Executes the unset builtin: removes
- * the value for each found identifier. Does
- * nothing for unfound identifier. If the
- * identifier corresponds to an environment
- * variable, also removes it from envp.
+ * @brief Executes the `unset` builtin: removes the specified environment
+ * variable(s) from the environment and the variable list. Does nothing if the
+ * variable cannot be found.
  * 
- * @param data Pointer to the data structure.
- * @param args Arguments.
+ * @param data Pointer to the main data structure.
+ * @param args Arguments (list of identifiers to unset).
  * 
- * @return 0 for success.
+ * @return Exit status: 0 if the operation is successful (always).
  */
 int	unset_builtin(t_data *data, char **argv)
 {

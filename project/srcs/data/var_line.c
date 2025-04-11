@@ -6,24 +6,23 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:29:36 by ego               #+#    #+#             */
-/*   Updated: 2025/04/10 18:41:53 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 04:42:19 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Allocates memory for a new var list node.
- * Takes as a parameter a line in the form "VAR=value"
- * and splits into identifier and value. If the value
- * or the equal sign is missing, puts an empty string
- * as value by default. Identifier validity has to
- * be checked beforehand.
+ * @brief Allocates memory for a new variable list node. Given a line in the
+ * form "VAR=value", it splits the line into identifier and value. If the value
+ * or '=' is missing, an empty string is used as the value by default.
+ * 
+ * @warning The validity of the identifier must be checked beforehand.
  * 
  * @param line Line to be parsed.
- * @param type Var type.
+ * @param type Type of the variable.
  * 
- * @return The new allocated node, NULL if allocation fails.
+ * @return Pointer to the new allocated node, NULL if allocation fails.
  */
 t_var	*var_new_node_line(char *line, t_var_type type)
 {
@@ -48,15 +47,15 @@ t_var	*var_new_node_line(char *line, t_var_type type)
 }
 
 /**
- * @brief Allocates memory for a new var list node and add
- * it at the end of the given list. Takes as a parameter a
- * line in the form "VAR=value" and splits into identifier
- * and value. If the value or the equal sign is missing, 
- * puts an empty string as value by default. Identifier 
- * validity has to be checked beforehand. One must also
- * check if the var is not already in the list beforehand.
+ * @brief Allocates memory for a new variable list node and adds it to the end
+ * of the given list. Given a line in the form "VAR=value", it splits into
+ * identifier and value. If the value or '=' is missing, an empty string is
+ * used as the value by default.
  * 
- * @param vars Pointer to the var list, in principle the first node.
+ * @warning The validity of the identifier must be checked beforehand, and
+ * the variable should not already be in the list.
+ * 
+ * @param vars Pointer to the variable list, in principle the first node.
  * @param line Line to be to be parsed.
  * @param type Var type.
  * 
@@ -83,15 +82,14 @@ int	var_add_line(t_var **vars, char *line, t_var_type type)
 }
 
 /**
- * @brief Searches through the var list for a variable with
- * same identifier as provided with the line in the form
- * "VAR=value" and returns a pointer to that variable.
+ * @brief Searches through the variable list for a variable with the same
+ * identifier as the one provided in the form "VAR=value" and returns a
+ * pointer to that variable.
  * 
- * @param vars Pointer to the beginning of the var list.
+ * @param vars Pointer to the beginning of the variable list.
  * @param line Line to be parsed.
  * 
- * @return Pointer to the variable if there is a match,
- * NULL otherwise.
+ * @return Pointer to the variable if there is a match, NULL otherwise.
  */
 t_var	*var_get_line(t_var **vars, char *line)
 {
@@ -112,15 +110,14 @@ t_var	*var_get_line(t_var **vars, char *line)
 }
 
 /**
- * @brief Sets a local variable given a line of the form "VAR=value".
- * If the var is not found in the var list, adds it to the list.
- * If the var is found, changes its value to the new one. If it is
- * marked, changes its type to ENV.
+ * @brief Sets a local variable given a line of the form "VAR=value". If the
+ * variable is not found in the list, it is added. If it is found, its value is
+ * updated. If the variable has type `MARKED`, its type is changed to `ENV`.
  * 
- * @param vars Pointer to the beginning of the var list.
+ * @param vars Pointer to the beginning of the variable list.
  * @param line Line to be parsed.
  * 
- * @return 1 on success, 0 if allocation fails.
+ * @return 1 the operation is successful, 0 if memory allocation fails.
  */
 int	var_set_line(t_var **vars, char *line)
 {
@@ -135,30 +132,5 @@ int	var_set_line(t_var **vars, char *line)
 		return (0);
 	if (v->type == MARKED)
 		v->type = ENV;
-	return (1);
-}
-
-/**
- * @brief Checks if the given string is a valid indentifier.
- * A valid identifier should not be empty, should start only
- * by an alphabetic character or an underscore.
- * 
- * @param arg The string to be checked.
- * 
- * @return 1 if it is a valid identifier, 0 otherwise.
- */
-int	is_valid_identifier(char *arg)
-{
-	int	i;
-
-	i = 0;
-	if (!arg || !(ft_isalpha(arg[0]) || arg[0] == '_'))
-		return (0);
-	while (arg[i] && arg[i] != '=')
-	{
-		if (!ft_isalnum(arg[i]) && arg[i] != '_')
-			return (0);
-		i++;
-	}
 	return (1);
 }

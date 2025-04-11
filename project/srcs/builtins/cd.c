@@ -6,18 +6,21 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:35:52 by ego               #+#    #+#             */
-/*   Updated: 2025/04/10 19:16:34 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 01:54:25 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief First tries to get HOME from the environment that was given
- * to minishell at startup. If not available, tries and get USER to
- * rebuild HOME. If not available, give /home.
+ * @brief Attempts to recover the home directory path.
  * 
- * @return Allocated path to home directory, NULL if allocation fails.
+ * First checks if the HOME environment variable is set. If not, attempts to
+ * reconstruct a plausible home path using the USER variable. If neither is
+ * available, defaults to "/home".
+ * 
+ * @return A newly allocated string containing the home path, NULL if memory
+ * allocation fails.
  */
 static char	*get_home_fallback(void)
 {
@@ -34,14 +37,19 @@ static char	*get_home_fallback(void)
 }
 
 /**
- * @brief In the case where HOME is not set but cd ~ is used, minishell
- * will attempt to make the home directory from the username and then
- * go to that directory. It also first checks in the environment if
- * HOME is there (set at startup but unset by user).
+ * @brief Changes to the user's home directory when HOME is unset.
  * 
- * @param data Pointer to the data structure.
+ * Attempts to construct a fallback home directory path when the HOME
+ * variable is not available. Uses the USER variable to build a default
+ * path (e.g. "/home/user"), or falls back to "/home" if USER is also
+ * unset. Updates PWD and OLDPWD accordingly.
  * 
- * @return The exit code, -2 if allocation fails.
+ * @param data Pointer to the main data structure.
+ * 
+ * @return Exit status: 0 on success, `M_ERR` on memory allocation faillure,
+ * `errno` if the directory change fails.
+ * 
+ * @note Should be used only when the directory argument is "~".
  */
 static int	cd_home_fallback(t_data *data)
 {
@@ -68,17 +76,17 @@ static int	cd_home_fallback(t_data *data)
 }
 
 /**
- * @brief Changes the directory to the value stored in HOME.
- * If HOME is not set, displays an error message. Otherwise,
- * changes the directory and updates the var list and data
- * pwd and oldpwd. Exits the program in case of allocation
- * failure.
+ * @brief Changes to the home directory using the HOME environment variable.
  * 
- * @param data Pointer to the data structure.
- * @param fallback Whether minishell should get the home directory
- * from the username if HOME is not set.
+ * If the HOME variable is unset and `fallback` is true, attempts to recover
+ * the home path. If HOME is set but empty, does nothing.  Updates PWD and
+ * OLDPWD accordingly.
  * 
- * @return The exit code, -2 if allocation fails.
+ * @param data Pointer to the main data structure.
+ * @param fallback Enables fallback procedure when HOME is unset.
+ * 
+ * @return Exit status: 0 on success, `M_ERR` on memory allocation faillure,
+ * errno` if the directory change fails.
  */
 static int	cd_home(t_data *data, int fallback)
 {
@@ -107,15 +115,17 @@ static int	cd_home(t_data *data, int fallback)
 }
 
 /**
- * @brief Changes the directory to the value stored in OLDPWD.
- * If OLDPWD is not set, displays an error message. Otherwise,
- * changes the directory and updates the var list and data
- * pwd and oldpwd. Exits the program in case of allocation
- * failure. If everything went fine, displays the new path.
+ * @brief Changes to the previous working directory (OLDPWD).
  * 
- * @param data Pointer to the data structure.
+ * If OLDPWD is not set, prints an error on the standard error. If it is set
+ * and valid, changes to that directory, updates internal variables, and prints
+ * the new working directory on the standard output.  Updates PWD and OLDPWD
+ * accordingly.
  * 
- * @return The exit code, -2 if allocation fails.
+ * @param data Pointer to the main data structure.
+ * 
+ * @return Exit status: 0 on success, 1 on error, `M_ERR` on memory allocation
+ * failure, `errno` if the directory change fails.
  */
 static int	cd_oldpwd(t_data *data)
 {
@@ -146,21 +156,22 @@ static int	cd_oldpwd(t_data *data)
 }
 
 /**
- * @brief Executes the cd builtin:
- * No argument: cd $HOME
- * 	- if HOME not set: HOME not set
- *  - if HOME modified, still does it
- * 		TO HANDLE MANUALLY
- * Argument: -
- *  - goes to OLDPWD and prints it
- *  - if OLDPWD not set: OLDPWD not set
- * 		TO HANDLE MANUALLY
- *  More than one argument: too many arguments
- * Any other stuff can just be sent to chdir
- * @param data Pointer to the data structure.
- * @param argv Arguments.
+ * @brief Executes the `cd` builtin command. Handles the following cases:
+ * @brief - No argument: changes to $HOME.
+ * @brief - "~": changes to $HOME and fallbacks if $HOME is unset.
+ * @brief - "-": switches to OLDPWD and prints the new path.
+ * @brief - Empty argument: does nothing.
+ * @brief - Any other argument: attempts to change to that path.
  * 
- * @return 0 if success, 1 otherwise, -2 if allocation fails.
+ * Also handles errors for unset HOME/OLDPWD or too many arguments.
+ * On success, updates the internal shell environment variables (PWD
+ * and OLDPWD) and the data variables `pwd` and `oldpwd`.
+ * 
+ * @param data Pointer to the data structure.
+ * @param argv Arguments passed to the builtin.
+ * 
+ * @return Exit status: 0 on success, 1 if too many arguments, `M_ERR` on
+ * memory allocation failure,`errno` if the directory change fails.
  */
 int	cd_builtin(t_data *data, char **argv)
 {

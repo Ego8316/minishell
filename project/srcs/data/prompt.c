@@ -6,18 +6,19 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 14:33:19 by ego               #+#    #+#             */
-/*   Updated: 2025/04/10 18:59:38 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 04:41:24 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Tries and get the hostname from the file /etc/hostname.
- * Reads it with get_next_line. If the file cannot be found,
- * hostname is set to "42" by default. Also adds color to it.
+ * @brief Tries to retrieve the hostname from the /etc/hostname file. Reads the
+ * file using `get_next_line`. If the file cannot be found, sets the hostname
+ * to "42" by default. Adds color formatting to the hostname.
  * 
- * @return Allocated copy of the hostname, NULL if allocation fails.
+ * @return Allocated copy of the hostname with color formatting, NULL if
+ * memory allocation fails.
  */
 static char	*get_hostname(void)
 {
@@ -40,11 +41,12 @@ static char	*get_hostname(void)
 }
 
 /**
- * @brief Tries and get the user from the environment.
- * If not found or empty, the user is to "user" by default.
- * Also adds color to it.
+ * @brief Tries to retrieve the current user from the environment variables.
+ * If not found or if it is empty, sets the user to "user" by default. Adds
+ * color formatting to the user string.
  * 
- * @return Allocated copy of the user, NULL if allocation fails.
+ * @return Allocated copy of the user with color formatting, NULL if memory
+ * allocation fails.
  */
 static char	*get_user(void)
 {
@@ -58,10 +60,11 @@ static char	*get_user(void)
 }
 
 /**
- * @brief Builds the full prefix of the form
- * "user @ hostname :" with color after.
+ * @brief Builds the full prompt prefix of the form "user@hostname:". This is
+ * a combination of the user and hostname with added color formatting.
  * 
- * @return Allocated prefix, NULL if allocation fails. 
+ * @return Allocated string representing the prefix, NULL if memory allocation
+ * fails.
  */
 char	*get_prefix(void)
 {
@@ -87,20 +90,16 @@ char	*get_prefix(void)
 }
 
 /**
- * @brief Adds the current working directory to the prompt.
- * First gets the value of PWD in the variables. If not found,
- * data structure has a backup with the working directory at
- * all time. Then, if home is set, will search in the working
- * directory if value of HOME can be substituted in PWD. If
- * so, replace it by a tilde. If not, simply puts the found
- * working directory.
+ * @brief Adds the current working directory (PWD) to the prompt. If PWD is not
+ * found in the environment, it uses the backup stored in the data structure.
+ * If HOME is set, replace the home directory path with a '~'.
  * 
- * @param data Pointer to the data structure.
- * @param prompt Prompt buffer.
- * @param prefix_len Length of the prefix.
+ * @param data Pointer to the main data structure.
+ * @param prompt Prompt buffer to which the PWD will be added.
+ * @param prefix_len Length of the prefix already in the prompt.
  * 
- * @return The length of whatever the function will attempt to copy
- * into the prompt.
+ * @return The length of whatever the function has attempted to copy into the
+ * buffer.
  */
 int	add_pwd_to_prompt(t_data *data, char *prompt, int prefix_len)
 {
@@ -130,11 +129,17 @@ int	add_pwd_to_prompt(t_data *data, char *prompt, int prefix_len)
 }
 
 /**
- * @brief Builds the full prompt.
+ * @brief Builds the full prompt by assembling the prefix, current working
+ * directory (PWD), and suffix. The `mode` argument controls the behavior
+ * of the function:
+ * @brief - 0: Builds the prompt.
+ * @brief - 1: Returns the current prompt.
+ * @brief - 2: Updates the prompt with the current working directory.
  * 
- * @param data Pointer to the data structure.
- * @param mode Function's mode to be called with,
- * 0 to build it, 1 to just get it and 2 to update it.
+ * @param data Pointer to the main data structure.
+ * @param mode Mode that determines what action to perform (0, 1, or 2).
+ * 
+ * @return The constructed prompt as a static string.
  */
 char	*get_prompt(t_data *data, int mode)
 {

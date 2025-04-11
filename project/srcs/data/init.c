@@ -6,19 +6,19 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 12:51:34 by ego               #+#    #+#             */
-/*   Updated: 2025/04/10 18:58:35 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 02:27:02 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Goes through envp to copy all environment variables.
- * Allocates memory for each node of the var linked list.
+ * @brief Copies all environment variables from the given environment string
+ * array into a linked list of `t_var` nodes. Allocates memory for each node.
  * 
- * @param envp Environment variables to be copied.
+ * @param envp Environment variables to be copied from.
  * 
- * @return Pointer to the head of the var list,
+ * @return Pointer to the head of the newly created linked list of variables,
  * NULL if allocation fails or the environment is empty.
  */
 static t_var	*copy_vars(char **envp)
@@ -45,12 +45,13 @@ static t_var	*copy_vars(char **envp)
 }
 
 /**
- * @brief Initializes the data structure.
+ * @brief Initializes the main data structure by setting up necessary fields
+ * such as `pwd`, `oldpwd`, environment variables, and prompt information.
  * 
- * @param data Pointer to the data structure.
- * @param envp Startup environment.
+ * @param data Pointer to the main data structure to be initialized.
+ * @param envp Startup environment variables.
  * 
- * @return 0 if allocation fails, 1 otherwise.
+ * @return 0 if memory allocation fails, 1 otherwise.
  */
 t_bool	data_init(t_data *data, char **envp)
 {

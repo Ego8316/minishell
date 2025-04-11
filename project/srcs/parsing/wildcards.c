@@ -6,13 +6,43 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 00:46:56 by ego               #+#    #+#             */
-/*   Updated: 2025/04/10 01:27:55 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 04:53:39 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#include "fnmatch.h"
+/**
+ * @brief Matches a filename or string against a simplified pattern, supporting
+ * only the '*' wildcard. Escaped wildcards (i.e. literal asteriks) are handled
+ * via an array of valid wildcard positions obtained during lexicalization.
+ * 
+ * @param pattern Pattern to match.
+ * @param name The string to match against the pattern.
+ * @param i Current position in the pattern (to check against escaped '*').
+ * @param arr Array of wildcard positions that are NOT escaped. This array is
+ * expected to be terminated with -1.
+ * 
+ * @return 0 if the name matches the pattern, 1 otherwise.
+ * 
+ * @note Only '*' wildcards are supported.
+ */
+static int	ft_fnmatch(const char *pattern, const char *name, int i, int *arr)
+{
+	if (!*pattern)
+		return (*name != '\0');
+	if (*pattern == *name)
+		return (ft_fnmatch(pattern + 1, name + 1, i + 1, arr));
+	if (*pattern == '*' && !is_escaped_wildcard(i, arr))
+	{
+		if (ft_fnmatch(pattern + 1, name, i + 1, arr) == 0)
+			return (0);
+		if (*name && ft_fnmatch(pattern, name + 1, i, arr) == 0)
+			return (0);
+		return (1);
+	}
+	return (1);
+}
 
 /**
  * @brief Given a path to a directory and a pattern,

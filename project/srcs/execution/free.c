@@ -6,19 +6,21 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 23:23:42 by ego               #+#    #+#             */
-/*   Updated: 2025/04/09 20:59:57 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 04:39:52 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Frees all there is to free in a command
- * structure and returns NULL.
+ * @brief Frees all memory and resources associated with a command structure.
+ * 
+ * Closes file descriptors, unlinks heredoc file if necessary, frees all
+ * strings, and finally frees the command structure itself.
  * 
  * @param cmd Command structure to be freed.
  * 
- * @return NULL.
+ * @return Always returns NULL for convenience in cleanup chains.
  */
 void	*free_command(t_cmd *cmd)
 {
@@ -40,12 +42,14 @@ void	*free_command(t_cmd *cmd)
 }
 
 /**
- * @brief Frees an array of commands and returns NULL.
+ * @brief Frees an array of command structures.
  * 
- * @param cmds Array to be freed.
- * @param n Size of the array.
+ * Frees each command in the array and then frees the array itself.
  * 
- * @return NULL.
+ * @param cmds Array of command pointers.
+ * @param n Number of commands in the array.
+ * 
+ * @return Always returns NULL for convenience in cleanup chains.
  */
 void	*free_commands(t_cmd **cmds, int n)
 {
@@ -62,14 +66,19 @@ void	*free_commands(t_cmd **cmds, int n)
 }
 
 /**
- * @brief Kills all children.
+ * @brief Sends SIGTERM to all child processes in the pipeline.
  * 
- * @param pipe Pointer to the pipe structure.
+ * Iterates through the list of child PIDs and sends a termination signal
+ * to each valid PID.
+ * 
+ * @param pipe Pointer to the pipeline structure.
  */
 void	kill_all_children(t_pipe *pipe)
 {
 	int	i;
 
+	if (!pipe || !pipe->pids)
+		return ;
 	i = 0;
 	while (i < pipe->n)
 	{
@@ -80,12 +89,15 @@ void	kill_all_children(t_pipe *pipe)
 }
 
 /**
- * @brief Frees all there is to free in a pipeline
- * structure and returns NULL.
+ * @brief Frees all memory and resources associated with a pipeline structure.
+ * 
+ * Restores original standard input/output, frees memory used for the command
+ * array, environment paths, file descriptors, and process IDs. Then frees
+ * the pipeline structure itself.
  * 
  * @param pipe Pipeline structure to be freed.
  * 
- * @return NULL.
+ * @return Always returns NULL for convenience in cleanup chains.
  */
 void	*free_pipeline(t_pipe *pipe)
 {

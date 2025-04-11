@@ -6,18 +6,20 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:27 by ego               #+#    #+#             */
-/*   Updated: 2025/04/10 18:38:12 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 02:19:10 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Simply prints all exported variables in declare -x VAR="val" format.
+ * @brief Prints all exported environment variables in the format `declare -x 
+ * VAR="value"` for each environment variable. If a variable is marked (but not
+ * set), only prints `declare -x VAR`.
  * 
- * @param data Pointer to the data structure.
+ * @param data Pointer to the main data structure.
  * 
- * @return 0 for success.
+ * @return Exit status: 0 for success.
  */
 static int	print_declare_env(t_data *data)
 {
@@ -36,27 +38,30 @@ static int	print_declare_env(t_data *data)
 }
 
 /**
- * @brief Handles the var with a line of the form "VAR=value". Eight cases:
+ * @brief Handles a variable assignment or update. Supports eight different
+ * cases depending on the current state of the variable (`NULL`, `LOCAL`,
+ * `MARKED`, `ENV`). Either adds the variable to the list or updates its
+ * value and type as needed.
+ * @brief - If `var` is `NULL` and there is a '=', adds a new var to the list
+ * with type `ENV`.
+ * @brief - If `var` is `NULL` and there is no '=', adds a new var to the list
+ *  with type `MARKED`.
+ * @brief - If `var` has type `LOCAL` and there is no '=', changes its type to
+ *  `ENV`.
+ * @brief - If `var` has type `LOCAL` and there is a '=', updates its value and
+ *  its type to `ENV`.
+ * @brief - If `var` has type `MARKED` and there is no '=', changes its type to
+ *  `ENV`.
+ * @brief - If `var` has type `MARKED` and there is a '=', updates its value
+ * and changes its type to ENV.
+ * @brief - If `var` has type `ENV` and there is a '=', does nothing.
+ * @brief - If `var` has type `ENV` and there is no '=', updates its value.
  * 
- * - If var (var is NULL) is not set:
- *  - If there is an equal sign (=), adds it to the var list with type ENV.
- *  - If there is no equal sign, adds it to the var list with type MARKED.
+ * @param data Pointer to the main data structure.
+ * @param var Pointer to the variable to be handled.
+ * @param line Line to be parsed.
  * 
- * - If var is set locally (LOCAL type):
- *  - If there is no equal sign, changes its type to ENV.
- *  - If there is an equal sign, updates its value and changes its type to ENV.
- * 
- * - If var is already marked (MARKED type):
- *  - If there is no equal sign, changes its type to ENV.
- *  - If there is an equal sign, updates its value and changes its type to ENV.
- * 
- * - If var is already in the environment (ENV type):
- *  - If there is no equal sign, does nothing.
- *  - If there is an equal sign, updates its value in the var list.
- * 
- * @param data Pointer to the data structure.
- * @param var Pointer to the var to be handled.
- * @param line Line to parse.
+ * @return 1 is the operation is successful, 0 if memory allocation fails.
  */
 static int	handle_var(t_data *data, t_var *var, char *line)
 {
@@ -81,14 +86,18 @@ static int	handle_var(t_data *data, t_var *var, char *line)
 }
 
 /**
- * @brief Executes the export builtin: tries and put the given variable and
- * its value in the environment. If no argument given, prints all environment
- * variables with "declare -x " before.
+ * @brief Executes the `export` builtin command. This command adds or updates
+ * environment variables. If no arguments are provided, it prints all exported
+ * environment variables in the format `declare -x VAR="value"`.
  * 
- * @param data Pointer to the data structure.
+ * @note If an argument does not represent a valid identifier, prints an error
+ * message to the standard error and the function returns 1.
+ * 
+ * @param data Pointer to the main data structure.
  * @param argv Arguments.
  * 
- * @return 0 on success, 1 otherwise, -2 if allocation fails.
+ * @return Exit status: 0 on success, 1 if an argument does not represent a
+ * valid identifier, `M_ERR` if memory allocation fails.
  */
 int	export_builtin(t_data *data, char **argv)
 {

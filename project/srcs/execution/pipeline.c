@@ -6,19 +6,22 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:53:15 by ego               #+#    #+#             */
-/*   Updated: 2025/04/08 17:20:21 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 04:29:36 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Goes through the token list to get to the next
- * starting command.
+ * @brief Goes through the token list to get to the next starting command.
+ * 
+ * Iterates through the token list and skips tokens until it finds a token that
+ * starts a new command, whether it be a pipe or an operator.
  * 
  * @param t Token list.
  * 
- * @return Token list starting at the next command.
+ * @return Token list starting at the next command, NULL if no more commands
+ * are found.
  */
 t_token	*get_to_next_command(t_token *t)
 {
@@ -32,12 +35,11 @@ t_token	*get_to_next_command(t_token *t)
 }
 
 /**
- * @brief From the given starting point of the token list, counts
- * the number of commands.
+ * @brief Counts the number of commands in the current execution block.
  * 
  * @param t Token list.
  * 
- * @return The number of commands before encountering a boolean operator.
+ * @return Number of commands before encountering an operator.
  */
 static int	count_cmds(t_token *t)
 {
@@ -55,14 +57,16 @@ static int	count_cmds(t_token *t)
 
 /**
  * @brief Generates pipes for a pipeline of n commands.
- * Allocates memory for an int array of size 2(n - 1),
- * because we need n - 1 pipes for n commands and each
- * pipe has one input and one output.
  * 
- * @param n The number of commands.
+ * Creates the necessary pipes for a pipeline of commands. A pipeline
+ * consisting of `n` commands requires `n - 1` pipes, where each pipe contains
+ * an input and output file descriptor. Allocates memory for the required pipe
+ * array and returns it.
  * 
- * @return Allocated array of pipes already piped. NULL
- * if allocations or pipe fails.
+ * @param n Number of commands in the pipeline.
+ * 
+ * @return Allocated array of pipes already piped, NULL if memory allocation
+ * fails or pipe creation fails.
  */
 static int	*generate_pipes(int n)
 {
@@ -85,11 +89,16 @@ static int	*generate_pipes(int n)
 /**
  * @brief Builds up all the commands ready for execution.
  * 
- * @param data Pointer to the data structure.
+ * Iterates through the token list and creates the required command structures.
+ * Processes each command sequentially, allocating memory for each command and
+ * retrieving necessary information. If allocation fails for any command, frees
+ * all previously allocated commands and returns NULL.
+ * 
+ * @param data Pointer to the main data structure.
  * @param t Token list starting at the current execution block.
  * @param n Number of commands to build.
  * 
- * @return Allocated array of command structures, NULL if allocation fails.
+ * @return Allocated array of commands, NULL if memory allocation fails.
  */
 static t_cmd	**get_commands(t_data *data, t_token *t, int n)
 {
@@ -112,13 +121,20 @@ static t_cmd	**get_commands(t_data *data, t_token *t, int n)
 }
 
 /**
- * @brief Builds a pipeline structure for the current
- * execution block.
+ * @brief Builds a pipeline structure for the current execution block.
  * 
- * @param data Pointer to the data structure.
+ * Creates and initializes a pipeline structure, which holds information about
+ * the pipeline, such as the number of commands, pipes, environment variables
+ * and command structures. Also duplicates the standard input and output file
+ * descriptors to allow restoration after execution. If any allocation fails
+ * during pipeline creation, frees everything previously allocated and returns
+ * NULL.
+ * 
+ * @param data Pointer to the main data structure.
  * @param t Token list starting at the current execution block.
  * 
- * @return Filled pipeline structure, NULL if allocation fails.
+ * @return Allocated and filled pipeline structure, NULL if memory allocation
+ * fails.
  */
 t_pipe	*get_pipeline(t_data *data, t_token *t)
 {

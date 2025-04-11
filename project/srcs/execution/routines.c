@@ -6,14 +6,20 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 19:58:29 by ego               #+#    #+#             */
-/*   Updated: 2025/04/08 17:41:20 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 04:52:23 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Sets up the pipes.
+ * @brief Sets up the pipes for the current command in the pipeline.
+ * 
+ * Determines the correct file descriptors for each command based on its
+ * position in the pipeline and uses `redirect_io` to perform the actual
+ * redirections.
+ * 
+ * @param pipe Pointer to the pipeline structure.
  */
 int	set_pipes(t_pipe *pipe, int i)
 {
@@ -26,13 +32,15 @@ int	set_pipes(t_pipe *pipe, int i)
 }
 
 /**
- * @brief Given a process' pid, waits for its termination
- * (whether it exited or was ended by signal) and returns
- * its exit code.
+ * @brief Waits for a process to terminate and retrieves its exit code.
  * 
- * @param pid Process' pid to be waited.
+ * Checks if the process was exited normally or was terminated by a signal and
+ * returns the corresponding exit code. `wpid == pid` is a safeguard to ensure
+ * the child process we just waited for actually is the one expected.
  * 
- * @return Process' exit code.
+ * @param pid PID of the child process to wait for.
+ * 
+ * @return Exit code of the process.
  */
 int	wait_and_get_exit_code(pid_t pid)
 {
@@ -50,17 +58,18 @@ int	wait_and_get_exit_code(pid_t pid)
 }
 
 /**
- * @brief Routine for a child process. First sets pipes, then closes
- * unused ends. After that, immediately returns 1 if there was an error
- * in redirections, immediately returns 0 if there actually is no command.
- * Then redirects standard input and/or output and tries and execute
- * the actual command.
+ * @brief Executes a child process routine.
  * 
- * @param data Pointer to the data structure.
- * @param cmd Child's command to execute.
- * @param i Child index.
+ * Sets up the pipes for the current command in the pipeline, closes unused
+ * ends of the pipes, handles input and output redirections, and then
+ * attempts to execute the command. Immediately returns 1 if a redirection
+ * failed, and returns 0 if there actually is no command.
  * 
- * @return Child's exit code, -2 if allocation fails.
+ * @param data Pointer to the main data structure.
+ * @param cmd Command to execute in the child process.
+ * @param i Index of the current command in the pipeline.
+ * 
+ * @return Exit code of the command, `M_ERR` if memory allocation fails.
  */
 int	child_routine(t_data *data, t_cmd *cmd, int i)
 {
@@ -83,13 +92,15 @@ int	child_routine(t_data *data, t_cmd *cmd, int i)
 }
 
 /**
- * @brief Waits for each child routine to end.
- * If an allocation fails, kills other children
- * and exits with exit code -2.
+ * @brief Waits for all child processes in the pipeline to finish and retrieves
+ * their exit codes.
  * 
- * @param data Pointer to the data structure.
+ * If an allocation fails in any child process, kills all remaining child
+ * processes and returns `M_ERR`.
  * 
- * @return Exit code of the last child, -2 if allocation fails.
+ * @param data Pointer to the main data structure.
+ * 
+ * @return Exit code of the last child process, `M_ERR` if allocation fails.
  */
 int	parent_routine(t_data *data)
 {

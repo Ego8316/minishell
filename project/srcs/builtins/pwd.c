@@ -6,20 +6,19 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:34 by ego               #+#    #+#             */
-/*   Updated: 2025/04/06 14:08:36 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 02:00:27 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Executes the pwd builtin: simply prints
- * the working directory.
+ * @brief Executes the `pwd` builtin: prints the current working directory.
  * 
- * @param data Pointer to the data structure.
- * @param argv Arguments.
+ * @param data Pointer to the main data structure.
+ * @param argv Arguments (should not be any).
  * 
- * @return Exit status.
+ * @return Exit status: 0 if the operation is successful (always).
  */
 int	pwd_builtin(t_data *data, char **argv)
 {

@@ -6,20 +6,24 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 15:12:00 by ego               #+#    #+#             */
-/*   Updated: 2025/04/10 18:40:18 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 04:53:47 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Simple switch to handle builtins.
+ * @brief Handles the execution of built-in commands.
  * 
- * @param data Pointer to the data structure.
- * @param argv Command's argv.
+ * Checks if the first argument matches a known builtin and executes it.
+ * Returns 127 if the command is not a builtin, and `M_ERR` on allocation
+ * failure (e.g. export).
  * 
- * @return Whatever the builtin returns, 127 if the command
- * is not a builtin, -2 if allocation fails (for export).
+ * @param data Pointer to the main data structure.
+ * @param argv Argument vector of the command.
+ * 
+ * @return Exit status of the builtin command, 127 if not a builtin, `M_ERR`
+ * if memory allocation fails.
  */
 int	execute_builtin(t_data *data, char **argv)
 {
@@ -41,15 +45,19 @@ int	execute_builtin(t_data *data, char **argv)
 }
 
 /**
- * @brief Executes a system binary if it can be found
- * in the PATH.
+ * @brief Executes a command using a system binary found in the PATH.
  * 
- * @param pipe Pointer to the pipe structure.
- * @param cmd Current command.
+ * Attempts to locate the binary for the command using PATH and executes it.
+ * Returns 127 if the command is not found or PATH is empty or unset, `M_ERR` on
+ * allocation failure or the result of `execve` if it fails.
  * 
- * @return 127 if pathname cannot be found (either command not found
- * or PATH not set or empty), -2 if allocation fails, whatever execve
- * returns if it fails.
+ * @warning This function should only be called in a child process.
+ * 
+ * @param pipe Pointer to the pipeline structure.
+ * @param cmd Command to be executed.
+ * 
+ * @return Exit code from `execve`, 127 if the command is not found, `M_ERR` if
+ * memory allocation fails.
  */
 int	execute_system_bin(t_pipe *pipe, t_cmd *cmd)
 {
@@ -64,12 +72,16 @@ int	execute_system_bin(t_pipe *pipe, t_cmd *cmd)
 }
 
 /**
- * @brief Tries and execute the command as is.
+ * @brief Executes a command using a local binary.
  * 
- * @param pipe Pointer to the pipe structure.
- * @param cmd Current command.
+ * Verifies that the command exists, is not a directory, and is executable,
+ * if so executes it using `execve`. If not, prints the appropriate error
+ * message.
  * 
- * @return
+ * @param pipe Pointer to the pipeline structure.
+ * @param cmd Command to be executed.
+ * 
+ * @return Exit code from `execve`, or approriate error code.
  */
 int	execute_local_bin(t_pipe *pipe, t_cmd *cmd)
 {
@@ -86,16 +98,17 @@ int	execute_local_bin(t_pipe *pipe, t_cmd *cmd)
 
 /**
  * @brief Executes a single command (not in a pipeline).
- * Builds a command structure for the current command
- * and exits the whole program if there is an allocation
- * error. Otherwise, actually executes the command with
- * redirections.
  * 
- * @param data Pointer to the data structure.
+ * Handles variable assignments, redirections, and determines whether to
+ * execute a builtin or binary (system or local).
+ * 
+ * @warning This function should not be called in a pipeline.
+ * 
+ * @param data Pointer to the main data structure.
  * @param t Token list starting at the command to execute.
- * @param cmd Single command to execute.
+ * @param cmd Command to execute.
  * 
- * @return Exit code of the command, -2 if allocation fails.
+ * @return Exit code of the command, `M_ERR` if allocation fails.
  */
 static int	execute_command(t_data *data, t_token *t, t_cmd *cmd)
 {
@@ -125,15 +138,16 @@ static int	execute_command(t_data *data, t_token *t, t_cmd *cmd)
 }
 
 /**
- * @brief Executes a pipeline.
- * Adds a pipeline structure to the data structure
- * for the current execution block.
+ * @brief Executes a pipeline of commands.
  * 
- * @param data Pointer to the data structure.
+ * Creates a pipeline structure and forks for each command in the pipeline.
+ * If only one command is present, it uses the simplified `execute_command`.
+ * 
+ * @param data Pointer to the main data structure.
  * @param t Token list starting at the current execution block.
  * 
- * @return 1 on failure (if a fork failed for instance), -2 if
- * allocation fails, exit code of the last child otherwise.
+ * @return 1 if fork fails, `M_ERR` if memory allocation fails, exit code of
+ * the last child otherwise.
  */
 int	execute_pipeline(t_data *data, t_token *t)
 {

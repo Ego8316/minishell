@@ -6,22 +6,23 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 20:45:35 by ego               #+#    #+#             */
-/*   Updated: 2025/04/10 19:08:23 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 04:42:13 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Allocates memory for a new var list node.
- * Takes as parameters the identifier, value and type.
- * Identifier validity has to be checked beforehand.
+ * @brief Allocates memory for a new variable list node. Given the identifier,
+ * value, and type, this function creates a new node.
  * 
- * @param identifier The identifier.
- * @param value The value.
- * @param type Var type.
+ * @warning The validity of the identifier must be checked beforehand.
  * 
- * @return The new allocated node, NULL if allocation fails.
+ * @param identifier Identifier of the variable.
+ * @param value Value associated with the variable.
+ * @param type Type of the variable (either `LOCAL`, `MARKED` or `ENV`).
+ * 
+ * @return Newly allocated node, NULL if allocation fails.
  */
 static t_var	*var_new_node(char *identifier, char *value, t_var_type type)
 {
@@ -46,14 +47,16 @@ static t_var	*var_new_node(char *identifier, char *value, t_var_type type)
 }
 
 /**
- * @brief Searches through the var list for a variable with
- * same identifier as provided.
+ * @brief Searches the variable list for a variable with the same identifier as
+ * provided.
  * 
- * @param vars Pointer to the beginning of the var list.
- * @param identifier Identifier.
+ * @warning The validity of the identifier must be checked beforehand.
  * 
- * @return Pointer to the variable if there is a match,
- * NULL otherwise.
+ * @param vars Pointer to the beginning of the variable list.
+ * @param identifier Identifier to search for.
+ * 
+ * @return Pointer to the variable with the matching identifier, NULL if no
+ * match is found.
  */
 t_var	*var_get(t_var **vars, char *identifier)
 {
@@ -72,14 +75,17 @@ t_var	*var_get(t_var **vars, char *identifier)
 }
 
 /**
- * @brief Searches through the var list for a variable with
- * same identifier as provided. Allocates memory and returns
- * its value (an empty string if ID not found).
+ * @brief Searches the variable list for a variable with the same identifier
+ * as provided. Allocates memory and returns a copy of the value of the
+ * variable, or a copy of the empty string if not found.
  * 
- * @param vars Pointer to the beginning of the var list.
- * @param identifier Variable's identifier.
+ * @warning The validity of the identifier must be checked beforehand.
  * 
- * @return Allocated copy of the value, NULL if allocation fails.
+ * @param vars Pointer to the beginning of the variable list.
+ * @param identifier Identifier of the variable to look for.
+ * 
+ * @return Allocated copy of the value, allocated copy of the empty string if
+ * the identifier is not found, NULL if allocation fails.
  */
 char	*var_get_value(t_var *vars, char *identifier)
 {
@@ -93,16 +99,16 @@ char	*var_get_value(t_var *vars, char *identifier)
 }
 
 /**
- * @brief Allocates memory for a new var list node and add
- * it at the end of the given list. Takes as a parameter an
- * identifier and its value. Identifier validity has to be
- * checked beforehand. One must also check if the var is not
- * already in the list beforehand.
+ * @brief Given an identifier, value and type, allocates memory for a new
+ * variable list node and adds it at the end of the provided variable list.
  * 
- * @param vars Pointer to the var list, in principle the first node.
- * @param identifier The identifier.
- * @param value The value.
- * @param type Var type.
+ * @warning The validity of the identifier must be checked beforehand, and
+ * the variable should not already be in the list.
+ * 
+ * @param vars Pointer to the variable list, in principle the first node.
+ * @param identifier Identifier of the variable.
+ * @param value Value associated with the variable.
+ * @param type Type of the variable (either `LOCAL`, `MARKED` or `ENV`).
  * 
  * @return 1 on success, 0 if allocation fails.
  */
@@ -127,15 +133,18 @@ int	var_add(t_var **vars, char *identifier, char *value, t_var_type type)
 }
 
 /**
- * @brief Sets an environment variable given an identifier and
- * a value. If the var is not found in the var list, does nothing.
- * If the var is found, changes its value to the new one.
+ * @brief Given an identifier and a value, sets a variable's value. If the
+ * variable is not found in the variable list, it is added as an environment
+ * variable (type `ENV`) with the provided value. If it is found, frees the
+ * previous value and updates it to the new one.
  * 
- * @param vars Pointer to the beginning of the var list.
- * @param identifier The identifier.
- * @param value The value.
+ * @warning The validity of the identifier must be checked beforehand.
  * 
- * @return 1 on success, 0 if allocation fails.
+ * @param vars Pointer to the beginning of the variable list.
+ * @param identifier Identifier of the variable.
+ * @param value New value to be set.
+ * 
+ * @return 1 if the operation is successful, 0 if memory allocation fails.
  */
 int	var_set(t_var **vars, char *identifier, char *value)
 {

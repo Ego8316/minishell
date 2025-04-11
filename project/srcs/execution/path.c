@@ -6,20 +6,23 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:36:09 by ego               #+#    #+#             */
-/*   Updated: 2025/04/08 13:32:35 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 04:20:44 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Gets the PATH environment variable and splits it to
- * get the different paths.
+ * @brief Gets the PATH variable and splits it to get the different paths.
  * 
- * @param data Pointer to the data structure.
+ * Looks up the PATH variable in the variable environment. If found, it splits
+ * the value into an array of individual paths using the colon as a delimiter.
+ * If PATH is unset, returns an allocated empty array.
  * 
- * @return Allocated array of paths, allocated empty
- * array if PATH is not set, NULL if allocation fails.
+ * @param data Pointer to the main data structure.
+ * 
+ * @return Allocated array of paths (or empty if PATH is unset), NULL if memory
+ * allocation fails.
  */
 char	**get_paths(t_data *data)
 {
@@ -32,15 +35,18 @@ char	**get_paths(t_data *data)
 }
 
 /**
- * @brief Gets the pathname for an extern command.
- * If none has been found, returns a duplicate of
- * the emptry string.
+ * @brief Gets the pathname for an external command.
  * 
- * @param name Command name.
- * @param paths Paths to be searched.
+ * Takes a command name and searches through the directories listed in the PATH
+ * variable to locate the command's full pathname. If the command is found in
+ * one of the directories, the full pathname is returned. If no match is found,
+ * a duplicate of the empty string is returned.
  * 
- * @return Allocated pathname if found, allocated copy 
- * of the empty string if not, NULL if allocation fails.
+ * @param name Command name to search for in PATH.
+ * @param paths Array of directories to search.
+ * 
+ * @return Allocated pathname if found, allocated copy of the empty string if
+ * not, NULL if allocation fails.
  */
 char	*get_pathname(char *name, char **paths)
 {

@@ -6,27 +6,29 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:00 by ego               #+#    #+#             */
-/*   Updated: 2025/04/06 14:04:33 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 01:19:54 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Checks whether an argument is the option -n.
- * Takes into account cases like -nnnnn that works in bash.
+ * @brief Checks if an argument corresponds to the `-n` option.
+ * 
+ * This function considers cases like `-nnnn`, which are supported in bash.
+ * The argument is considered a valid `-n` option only when it consists
+ * entirely of 'n' characters after the initial '-'.
  * 
  * @param arg Argument to be checked.
  * 
- * @return True if the argument corresponds to the option -n,
- * false otherwise.
+ * @return 1 if the argument is a valid `-n` option, 0 otherwise.
  */
-static t_bool	is_n_option(char *arg)
+static int	is_n_option(char *arg)
 {
 	int		i;
 
 	if (!arg || arg[0] != '-')
-		return (FALSE);
+		return (0);
 	i = 1;
 	while (arg[i] == 'n')
 		i++;
@@ -34,21 +36,26 @@ static t_bool	is_n_option(char *arg)
 }
 
 /**
- * @brief Executes the echo builtin: prints all the given
- * strings and displays a newline depending on the -n option.
+ * @brief Executes the `echo` builtin command, printing the provided strings
+ * to standard output, and optionally suppressing the trailing newline if the
+ * `-n` is present.
  * 
- * @param argv Option and arguments.
+ * All arguments are printed with a space between them. The function then
+ * prints a newline.The function checks if the first argument is a `-n` option,
+ * and if so suppresses the newline at the end of the output. 
  * 
- * @return 0 for success.
+ * @param argv Array of strings, where the first argument may be a `-n` option.
+ * 
+ * @return Exit status: 0 if the operation is successful (always).
  */
 int	echo_builtin(char **argv)
 {
-	t_bool	nl;
+	int	nl;
 
-	nl = TRUE;
+	nl = 1;
 	while (*argv && is_n_option(*argv))
 	{
-		nl = FALSE;
+		nl = 0;
 		argv++;
 	}
 	while (*argv)

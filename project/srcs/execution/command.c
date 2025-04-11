@@ -6,19 +6,21 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:47:46 by ego               #+#    #+#             */
-/*   Updated: 2025/04/09 13:59:37 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 04:41:00 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Counts the number of arguments for
- * the given command.
+ * @brief Counts the number of arguments for the given command in the token
+ * list. The function checks the token list and counts the tokens of type
+ * `TEXT` as arguments. It skips redirectons and stops when encountering a
+ * pipe or operator token.
  * 
  * @param t Token list.
  * 
- * @return Argument count.
+ * @return Number of arguments.
  */
 int	get_argc(t_token *t)
 {
@@ -37,13 +39,13 @@ int	get_argc(t_token *t)
 }
 
 /**
- * @brief Allocates memory for an array of strings
- * and duplicates each argument into that array.
+ * @brief Allocates memory for an array of strings and duplicates each argument
+ * into that array. This function uses the token list to extract arguments of
+ * type `TEXT`, duplicates them into a new array of strings, and returns it.
  * 
  * @param tokens Token list.
  * 
- * @return Allocated array of strings, NULL if
- * allocation fails.
+ * @return Allocated array of strings, NULL if allocation fails.
  */
 char	**get_argv(t_token *t)
 {
@@ -72,13 +74,17 @@ char	**get_argv(t_token *t)
 }
 
 /**
- * @brief Gets the command redirections and stops at the first that fails.
+ * @brief Parses the redirections of a command from the token list and
+ * processes them. It handles both input and output redirections and stops
+ * processing when a redirection fails. Redirections are processed from
+ * left to right, like bash.
  * 
  * @param cmd Current command structure.
  * @param t Token list.
- * @param data Pointer to the data structure.
+ * @param data Pointer to the main data structure (used by heredoc).
  * 
- * @return 1 on success, 0 if a redirection fails and -2 if allocation fails.
+ * @return 1 if redirections succeed, 0 if a redirection fails, `M_ERR` if
+ * memory allocation fails.
  */
 static int	get_command_redirections(t_cmd *cmd, t_token *t, t_data *data)
 {
@@ -106,14 +112,15 @@ static int	get_command_redirections(t_cmd *cmd, t_token *t, t_data *data)
 }
 
 /**
- * @brief Allocates memory for a command structure
- * and parses the token list to fill it.
+ * @brief Allocates memory for a command structure and parses the token list
+ * to fill it. This function processes the token list, handles redirections,
+ * and extracts arguments to build a command structure `t_cmd`, including the
+ * name and arguments of the command.
  * 
- * @param data Pointer to the data structure.
+ * @param data Pointer to the main data structure.
  * @param t Token list.
  * 
- * @param Allocated filled command structure, NULL
- * if allocation fails.
+ * @param Allocated filled command structure, NULL if memory allocation fails.
  */
 t_cmd	*get_command(t_data *data, t_token *t)
 {

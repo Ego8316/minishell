@@ -6,15 +6,15 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:20 by ego               #+#    #+#             */
-/*   Updated: 2025/04/06 14:06:50 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 01:30:06 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Checks if the argument is numeric. Skips the
- * leading spaces and a possible sign.
+ * @brief Checks if the argument is numeric after skipping leading spaces and an
+ * optional sign ('+' or '-').
  * 
  * @param arg Argument to be checked.
  * 
@@ -40,12 +40,16 @@ static int	is_numeric(char *arg)
 }
 
 /**
- * @brief Executes the exit builtin
+ * @brief Executes the exit builtin command. Handles error cases like invalid
+ * arguments (non-numeric input) or too many arguments. Prints an error message
+ * and exits if necessary.
  * 
- * @param data Pointer to the data structure.
- * @param args Arguments.
+ * @param data Pointer to the main data structure.
+ * @param args Arguments. The first argument is expected to be a numeric string
+ * representing the exit code.
  * 
- * @return 0 for success.
+ * @return Exit status: 0 for success, 1 if there are too many arguments are
+ * provided, 2 if the first argument is non-numeric.
  */
 int	exit_builtin(t_data *data, char **argv)
 {

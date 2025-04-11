@@ -6,14 +6,16 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 23:39:44 by ego               #+#    #+#             */
-/*   Updated: 2025/04/08 18:16:57 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 04:45:41 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Close all pipe file descriptors.
+ * @brief Closes all pipe file descriptors in the pipeline.
+ * 
+ * Iterates through the pipe file descriptors and closes each one.
  * 
  * @param pipe Pointer to the pipeline structure.
  */
@@ -27,16 +29,18 @@ void	close_pipes(t_pipe *pipe)
 }
 
 /**
- * @brief Opens infile. If heredoc is present, infile actually
- * is the limiter. In that case, creates a temporary file and
- * calls get_heredoc to fill the file just like a regular one.
+ * @brief Opens an input file or handles a heredoc.
  * 
- * @param infile Name of the input file, or the limiter.
- * @param type Token type (either < or <<).
- * @param data Pointer to the data structure (for heredoc).
+ * If the redirection type is '<', opens the given file for reading.
+ * If it is '<<', treats `infile` as a limiter and generates a temporary
+ * heredoc file using the limiter, then opens it for reading.
  * 
- * @return File descriptor on success, -1 on failure and -2
- * if allocation fails.
+ * @param infile Input file name or heredoc limiter.
+ * @param type Type of input redirection (`REDIRING` or `INDELI`).
+ * @param data Pointer to the main data structure (used by heredoc).
+ * 
+ * @return File descriptor on success, -1 on failure, `M_ERR` if
+ * memory allocation fails.
  */
 int	get_infile(char *infile, t_token_type type, t_cmd *cmd, t_data *data)
 {
@@ -48,7 +52,7 @@ int	get_infile(char *infile, t_token_type type, t_cmd *cmd, t_data *data)
 	{
 		cmd->heredoc_name = get_heredoc_name();
 		if (!cmd->heredoc_name)
-			return (-2);
+			return (M_ERR);
 		fd = open(cmd->heredoc_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (!get_heredoc(infile, fd, data))
 		{
@@ -61,11 +65,14 @@ int	get_infile(char *infile, t_token_type type, t_cmd *cmd, t_data *data)
 }
 
 /**
- * @brief Opens the outfile either in truncation or appending mode depending
- * on the given token type and returns the file descriptor.
+ * @brief Opens an output file in either truncation or append mode.
  * 
- * @param outfile Path to the output file.
- * @param type Token type (either > or >>).
+ * Opens the given file according to the redirection type:
+ * @brief - '>' (`REDIROUT`) truncates the file.
+ * @brief - '>>' (`OUTAPPEND`) appends to the file.
+ * 
+ * @param outfile Output file name.
+ * @param type Type of output redirection (`REDIROUT` or `OUTAPPEND`).
  * 
  * @return File descriptor on success, -1 on failure.
  */
@@ -78,11 +85,13 @@ int	get_outfile(char *outfile, t_token_type type)
 }
 
 /**
- * @brief Chekcs if the pathname given is a directory.
+ * @brief Checks if the given pathname points to a directory.
+ * 
+ * Uses `stat` to determine whether the given path is a directory.
  * 
  * @param pathname Pathname to be checked.
  * 
- * @return 1 if the pathname is a directory, 0 otherwise.
+ * @return 1 if it is a directory, 0 otherwise.
  */
 int	is_dir(char *pathname)
 {

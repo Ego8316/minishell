@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:20:03 by ego               #+#    #+#             */
-/*   Updated: 2025/04/09 13:40:52 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 04:40:32 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,14 @@
 /**
  * @brief Redirects standard input and/or output.
  * 
+ * Uses `dup2` to redirect standard input and/or standard output to the given
+ * file descriptors. If either one of them is -1 (meaning not set), the
+ * respective standard file descriptor is not redirected.
+ * 
  * @param fd_in Input file descriptor to be used as new STDIN.
  * @param fd_out Output file descriptor to be used as new STDOUT.
  * 
- * @return 1 on success, 0 if dup2 fails.
+ * @return 1 on success, 0 if `dup2` fails.
  */
 int	redirect_io(int fd_in, int fd_out)
 {
@@ -30,8 +34,8 @@ int	redirect_io(int fd_in, int fd_out)
 }
 
 /**
- * @brief Restores the standard input and output to the
- * standard input and output backups.
+ * @brief Restores the standard input and output to the standard input and
+ * output backups using `dup2`.
  * 
  * @param pipe Pointer to the pipeline structure.
  */
@@ -42,16 +46,18 @@ void	restore_standard_io(t_pipe *pipe)
 }
 
 /**
- * @brief Goes through the token list the get all the input redirections.
- * When encountering a new redirection, closes the previously opened one
- * if needed. If previous one was a heredoc, deletes the corresponding
- * temporary file and frees the heredoc_name string.
+ * @brief Processes an input redirection token.
+ * 
+ * Closes previously opened input file descriptor if opened. If previous one
+ * is a heredoc, removes the corresponding temporary file and frees the
+ * `heredoc_name` string as well. If `open` fails, prints the appropriate
+ * error message.
  * 
  * @param cmd Current command being parsed.
  * @param t Token list.
- * @param data Pointer to the data structure (for heredoc).
+ * @param data Pointer to the main data structure (for heredoc).
  * 
- * @return 1 on success, 0 on failure, -2 if allocation fails.
+ * @return 1 on success, 0 on failure, `M_ERR` if allocation fails.
  */
 int	get_input_redirection(t_cmd *cmd, t_token *t, t_data *data)
 {
@@ -75,9 +81,10 @@ int	get_input_redirection(t_cmd *cmd, t_token *t, t_data *data)
 }
 
 /**
- * @brief Goes through the token list the get all the output redirections.
- * When encountering a new redirection, closes the previously opened one
- * if needed.
+ * @brief Processes an output redirection token.
+ * 
+ * Closes previously opened output file descriptor if opened. If `open` fails,
+ * prints the appropriate error message.
  * 
  * @param cmd Current command being parsed.
  * @param t Output redirection token.

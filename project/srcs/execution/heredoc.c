@@ -6,21 +6,23 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 00:01:59 by ego               #+#    #+#             */
-/*   Updated: 2025/04/09 12:55:25 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 04:40:44 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Prints a bash warning similar to that of bash
- * when end-of-file is reached before finding the limiter
- * when filling a here-document.
+ * @brief Prints a warning when heredoc is terminated by EOF rather than the
+ * actual limiter.
  * 
- * @param limiter Here-doc limiter.
- * @param data Pointer to the data structure.
+ * Mimics the warning behavior of Bash when the user unexpectedly ends a
+ * heredoc with Ctrl-D without providing the limiter.
  * 
- * @return 1.
+ * @param limiter Expected limiter for the heredoc.
+ * @param data Pointer to the main data structure.
+ * 
+ * @return Always returns 1 for convenience.
  */
 static int	put_heredoc_warning(const char *limiter, t_data *data)
 {
@@ -33,9 +35,13 @@ static int	put_heredoc_warning(const char *limiter, t_data *data)
 }
 
 /**
- * @brief Generates a unique name for a heredoc.
+ * @brief Generates a unique filename for a temporary heredoc file.
  * 
- * @return The new allocated heredoc name, NULL if allocation fails.
+ * The name is formed by appending a number to the fixed `TMP` prefix. It
+ * increments a static counter with each call to ensure uniqueness.
+ * 
+ * @return Newly allocated string containing the unique filename, NULL if
+ * memory allocation fails.
  */
 char	*get_heredoc_name(void)
 {
@@ -53,16 +59,19 @@ char	*get_heredoc_name(void)
 }
 
 /**
- * @brief Gets the length of the variable identifier,
- * temporarily NULL-terminates the line to search for
- * a variable with this identifier and writes its value
- * if found.
+ * @brief Expand a variable found in a heredoc line and write its value to the
+ * temporary file.
+ * 
+ * Handles both regular variables and '?'. Temporarily null-terminates the
+ * string to isolate the variable identifier, retrieves its value for
+ * the variable list and writes it to the heredoc temporary file if found.
+ * The string is then restored to its original state.
  * 
  * @param line Line starting right after the $ sign.
  * @param fd File descriptor of the temporary file.
- * @param data Pointer to the data structure.
+ * @param data Pointer to the main data structure.
  * 
- * @return The length of the identifier.
+ * @return Number of characters processed as the variable identifier.
  */
 int	write_var_to_heredoc(char *line, int fd, t_data *data)
 {
@@ -76,7 +85,8 @@ int	write_var_to_heredoc(char *line, int fd, t_data *data)
 		ft_putnbr_fd(g_last_exit_code, fd);
 		return (1);
 	}
-	while (line[i] && line[i] != ' ' && line[i] != '$')
+	while ((ft_isalnum(line[i]) || line[i] == '_')
+		&& line[i] != ' ' && line[i] != '$')
 		i++;
 	tmp = line[i];
 	line[i] = 0;
@@ -88,13 +98,13 @@ int	write_var_to_heredoc(char *line, int fd, t_data *data)
 }
 
 /**
- * @brief Writes the given liven to the given file descriptor.
- * When encountering a $, expands the variable and writes its
- * value if and not empty, otherwise writes nothing.
+ * @brief Writes the given line into the heredoc file, expanding variables.
  * 
- * @param line Complete line to be expanded and written.
- * @param fd File descriptor of the temporary file.
- * @param data Pointer to the data structure.
+ * Parses the line, replacing variables with their values.
+ * 
+ * @param line Line to be written with variable expansion.
+ * @param fd File descriptor of the heredoc temporary file.
+ * @param data Pointer to the main data structure.
  */
 void	write_line_to_heredoc(char *line, int fd, t_data *data)
 {
@@ -113,24 +123,21 @@ void	write_line_to_heredoc(char *line, int fd, t_data *data)
 			i += write_var_to_heredoc(line + i + 1, fd, data) + 1;
 			j = i;
 		}
-		if (line[i] == '\\' && (line[i + 1] == '\\' || line[i + 1] == '$'))
-		{
-			ft_memmove(line + i, line + i + 1, len - i - 1);
-			line[len - 1] = 0;
-			len--;
-		}
 		i++;
 	}
 	ft_putendl_fd(line + j, fd);
 }
 
 /**
- * @brief Copies user input to a temporary file until finding limiter.
- * Expands variables as well.
+ * @brief Read user input lines into a heredoc until the limiter is reached.
  * 
- * @param limiter Limiter.
- * @param fd File descriptor of the temporary file.
- * @param data Pointer to the data structure.
+ * Prompts the user line-by-line, expands variables within each line, and
+ * writes to a temporary file. Stops when the exact limiter string is entered,
+ * or when the user uses Ctrl-D.
+ * 
+ * @param limiter String that ends heredoc input.
+ * @param fd File descriptor of the heredoc temporary file.
+ * @param data Pointer to the main data structure.
  * 
  * @return 1 on success, 0 on failure.
  */
@@ -138,6 +145,7 @@ int	get_heredoc(char *limiter, int fd, t_data *data)
 {
 	char	*line;
 
+	// REMEMBER to handle signals here. exit code should be 130 when heredoc is Ctrl-C
 	while (1)
 	{
 		line = readline("> ");

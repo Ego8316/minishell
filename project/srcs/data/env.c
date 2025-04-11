@@ -6,18 +6,18 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:22:07 by ego               #+#    #+#             */
-/*   Updated: 2025/03/14 16:45:42 by ego              ###   ########.fr       */
+/*   Updated: 2025/04/11 02:18:53 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Computes the number of environment variables.
+ * @brief Computes the number of environment variables in the variable list.
  * 
- * @param vars Var list.
+ * @param vars Variable list.
  * 
- * @return The number of elements in the list with type ENV.
+ * @return The number of environment variables (elements with type `ENV`).
  */
 static int	get_env_size(t_var *vars)
 {
@@ -36,11 +36,13 @@ static int	get_env_size(t_var *vars)
 }
 
 /**
- * @brief Copies the environment variables from the var list.
+ * @brief Copies the environment variables from the variable list into a new
+ * array.
  * 
- * @param envp Var list to be copied.
+ * @param vars Variable list to copy the environment variables from.
  * 
- * @return The allocated copy, NULL if allocation fails.
+ * @return A newly allocated array of environment variable strings in the
+ * format `VAR=value`, NULL if memory allocation fails.
  */
 char	**copy_envp(t_var *vars)
 {
