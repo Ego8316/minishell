@@ -3,4 +3,5 @@
 project/minishell
 .vscode
 test.c
-a.out
+heredoc_copy.c
+*.out
