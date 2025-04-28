@@ -12,16 +12,7 @@
 
 #include "minishell.h"
 
-/*
-typedef struct s_token
-{
-	t_token_type	type;
-	char			*str;
-	struct s_token	nxt;
-}					t_token;
-*/
-
-t_bool	token_make(t_token_type type, char *str, int depth, t_token **out)
+t_bool	token_make(t_token_type type, char *str, int depth, int *wc, t_token **out)
 {
 	*out = malloc(sizeof(t_token));
 	if (!*out)
@@ -34,6 +25,7 @@ t_bool	token_make(t_token_type type, char *str, int depth, t_token **out)
 	(*out)->str = str;
 	(*out)->depth = depth;
 	(*out)->nxt = 0;
+	(*out)->wildcards = wc;
 	return (TRUE);
 }
 
@@ -45,18 +37,22 @@ t_bool	token_free_list(t_token **list)
 	while (token)
 	{
 		*list = token->nxt;
+		if (token->str)
+			free(token->str);
+		if (token->wildcards)
+			free(token->wildcards);
 		free(token);
 		token = *list;
 	}
 	return (FALSE);
 }
 
-t_bool	token_add_last(t_token_type type, char *str, int depth, t_token **list)
+t_bool	token_add_last(t_token_type type, char *str, int depth, int *wc, t_token **list)
 {
 	t_token	*new;
 	t_token	*loop;
 
-	if (!token_make(type, str, depth, &new))
+	if (!token_make(type, str, depth, wc, &new))
 		return (token_free_list(list));
 	if (!*list)
 	{

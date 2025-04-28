@@ -85,6 +85,7 @@ typedef struct s_token
 	t_token_type	type;
 	char			*str;
 	int				depth;
+	int				*wildcards;
 	struct s_token	*nxt;
 }					t_token;
 
@@ -149,9 +150,9 @@ void	run_cmd_from_user(t_data *d);
 
 t_bool	try_parse_command(char *cmd, t_data *d);
 
-t_bool	token_make(t_token_type type, char *str, int depth, t_token **out);
+t_bool	token_make(t_token_type type, char *str, int depth, int *wc, t_token **out);
 t_bool	token_free_list(t_token **list);
-t_bool	token_add_last(t_token_type type, char *str, int depth, t_token **list);
+t_bool	token_add_last(t_token_type type, char *str, int depth, int *wc, t_token **list);
 
 //Internal parsing (private)
 
@@ -162,7 +163,8 @@ t_bool	parse_text(t_parse_data *data);
 t_bool	parse_loop(t_parse_data *data);
 t_bool	is_char_oper(char c);
 t_bool	syntax_error(t_parse_data *data, int i);
-char	*substitute_vars(char *str, t_var *vars);
+char	*substitute_stuff(char *str, t_var *vars, int **wcs, int wcs_off);
+t_bool	record_wildcards(char *str, int **wcs, int offset);
 
 // Signals
 

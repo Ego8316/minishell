@@ -71,7 +71,7 @@ t_bool	isnescp(char *str, int i, char c)
 	return (str[i] == c && (c != '\"' || i < 1 || str[i - 1] != '\\'));
 }
 
-char	*substitute_vars(char *str, t_var *vars)
+char	*substitute_stuff(char *str, t_var *vars, int **wcs, int wcs_off)
 {
 	int	i;
 
@@ -82,5 +82,7 @@ char	*substitute_vars(char *str, t_var *vars)
 			free(str);
 			return (0);
 		}
+	if (wcs_off >= 0 && !record_wildcards(str, wcs, wcs_off))
+		return (0);
 	return (str);
 }

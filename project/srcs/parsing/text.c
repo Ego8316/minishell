@@ -65,11 +65,11 @@ static char	*parse_quote(t_parse_data *data, char q)
 			return (0);
 	}
 	if (q == '\"')
-		return (substitute_vars(text, data->vars));
+		return (substitute_stuff(text, data->vars, 0, -1));
 	return (text);
 }
 
-static char	*parse_word(t_parse_data *data)
+static char	*parse_word(t_parse_data *data, int **wcs, int wcs_off)
 {
 	char	*text;
 	char	c;
@@ -88,14 +88,16 @@ static char	*parse_word(t_parse_data *data)
 	}
 	data->i--;
 	//printf("ending word parse with '%s'\n", text);
-	return (substitute_vars(text, data->vars));
+	return (substitute_stuff(text, data->vars, wcs, wcs_off));
 }
 
 t_bool	parse_text(t_parse_data *data)
 {
 	char	*text;
 	char	c;
+	int		*wcs;
 
+	wcs = 0;
 	data->expect_cmd = FALSE;
 	text = 0;
 	c = data->cmd[data->i];
@@ -104,12 +106,12 @@ t_bool	parse_text(t_parse_data *data)
 		if (isnescp(data->cmd, data->i, '\'') || isnescp(data->cmd, data->i, '\"'))
 			text = str_join_free(text, parse_quote(data, c));
 		else
-			text = str_join_free(text, parse_word(data));
+			text = str_join_free(text, parse_word(data, &wcs, ft_strlen_null(text)));
 		if (!text)
 			return (FALSE);
 		c = data->cmd[data->i];
 	}
-	return (token_add_last(TEXT, text, data->depth, &data->tokens));
+	return (token_add_last(TEXT, text, data->depth, wcs, &data->tokens));
 }
 /*
 typedef struct s_parse_data

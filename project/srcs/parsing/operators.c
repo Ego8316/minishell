@@ -15,35 +15,35 @@
 t_bool	parse_greater_symbol(t_parse_data *data)
 {
 	if (data->cmd[data->i] != '>')
-		return (token_add_last(REDIROUT, 0, data->depth, &data->tokens));
+		return (token_add_last(REDIROUT, 0, data->depth, 0, &data->tokens));
 	data->i++;
-	return (token_add_last(OUTAPPEND, 0, data->depth, &data->tokens));
+	return (token_add_last(OUTAPPEND, 0, data->depth, 0, &data->tokens));
 }
 
 t_bool	parse_lesser_symbol(t_parse_data *data)
 {
 
 	if (data->cmd[data->i] != '<')
-		return (token_add_last(REDIRIN, 0, data->depth, &data->tokens));
+		return (token_add_last(REDIRIN, 0, data->depth, 0, &data->tokens));
 	data->i++;
-	return (token_add_last(INDELI, 0, data->depth, &data->tokens));
+	return (token_add_last(INDELI, 0, data->depth, 0, &data->tokens));
 }
 
 t_bool	parse_and_symbol(t_parse_data *data)
 {
 
 	if (data->cmd[data->i] != '&')
-		return (token_add_last(BGEXEC, 0, data->depth, &data->tokens));
+		return (token_add_last(BGEXEC, 0, data->depth, 0, &data->tokens));
 	data->i++;
-	return (token_add_last(ANDOPER, 0, data->depth, &data->tokens));
+	return (token_add_last(ANDOPER, 0, data->depth, 0, &data->tokens));
 }
 
 t_bool	parse_pipe_symbol(t_parse_data *data)
 {
 	if (data->cmd[data->i] != '|')
-		return (token_add_last(PIPE, 0, data->depth, &data->tokens));
+		return (token_add_last(PIPE, 0, data->depth, 0, &data->tokens));
 	data->i++;
-	return (token_add_last(OROPER, 0, data->depth, &data->tokens));
+	return (token_add_last(OROPER, 0, data->depth, 0, &data->tokens));
 }
 
 t_bool	parse_operator(t_parse_data *data)

@@ -26,6 +26,7 @@ SRC_FILES += parsing/parser.c	\
 			 parsing/variables.c\
 			 parsing/brackets.c	\
 			 parsing/utils.c	\
+			 parsing/wildcards2.c	\
 			 parsing/token.c	
 SRC_FILES += builtins/cd.c		\
 			 builtins/echo.c	\
