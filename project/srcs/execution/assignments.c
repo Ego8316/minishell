@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 15:00:58 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 03:18:47 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/01 23:42:04 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int	is_valid_identifier(char *arg)
 }
 
 /**
- * @brief Checks if the given string is an assignment, i.e. is of the form.
- * An assignment starts with a valid identifier followed by a '='.
+ * @brief Checks if the given string is an assignment. An assignment starts
+ * with a valid identifier followed by a '='.
  * 
  * @param arg The string to be checked.
  * 
