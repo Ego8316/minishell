@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:54:42 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/10 18:05:52 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/01 20:01:55 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ t_bool	try_parse_command(char *cmd, t_data *d)
 	add_history(data.cmd);
 	free(data.cmd);
 	d->tokens = data.tokens;
+	if (!expand_wildcards(&d->tokens))
+		return (FALSE);
 	return (TRUE);
 }
 
