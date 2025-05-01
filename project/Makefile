@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/04/09 15:32:48 by ego              ###   ########.fr        #
+#    Updated: 2025/04/29 14:03:44 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SRC_FILES += parsing/parser.c	\
 			 parsing/variables.c\
 			 parsing/brackets.c	\
 			 parsing/utils.c	\
-			 parsing/wildcards2.c	\
+			 parsing/wildcards.c	\
 			 parsing/token.c	
 SRC_FILES += builtins/cd.c		\
 			 builtins/echo.c	\

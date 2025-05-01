@@ -6,136 +6,152 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 00:46:56 by ego               #+#    #+#             */
-/*   Updated: 2025/04/28 17:17:19 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/01 19:58:41 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief Matches a filename or string against a simplified pattern, supporting
- * only the '*' wildcard. Escaped wildcards (i.e. literal asteriks) are handled
- * via an array of valid wildcard positions obtained during lexicalization.
- * 
- * @note Only '*' wildcards are supported.
- * 
- * @param pattern Pattern to match.
- * @param name The string to match against the pattern.
- * @param i Current position in the pattern (to check against escaped '*').
- * @param arr Array of wildcard positions that are NOT escaped. This array is
- * expected to be terminated with -1.
- * 
- * @return 0 if the name matches the pattern, 1 otherwise.
- * 
- */
-static int	ft_fnmatch(const char *pattern, const char *name, int i, int *arr)
+static t_bool	record_wildcard(int i, int **wcs)
 {
-	if (!*pattern)
-		return (*name != '\0');
-	if (*pattern == *name)
-		return (ft_fnmatch(pattern + 1, name + 1, i + 1, arr));
-	if (*pattern == '*' && !is_escaped_wildcard(i, arr))
+	int	*new;
+	int	len;
+
+	len = 0;
+	while (*wcs && (*wcs)[len] != -1)
+		len++;
+	new = malloc((len + 2) * sizeof(int));
+	if (!new)
 	{
-		if (ft_fnmatch(pattern + 1, name, i + 1, arr) == 0)
-			return (0);
-		if (*name && ft_fnmatch(pattern, name + 1, i, arr) == 0)
-			return (0);
-		return (1);
+		if (*wcs)
+			free(*wcs);
+		return (FALSE);
 	}
-	return (1);
+	new[len + 1] = -1;
+	new[len] = i;
+	while (len-- > 0)
+		new[len] = (*wcs)[len];
+	if (*wcs)
+		free(*wcs);
+	*wcs = new;
+	return (TRUE);
+}
+
+t_bool	record_wildcards(char *str, int **wcs, int offset)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '*' && !record_wildcard(i + offset, wcs))
+		{
+			free(str);
+			if (*wcs != 0)
+				free(*wcs);
+			return (FALSE);
+		}
+		i++;
+	}
+	return (TRUE);
 }
 
 /**
- * @brief Given a path to a directory and a pattern,
+ * @brief Buils up a token list made of all found matches.
+ * If no match has been found, give only a copy of the given token node.
  * 
+ * @param t Token list.
+ * 
+ * @return The matches list, NULL if allocation fails.
  */
-char	**get_matches(char *dirpath, const char *pattern)
+t_token *get_matches(t_token *t)
 {
-	int				size;
 	DIR				*dir;
 	struct dirent	*entry;
-	struct dirent	*tmp;
-	char			*matches;
+	t_token			*matches;
+	t_token			*head;
 
-	dir = opendir(dirpath);
-	if (!dir)
+	matches = token_new_str(t->str, t->depth);
+	if (!matches)
 		return (NULL);
-	entry = readdir(dir);
-	tmp = entry;
-	close(dir);
-	return (matches);
-}
-
-/**
- * @brief Given a path to a directory and a pattern,
- * counts the number of matches.
- * 
- * @param dirpath Path to the directory to be searched.
- * @param pattern Pattern to be compared against.
- * 
- * @return Number of matches, -1 if an error occured.
- */
-int	count_matches(char *dirpath, const char **pattern)
-{
-	int				count;
-	DIR				*dir;
-	struct dirent	*entry;
-
-	count = 0;
-	dir = opendir(dirpath);
-	if (!dir)
-		return (errmsg("minishell: opendir: ", strerror(dirpath), "\n", -1));
+	head = matches;
+	dir = opendir(".");
 	entry = readdir(dir);
 	while (entry)
 	{
-		if (fnmatch(entry->d_name, pattern, 0) == 0)
-			count++;
+		if (ft_fnmatch(t->str, entry->d_name, 0, t->wildcards) == 0
+			&& !(entry->d_name[0] == '.' && t->str[0] != '.'))
+		{
+			matches->nxt = token_new_str(entry->d_name, t->depth);
+			if (!matches->nxt)
+				return (closedir(dir), (t_token *)token_free_list(&head));
+			matches = matches->nxt;
+		}
 		entry = readdir(dir);
 	}
 	closedir(dir);
-	return (0);
+	return (head);
 }
 
 /**
- * @brief Checks if a string has a wildcard. For minishell,
- * we also check if there is no '/' in the string, as the
- * subject requires wildcards working only in the current
- * working directory.
+ * @brief Inserts the matched files in the token list.
  * 
- * @param s String to be checked.
+ * Cleans and sorts the matches filenames token list, frees the original
+ * wildcard token, and updates the links in the token list accordingly.
  * 
- * @return 1 if the string has a wildcard and no '/', 0 otherwise.
+ * @param head Pointer to the head of the token list.
+ * @param prev Pointer to the token preceding the current token.
+ * @param m Pointer to the matches token list (wildcard expansion result).
+ * @param t Pointer to the current token being replaced.
+ * 
+ * @return Pointer to the last token in the inserted matches list.
  */
-int	has_wildcard(char *s)
+t_token	*add_matches(t_token **head, t_token **prev, t_token **m, t_token **t)
 {
-	int	i;
-	int	wd;
+	t_token	*tail;
 
-	i = 0;
-	wd = 0;
-	while (s[i])
-	{
-		if (s[i] == '*')
-			wd = 1;
-		if (s[i] == '/')
-			return (0);
-		i++;
-	}
-	return (wd);
+	tail = clean_matches(m);
+	if (*prev)
+		(*prev)->nxt = *m;
+	else
+		*head = *m;
+	tail->nxt = (*t)->nxt;
+	token_free_node(t);
+	return (tail);
 }
 
-void	expand_wildcards(t_token *t)
+/**
+ * @brief Expands wildcard tokens within the token list.
+ * 
+ * Goes through the token list and expands tokens containing a wildcard and
+ * no '/' by replacing them with the list of matching filenames in the current
+ * directory. Matches are sorted lexicographically. Original wildcard tokens
+ * are replaced and freed. Updates the head if needed.
+ * 
+ * @param head Pointer to the head of the token list (may be modified).
+ * 
+ * @return TRUE on success, FALSE if memory allocation fails.
+ */
+t_bool	expand_wildcards(t_token **head)
 {
-	DIR				*dir;
-	struct dirent	*entry;
-	t_token			*nxt;
+	t_token	*matches;
+	t_token	*prev;
+	t_token	*t;
 
+	prev = 0;
+	t = *head;
 	while (t)
 	{
-		if (t->type == TEXT && ft_char_in_str('*', t->str) != -1 && ft_char_in_str('/', t->str) == -1)
+		if (t->type == TEXT && !ft_strchr(t->str, '/')
+			&& ft_strchr(t->str, '*'))
 		{
-			nxt = t->nxt;
+			matches = get_matches(t);
+			if (!matches)
+				return (FALSE);
+			t = add_matches(head, &prev, &matches, &t);
 		}
+		prev = t;
 		t = t->nxt;
 	}
+	return (TRUE);
 }

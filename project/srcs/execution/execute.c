@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 15:12:00 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 04:53:47 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/01 19:29:19 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ int	execute_builtin(t_data *data, char **argv)
 		return (pwd_builtin(data, argv + 1));
 	if (!ft_strcmp(*argv, "unset"))
 		return (unset_builtin(data, argv + 1));
+	if (!ft_strcmp(*argv, ".") || !ft_strcmp(*argv, "source"))
+		return (errmsg("minishell: '.' (source) built-in not supported\n",
+				0, 0, 1));
 	return (CMD_NOT_FOUND);
 }
 

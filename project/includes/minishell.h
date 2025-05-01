@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/11 03:14:48 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/01 19:15:08 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,9 +150,12 @@ void	run_cmd_from_user(t_data *d);
 
 t_bool	try_parse_command(char *cmd, t_data *d);
 
+t_token	*token_new_str(char *str, int depth);
 t_bool	token_make(t_token_type type, char *str, int depth, int *wc, t_token **out);
+t_bool	token_free_node(t_token **t);
 t_bool	token_free_list(t_token **list);
 t_bool	token_add_last(t_token_type type, char *str, int depth, int *wc, t_token **list);
+t_token	*clean_matches(t_token **head);
 
 //Internal parsing (private)
 
@@ -165,6 +168,7 @@ t_bool	is_char_oper(char c);
 t_bool	syntax_error(t_parse_data *data, int i);
 char	*substitute_stuff(char *str, t_var *vars, int **wcs, int wcs_off);
 t_bool	record_wildcards(char *str, int **wcs, int offset);
+t_bool	expand_wildcards(t_token **head);
 
 // Signals
 
@@ -243,6 +247,7 @@ int		parent_routine(t_data *data);
 
 // Utilities
 
+int		ft_fnmatch(const char *pattern, const char *name, int i, int *arr);
 void	*free_str(char **s);
 void	*free_array(char **arr);
 void	*free_vars(t_var *vars);

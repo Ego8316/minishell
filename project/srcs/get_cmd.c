@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:54:41 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/11 01:43:18 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/01 19:15:16 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	run_cmd_from_user(t_data *d)
 		clean_exit(d, 0);
 	if (*line && !ft_stristype(line, ft_isspace) && try_parse_command(line, d))
 	{
+		expand_wildcards(&d->tokens);
 		print_token_list(d->tokens);
 		g_last_exit_code = execute_pipeline(d, d->tokens);
 		if (g_last_exit_code == M_ERR)
