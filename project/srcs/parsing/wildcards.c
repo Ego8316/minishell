@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 00:46:56 by ego               #+#    #+#             */
-/*   Updated: 2025/05/01 19:58:41 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/01 20:08:02 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,22 +99,22 @@ t_token *get_matches(t_token *t)
  * Cleans and sorts the matches filenames token list, frees the original
  * wildcard token, and updates the links in the token list accordingly.
  * 
- * @param head Pointer to the head of the token list.
- * @param prev Pointer to the token preceding the current token.
+ * @param h Pointer to the head of the token list.
+ * @param p Pointer to the token preceding the current token.
  * @param m Pointer to the matches token list (wildcard expansion result).
  * @param t Pointer to the current token being replaced.
  * 
  * @return Pointer to the last token in the inserted matches list.
  */
-t_token	*add_matches(t_token **head, t_token **prev, t_token **m, t_token **t)
+static t_token	*add_wcs(t_token **h, t_token **p, t_token **m, t_token **t)
 {
 	t_token	*tail;
 
 	tail = clean_matches(m);
-	if (*prev)
-		(*prev)->nxt = *m;
+	if (*p)
+		(*p)->nxt = *m;
 	else
-		*head = *m;
+		*h = *m;
 	tail->nxt = (*t)->nxt;
 	token_free_node(t);
 	return (tail);
@@ -148,7 +148,7 @@ t_bool	expand_wildcards(t_token **head)
 			matches = get_matches(t);
 			if (!matches)
 				return (FALSE);
-			t = add_matches(head, &prev, &matches, &t);
+			t = add_wcs(head, &prev, &matches, &t);
 		}
 		prev = t;
 		t = t->nxt;

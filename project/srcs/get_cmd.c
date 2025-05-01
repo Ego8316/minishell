@@ -6,17 +6,13 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:54:41 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/01 19:59:58 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/01 20:06:33 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief Gets and runs a command from user.
- */
-
-static	void print_token_type(t_token_type type)
+static void	print_token_type(t_token_type type)
 {
 	if (type == UNDETERMINED)
 		printf("UNDETERMINED");
@@ -45,7 +41,6 @@ static	void print_token_type(t_token_type type)
 void	print_token_list(t_token *tokens)
 {
 	int	i;
-
 
 	while (tokens)
 	{
