@@ -12,18 +12,22 @@
 
 #include "minishell.h"
 
-static void int_handler(int what)
+static void sig_handle(int what)
 {
+	int	val;
+
 	if (what != SIGINT)
-		return ;
+		return;
 	printf("\n");
     rl_on_new_line();
     rl_replace_line("", 0);
     rl_redisplay();
-	//printf("interrupt signal");
+	quit_flag(&val);
+	val = 1;
+	
 }
 
-int	is_exiting(int *value)
+int	quit_flag(int *value)
 {
 	static int	val = 0;
 
@@ -32,33 +36,21 @@ int	is_exiting(int *value)
 	return (val);
 }
 
-static void quit_handler(int what)
+int	quit_flag_set(int value)
 {
-	struct sigaction	sigQuitHandler;
-
-	if (what != SIGQUIT)
-		return ;
-	if (is_exiting(0) != 0)
-		return ;
-	sigQuitHandler.sa_handler = quit_handler;
-	sigemptyset(&sigQuitHandler.sa_mask);
-	sigQuitHandler.sa_flags = SA_RESETHAND;
-	sigaction(SIGQUIT, &sigQuitHandler, 0);
+	return (quit_flag(&value));
 }
 
 void	init_signal()
 {
-	int					shell_is_interactive; 
-	struct sigaction	sigIntHandler;
+	struct sigaction	sighandler;
 
-	sigIntHandler.sa_handler = int_handler;
-	sigemptyset(&sigIntHandler.sa_mask);
-	sigIntHandler.sa_flags = 0;
+	sighandler.sa_handler = sig_handle;
+	sigemptyset(&sighandler.sa_mask);
+	sighandler.sa_flags = 0;
 
-	shell_is_interactive = isatty(STDIN_FILENO);
-	if (shell_is_interactive)
-	{
-		sigaction(SIGINT, &sigIntHandler, 0);
-		signal(SIGQUIT, SIG_IGN);
-	}
+	if (!isatty(STDIN_FILENO))
+		return ;
+	sigaction(SIGINT, &sighandler, 0);
+	sigaction(SIGQUIT, &sighandler, 0);
 }

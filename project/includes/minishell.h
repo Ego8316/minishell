@@ -173,7 +173,9 @@ t_bool	expand_wildcards(t_token **head);
 // Signals
 
 void	init_signal();
-int	is_exiting(int *value);
+//just pass NULL to this to get value
+int	quit_flag(int *value);
+int	quit_flag_set(int value);
 
 // Input
 
