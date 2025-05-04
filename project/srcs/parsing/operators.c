@@ -51,7 +51,7 @@ t_bool	parse_operator(t_parse_data *data)
 	char	c;
 
 	c = data->cmd[data->i++];
-	if (data->expect_cmd)
+	if (data->expect_cmd && c != '<' && data->cmd[data->i] != '<')
 		return (syntax_error(data, data->i - 1));
 	data->expect_cmd = TRUE;
 	if (c == '&')

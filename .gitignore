@@ -5,3 +5,4 @@ project/minishell
 test.c
 heredoc_copy.c
 *.out
+project/.tmp0
