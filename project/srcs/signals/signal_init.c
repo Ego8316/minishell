@@ -16,12 +16,11 @@ static void sig_handle(int what)
 {
 	if (what != SIGINT)
 		return;
+	quit_flag_set(1);
 	printf("\n");
     rl_on_new_line();
     rl_replace_line("", 0);
     rl_redisplay();
-	quit_flag_set(1);
-	
 }
 
 int	quit_flag(int *value)
