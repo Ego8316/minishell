@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/11 04:53:54 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/05 19:35:02 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int	main(int argc, char **argv, char **envp)
 	argv[0] = 0;
 	if (!data_init(&data, envp))
 		return (1);
-	init_signal();
 	int i = 0;
 	while (i++ < 10)
 	{

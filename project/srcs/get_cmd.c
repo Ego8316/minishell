@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:54:41 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/01 20:06:33 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/05 20:37:08 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,9 @@ void	run_cmd_from_user(t_data *d)
 {
 	char	*line;
 
+	set_signals(1);
 	line = readline(get_prompt(d, 1));
+	set_signals(0);
 	if (!line)
 		clean_exit(d, 0);
 	if (*line && !ft_stristype(line, ft_isspace) && try_parse_command(line, d))
@@ -73,6 +75,7 @@ void	run_cmd_from_user(t_data *d)
 		g_last_exit_code = execute_pipeline(d, d->tokens);
 		if (g_last_exit_code == M_ERR)
 			clean_exit(d, errmsg(M_ERR_MSG, 0, 0, 1));
+		printf("--- exit code %i\n", g_last_exit_code);
 		d->pipe = free_pipeline(d->pipe);
 		get_prompt(d, 2);
 	}

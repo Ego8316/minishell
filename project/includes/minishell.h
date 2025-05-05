@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/05 15:00:04 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/05 21:19:26 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 # define TMP ".tmp"
 # define M_ERR -2
-# define HEREDOC_C -3
+# define HEREDOC_C 130
 # define CMD_NOT_EXEC 126
 # define CMD_NOT_FOUND 127
 # define M_ERR_MSG "malloc: failed allocation\n"
@@ -177,6 +177,8 @@ void	init_signal();
 //just pass NULL to this to get value
 int	quit_flag(int *value);
 int	quit_flag_set(int value);
+
+void	set_signals(int mode);
 
 // Input
 

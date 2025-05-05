@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 19:58:29 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 04:52:23 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/05 20:36:09 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,18 @@ int	wait_and_get_exit_code(pid_t pid)
 	int		status;
 	pid_t	wpid;
 
-	wpid = waitpid(pid, &status, 0);
-	if (wpid == pid && WIFEXITED(status))
+	while (1)
+	{
+		wpid = waitpid(pid, &status, 0);
+		if (wpid == -1 && errno == EINTR)
+			continue ;
+		break ;
+	}
+	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
-	else if (wpid == pid && WIFSIGNALED(status))
+	else if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
-	else if (wpid == pid)
-		return (status);
-	return (0);
+	return (status);
 }
 
 /**
