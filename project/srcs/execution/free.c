@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 23:23:42 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 04:39:52 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/05 17:14:38 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,16 @@ void	*free_commands(t_cmd **cmds, int n)
 {
 	int	i;
 
-	i = 0;
-	while (i < n)
+	if (cmds)
 	{
-		free_command(cmds[i]);
-		i++;
+		i = 0;
+		while (i < n)
+		{
+			free_command(cmds[i]);
+			i++;
+		}
+		free(cmds);
 	}
-	free(cmds);
 	return (NULL);
 }
 

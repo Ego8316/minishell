@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:20:03 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 04:40:32 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/05 15:01:40 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void	restore_standard_io(t_pipe *pipe)
  * @param t Token list.
  * @param data Pointer to the main data structure (for heredoc).
  * 
- * @return 1 on success, 0 on failure, `M_ERR` if allocation fails.
+ * @return 1 on success, 0 on failure, `M_ERR` if allocation fails and
+ * `HEREDOC_C` if heredoc is Ctrl-C.
  */
 int	get_input_redirection(t_cmd *cmd, t_token *t, t_data *data)
 {
@@ -69,8 +70,8 @@ int	get_input_redirection(t_cmd *cmd, t_token *t, t_data *data)
 		free_str(&cmd->heredoc_name);
 	}
 	cmd->fd_in = get_infile(t->nxt->str, t->type, cmd, data);
-	if (cmd->fd_in == M_ERR)
-		return (M_ERR);
+	if (cmd->fd_in == M_ERR || cmd->fd_in == HEREDOC_C)
+		return (cmd->fd_in);
 	if (cmd->fd_in == -1)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);

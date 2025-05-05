@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 23:39:44 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 04:45:41 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/05 15:09:30 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	close_pipes(t_pipe *pipe)
  * @param data Pointer to the main data structure (used by heredoc).
  * 
  * @return File descriptor on success, -1 on failure, `M_ERR` if
- * memory allocation fails.
+ * memory allocation fails, `HEREDOC_C` if heredoc is Ctrl-C.
  */
 int	get_infile(char *infile, t_token_type type, t_cmd *cmd, t_data *data)
 {
@@ -54,10 +54,10 @@ int	get_infile(char *infile, t_token_type type, t_cmd *cmd, t_data *data)
 		if (!cmd->heredoc_name)
 			return (M_ERR);
 		fd = open(cmd->heredoc_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (!get_heredoc(infile, fd, data))
+		if (get_heredoc(infile, fd, data) == HEREDOC_C)
 		{
 			close(fd);
-			return (M_ERR);
+			return (HEREDOC_C);
 		}
 		close(fd);
 		return (open(cmd->heredoc_name, O_RDONLY));

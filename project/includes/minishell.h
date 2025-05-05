@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/01 19:15:08 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/05 15:00:04 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 # define TMP ".tmp"
 # define M_ERR -2
+# define HEREDOC_C -3
 # define CMD_NOT_EXEC 126
 # define CMD_NOT_FOUND 127
 # define M_ERR_MSG "malloc: failed allocation\n"

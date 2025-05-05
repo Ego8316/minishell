@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 15:12:00 by ego               #+#    #+#             */
-/*   Updated: 2025/05/01 19:29:19 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/05 17:11:46 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,8 @@ int	execute_pipeline(t_data *data, t_token *t)
 	int	i;
 
 	data->pipe = get_pipeline(data, t);
+	if (!data->pipe && g_last_exit_code == 130)
+		return (130);
 	if (!data->pipe)
 		return (M_ERR);
 	if (data->pipe->n == 1)

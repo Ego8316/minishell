@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 00:01:59 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 04:40:44 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/05 17:09:00 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,15 +139,21 @@ void	write_line_to_heredoc(char *line, int fd, t_data *data)
  * @param fd File descriptor of the heredoc temporary file.
  * @param data Pointer to the main data structure.
  * 
- * @return 1 on success, 0 on failure.
+ * @return 1 on success, `HEREDOC_C` if here-doc is Ctrl-C.
  */
 int	get_heredoc(char *limiter, int fd, t_data *data)
 {
 	char	*line;
 
-	// REMEMBER to handle signals here. exit code should be 130 when heredoc is Ctrl-C
 	while (1)
 	{
+		if (quit_flag(0))
+		{
+			free_str(&line);
+			quit_flag_set(0);
+			g_last_exit_code = 130;
+			return (HEREDOC_C);
+		}
 		line = readline("> ");
 		if (!line)
 			return (put_heredoc_warning(limiter, data));

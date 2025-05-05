@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:47:46 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 04:41:00 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/05 15:06:19 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	**get_argv(t_token *t)
  * @param data Pointer to the main data structure (used by heredoc).
  * 
  * @return 1 if redirections succeed, 0 if a redirection fails, `M_ERR` if
- * memory allocation fails.
+ * memory allocation fails and `HEREDOC_C` if heredoc is Ctrl-C.
  */
 static int	get_command_redirections(t_cmd *cmd, t_token *t, t_data *data)
 {
@@ -135,7 +135,7 @@ t_cmd	*get_command(t_data *data, t_token *t)
 	cmd->argv = NULL;
 	cmd->fd_in = -1;
 	cmd->fd_out = -1;
-	if (get_command_redirections(cmd, t, data) == M_ERR)
+	if (get_command_redirections(cmd, t, data) <= M_ERR)
 		return (free_command(cmd), NULL);
 	cmd->argv = get_argv(skip_assignments(t));
 	if (cmd->argv && cmd->argv[0])
