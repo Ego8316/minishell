@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 00:01:59 by ego               #+#    #+#             */
-/*   Updated: 2025/05/08 18:45:21 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/08 19:05:35 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ int	get_heredoc(char *limiter, int fd, t_data *data)
 			ret = put_heredoc_warning(limiter, data);
 		else if (ft_strcmp(line, limiter) == '\n')
 			ret = 0;
-		if (line)
+		if (line && ret == 1)
 			write_line_to_heredoc(line, fd, data);
 		free_str(&line);
 	}

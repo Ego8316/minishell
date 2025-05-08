@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 19:22:18 by ego               #+#    #+#             */
-/*   Updated: 2025/05/08 18:45:57 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/08 19:06:21 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	heredoc_sigint_handler(int signo)
 	(void)signo;
 	g_last_exit_code = HEREDOC_C;
 	printf("\n");
-	rl_on_new_line();
 }
 
 /**
