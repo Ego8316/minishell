@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/05 21:19:26 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/08 16:01:33 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,13 @@ typedef enum e_var_type
 	ENV = 2
 }	t_var_type;
 
+typedef enum e_ast_type
+{
+	AND = 0,
+	OR = 1,
+	CMD = 2
+}	t_ast_type;
+
 //===Structs===
 typedef struct s_token
 {
@@ -135,14 +142,22 @@ typedef struct s_data
 
 typedef struct s_parse_data
 {
-	char	*cmd;
-	int		i;
-	t_bool	expect_cmd;
-	int		depth;
-	t_token *tokens;
-	t_var *vars;
-	struct s_data *data;
-}			t_parse_data;
+	char			*cmd;
+	int				i;
+	t_bool			expect_cmd;
+	int				depth;
+	t_token			*tokens;
+	t_var			*vars;
+	struct s_data	*data;
+}	t_parse_data;
+
+typedef struct s_ast
+{
+	struct s_ast	*left;
+	struct s_ast	*right;
+	t_ast_type		type;
+	t_token			*cmd;
+}	t_ast;
 
 //==Functions===
 void	run_cmd_from_user(t_data *d);
