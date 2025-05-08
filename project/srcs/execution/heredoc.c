@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 00:01:59 by ego               #+#    #+#             */
-/*   Updated: 2025/05/05 21:45:31 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/08 18:18:06 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,50 +125,8 @@ void	write_line_to_heredoc(char *line, int fd, t_data *data)
 		}
 		i++;
 	}
-	ft_putendl_fd(line + j, fd);
+	ft_putstr_fd(line + j, fd);
 }
-
-// /**
-//  * @brief Read user input lines into a heredoc until the limiter is reached.
-//  * 
-//  * Prompts the user line-by-line, expands variables within each line, and
-//  * writes to a temporary file. Stops when the exact limiter string is entered,
-//  * or when the user uses Ctrl-D.
-//  * 
-//  * @param limiter String that ends heredoc input.
-//  * @param fd File descriptor of the heredoc temporary file.
-//  * @param data Pointer to the main data structure.
-//  * 
-//  * @return 1 on success, `HEREDOC_C` if here-doc is Ctrl-C.
-//  */
-// int	get_heredoc(char *limiter, int fd, t_data *data)
-// {
-// 	pid_t	pid;
-// 	char	*line;
-
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		set_signals(2);
-// 		while (1)
-// 		{
-// 			line = readline("> ");
-// 			if (!line)
-// 				exit(put_heredoc_warning(limiter, data));
-// 			if (!ft_strcmp(line, limiter))
-// 				break ;
-// 			write_line_to_heredoc(line, fd, data);
-// 			free_str(&line);
-// 		}
-// 		free_str(&line);
-// 		exit(0);
-// 	}
-// 	struct sigaction	sig;
-// 	sig.sa_handler = SIG_IGN;
-// 	sigaction(SIGINT, &sig, NULL);
-// 	return (wait_and_get_exit_code(pid));
-// }
-
 
 /**
  * @brief Read user input lines into a heredoc until the limiter is reached.
@@ -181,26 +139,29 @@ void	write_line_to_heredoc(char *line, int fd, t_data *data)
  * @param fd File descriptor of the heredoc temporary file.
  * @param data Pointer to the main data structure.
  * 
- * @return 1 on success, `HEREDOC_C` if here-doc is Ctrl-C.
+ * @return 0 on success, `HEREDOC_C` if here-doc is Ctrl-C.
  */
 int	get_heredoc(char *limiter, int fd, t_data *data)
 {
 	char	*line;
+	int		ret;
 
-	while (1)
+	ret = 1;
+	while (ret == 1)
 	{
-		// set_signals(1);
-		line = readline("> ");
-		// set_signals(0);
-		if (g_last_exit_code == 130)
-			return (HEREDOC_C);
-		if (!line)
-			return (put_heredoc_warning(limiter, data));
-		if (!ft_strcmp(line, limiter))
-			break ;
-		write_line_to_heredoc(line, fd, data);
+		ft_putstr_fd("> ", STDOUT_FILENO);
+		set_signals(2);
+		line = get_next_line(STDIN_FILENO);
+		set_signals(0);
+		if (g_last_exit_code == HEREDOC_C)
+			ret = HEREDOC_C;
+		else if (!line)
+			ret = put_heredoc_warning(limiter, data);
+		else if (ft_strcmp(line, limiter) == '\n')
+			ret = 0;
+		if (line)
+			write_line_to_heredoc(line, fd, data);
 		free_str(&line);
 	}
-	free_str(&line);
-	return (1);
+	return (ret);
 }

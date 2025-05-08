@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 19:22:18 by ego               #+#    #+#             */
-/*   Updated: 2025/05/05 21:38:23 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/08 18:28:04 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ignore_sigquit(void)
 {
 	struct sigaction	sig;
 
+	ft_memset(&sig, 0, sizeof(sig));
 	sig.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &sig, NULL);
 }
@@ -54,10 +55,9 @@ void	print_newline(int signo)
 void	heredoc_sigint_handler(int signo)
 {
 	(void)signo;
-	g_last_exit_code = 130;
+	g_last_exit_code = HEREDOC_C;
 	printf("\n");
 	rl_on_new_line();
-	exit(130);
 }
 
 /**
@@ -91,5 +91,6 @@ void	set_signals(int mode)
 		ignore_sigquit();
 		sig.sa_handler = &heredoc_sigint_handler;
 		sigaction(SIGINT, &sig, NULL);
+		// sigaction(SIGQUIT, &sig, NULL);
 	}
 }

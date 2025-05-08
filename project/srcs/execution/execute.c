@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 15:12:00 by ego               #+#    #+#             */
-/*   Updated: 2025/05/05 20:17:32 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/08 18:15:41 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int	execute_pipeline(t_data *data, t_token *t)
 	int	i;
 
 	data->pipe = get_pipeline(data, t);
-	if (!data->pipe && g_last_exit_code == 130)
+	if (!data->pipe && g_last_exit_code == HEREDOC_C)
 		return (130);
 	if (!data->pipe)
 		return (M_ERR);

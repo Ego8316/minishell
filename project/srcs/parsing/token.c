@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:17:50 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/01 17:43:30 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/08 18:31:57 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_bool	token_make(t_token_type type, char *str, int depth, int *wc, t_token **ou
  */
 t_bool	token_free_node(t_token **t)
 {
-	if (*t &&  (*t)->str)
+	if (*t && (*t)->str)
 		free_str(&(*t)->str);
 	if (*t && (*t)->wildcards)
 		free((*t)->wildcards);

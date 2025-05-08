@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/08 16:01:33 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/08 18:13:18 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 # define TMP ".tmp"
 # define M_ERR -2
-# define HEREDOC_C 130
+# define HEREDOC_C -3
 # define CMD_NOT_EXEC 126
 # define CMD_NOT_FOUND 127
 # define M_ERR_MSG "malloc: failed allocation\n"
@@ -57,7 +57,6 @@ typedef enum e_bool
 	TRUE = 1
 }	t_bool;
 
-// 0 <null>, 1 cmd/arg, 2 |, 3 &, 4 ||, 5 &&, 6 <, 7 >, 8 >>, 9 <<, 10 unresolved
 typedef enum e_token_type
 {
 	UNDETERMINED = 0,
@@ -167,10 +166,10 @@ void	run_cmd_from_user(t_data *d);
 t_bool	try_parse_command(char *cmd, t_data *d);
 
 t_token	*token_new_str(char *str, int depth);
-t_bool	token_make(t_token_type type, char *str, int depth, int *wc, t_token **out);
+t_bool	token_make(t_token_type t, char *str, int d, int *wc, t_token **out);
 t_bool	token_free_node(t_token **t);
 t_bool	token_free_list(t_token **list);
-t_bool	token_add_last(t_token_type type, char *str, int depth, int *wc, t_token **list);
+t_bool	token_add_last(t_token_type t, char *str, int d, int *wc, t_token **l);
 t_token	*clean_matches(t_token **head);
 
 //Internal parsing (private)
@@ -188,19 +187,19 @@ t_bool	expand_wildcards(t_token **head);
 
 // Signals
 
-void	init_signal();
+void	init_signal(void);
 //just pass NULL to this to get value
-int	quit_flag(int *value);
-int	quit_flag_set(int value);
+int		quit_flag(int *value);
+int		quit_flag_set(int value);
 
 void	set_signals(int mode);
 
 // Input
 
-char	*read_term_line(const char* prompt);
+char	*read_term_line(const char	*prompt);
 char	*str_append_free(char *str, char c);
 char	*str_remove_free(char *str, size_t count);
-char	*str_new();
+char	*str_new(void);
 t_bool	isnescp(char *str, int i, char c);
 
 // Builtins
@@ -228,7 +227,7 @@ int		var_set(t_var **vars, char *identifier, char *value);
 int		line_get_identifier_len(char *line);
 char	*line_get_value(char *line);
 int		get_vars_size(t_var *vars);
-char	*get_prefix();
+char	*get_prefix(void);
 char	*get_prompt(t_data *data, int mode);
 
 // Execution

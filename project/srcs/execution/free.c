@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 23:23:42 by ego               #+#    #+#             */
-/*   Updated: 2025/05/05 17:14:38 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/08 18:25:04 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	*free_command(t_cmd *cmd)
 		free_str(&cmd->pathname);
 		if (cmd->heredoc_name)
 			unlink(cmd->heredoc_name);
-		if (cmd->fd_in != -1 && cmd->redir_in)
+		if (cmd->fd_in > -1 && cmd->redir_in)
 			close(cmd->fd_in);
-		if (cmd->fd_out != -1 && cmd->redir_out)
+		if (cmd->fd_out > -1 && cmd->redir_out)
 			close(cmd->fd_out);
 		free_str(&cmd->heredoc_name);
 		free(cmd);

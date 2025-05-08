@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:35:52 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 14:12:40 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/08 18:06:44 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ static char	*get_home_fallback(void)
  * 
  * @param data Pointer to the main data structure.
  * 
- * @return Exit status: 0 on success, `M_ERR` on memory allocation faillure,
- * `errno` if the directory change fails.
+ * @return Exit status: 0 on success, `M_ERR` on memory allocation faillure.
  * 
  * @note Should be used only when the directory argument is "~".
  */
@@ -63,7 +62,7 @@ static int	cd_home_fallback(t_data *data)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
 		perror(home);
-		return (free_str(&home), errno);
+		return (free_str(&home), 1);
 	}
 	free_str(&home);
 	free_str(&data->oldpwd);
@@ -85,8 +84,7 @@ static int	cd_home_fallback(t_data *data)
  * @param data Pointer to the main data structure.
  * @param fallback Enables fallback procedure when HOME is unset.
  * 
- * @return Exit status: 0 on success, `M_ERR` on memory allocation faillure,
- * errno` if the directory change fails.
+ * @return Exit status: 0 on success, `M_ERR` on memory allocation faillure.
  */
 static int	cd_home(t_data *data, int fallback)
 {
@@ -103,7 +101,7 @@ static int	cd_home(t_data *data, int fallback)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
 		perror(home->value);
-		return (errno);
+		return (1);
 	}
 	free_str(&data->oldpwd);
 	data->oldpwd = data->pwd;
@@ -125,7 +123,7 @@ static int	cd_home(t_data *data, int fallback)
  * @param data Pointer to the main data structure.
  * 
  * @return Exit status: 0 on success, 1 on error, `M_ERR` on memory allocation
- * failure, `errno` if the directory change fails.
+ * failure.
  */
 static int	cd_oldpwd(t_data *data)
 {
@@ -145,7 +143,7 @@ static int	cd_oldpwd(t_data *data)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
 		perror(oldpwd->value);
-		return (errno);
+		return (1);
 	}
 	swap_str(&data->oldpwd, &data->pwd);
 	if (!var_set(&data->vars, "OLDPWD", data->oldpwd)
@@ -174,8 +172,8 @@ static int	cd_oldpwd(t_data *data)
  * @param data Pointer to the data structure.
  * @param argv Arguments passed to the builtin.
  * 
- * @return Exit status: 0 on success, 1 if too many arguments, `M_ERR` on
- * memory allocation failure,`errno` if the directory change fails.
+ * @return Exit status: 0 on success, 1 on error, `M_ERR` on memory allocation
+ * failure.
  */
 int	cd_builtin(t_data *data, char **argv)
 {
@@ -193,7 +191,7 @@ int	cd_builtin(t_data *data, char **argv)
 	{
 		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
 		perror(*argv);
-		return (errno);
+		return (1);
 	}
 	free_str(&data->oldpwd);
 	data->oldpwd = data->pwd;
