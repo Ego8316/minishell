@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 00:01:59 by ego               #+#    #+#             */
-/*   Updated: 2025/05/08 18:18:06 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/08 18:45:21 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void	write_line_to_heredoc(char *line, int fd, t_data *data)
  * 
  * Prompts the user line-by-line, expands variables within each line, and
  * writes to a temporary file. Stops when the exact limiter string is entered,
- * or when the user uses Ctrl-D.
+ * or when the user uses Ctrl-C or Ctrl-D.
  * 
  * @param limiter String that ends heredoc input.
  * @param fd File descriptor of the heredoc temporary file.

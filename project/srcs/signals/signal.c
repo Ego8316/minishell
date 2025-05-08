@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 19:22:18 by ego               #+#    #+#             */
-/*   Updated: 2025/05/08 18:28:04 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/08 18:45:57 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	heredoc_sigint_handler(int signo)
  * @brief - 0: non-interactive mode - SIGINT and SIGQUIT print a newline.
  * @brief - 1: interactive mode - SIGQUIT is ignored, and SIGINT resets the
  * readline prompt.
+ * @brief - 2: heredoc mode - SIGQUIT is ignored, SIGINT prints a newline and
+ * sets the global exit code to `HEREDOC_C` to handle Ctrl-C in heredocs.
  * 
  * @param mode Signal mode to apply: 0 for non-interactive, 1 for interactive.
  */
@@ -91,6 +93,5 @@ void	set_signals(int mode)
 		ignore_sigquit();
 		sig.sa_handler = &heredoc_sigint_handler;
 		sigaction(SIGINT, &sig, NULL);
-		// sigaction(SIGQUIT, &sig, NULL);
 	}
 }
