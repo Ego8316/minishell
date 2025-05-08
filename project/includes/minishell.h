@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/08 18:13:18 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/08 18:47:29 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define PROMPT_SUFFIX "\001\033[0m\002$ "
 # define PROMPT_LEN 1024
 # define SUFFIX_LEN 9
+# define _XOPEN_SOURCE 700
 
 //===Includes===
 # include <stdlib.h>
