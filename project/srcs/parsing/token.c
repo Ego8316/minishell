@@ -35,12 +35,13 @@ t_token	*token_new_str(char *str, int depth)
 	}
 	new->type = TEXT;
 	new->depth = depth;
-	new->wildcards = NULL;
+	new->wilds = NULL;
+	new->vars = NULL;
 	new->nxt = NULL;
 	return (new);
 }
 
-t_bool	token_make(t_token_type type, char *str, int depth, int *wc, t_token **out)
+t_bool	token_make(t_token_type type, char *str, int depth, t_token **out)
 {
 	*out = malloc(sizeof(t_token));
 	if (!*out)
@@ -53,7 +54,8 @@ t_bool	token_make(t_token_type type, char *str, int depth, int *wc, t_token **ou
 	(*out)->str = str;
 	(*out)->depth = depth;
 	(*out)->nxt = 0;
-	(*out)->wildcards = wc;
+	(*out)->wilds = 0;
+	(*out)->vars = 0;
 	return (TRUE);
 }
 
@@ -64,14 +66,17 @@ t_bool	token_make(t_token_type type, char *str, int depth, int *wc, t_token **ou
  * 
  * @return False.
  */
-t_bool	token_free_node(t_token **t)
+t_bool	token_free_node(t_token *t)
 {
-	if (*t && (*t)->str)
-		free_str(&(*t)->str);
-	if (*t && (*t)->wildcards)
-		free((*t)->wildcards);
-	if (*t)
-		free(*t);
+	if (!t)
+		return (FALSE);
+	if (t->str)
+		free_str(&t->str);
+	if (t->wilds)
+		free(t->wilds);
+	if (t->vars)
+		free(t->vars);
+	free(t);
 	return (FALSE);
 }
 
@@ -83,31 +88,24 @@ t_bool	token_free_list(t_token **list)
 	while (token)
 	{
 		*list = token->nxt;
-		if (token->str)
-			free(token->str);
-		if (token->wildcards)
-			free(token->wildcards);
-		free(token);
+		token_free_node(token);
 		token = *list;
 	}
 	return (FALSE);
 }
 
-t_bool	token_add_last(t_token_type type, char *str, int depth, int *wc, t_token **list)
+t_bool	token_add_last(t_token *token, t_token **list)
 {
-	t_token	*new;
 	t_token	*loop;
 
-	if (!token_make(type, str, depth, wc, &new))
-		return (token_free_list(list));
-	if (!*list)
+	if (!*list || !token)
 	{
-		*list = new;
+		*list = token;
 		return (TRUE);
 	}
 	loop = *list;
 	while (loop->nxt)
 		loop = loop->nxt;
-	loop->nxt = new;
+	loop->nxt = token;
 	return (TRUE);
 }

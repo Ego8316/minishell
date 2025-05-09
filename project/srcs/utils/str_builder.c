@@ -12,33 +12,53 @@
 
 #include "minishell.h"
 
-static t_bool	mk_tk(t_parse_data *d, t_token_type a, t_token_type b, char c)
+t_bool	strb_join(char **str, char *end)
 {
-	t_token	*token;
+	char	*new;
+	int		strl;
+	int		endl;
 
-	if (d->cmd[d->i] != c)
-		return (token_make(a, 0, d->depth, &token) &&
-			token_add_last(token, &d->tokens));
-	d->i++;
-	return (token_make(b, 0, d->depth, &token) &&
-		token_add_last(token, &d->tokens));
+	strl = ft_strlen_null(*str);
+	endl = ft_strlen_null(end);
+	new = malloc(sizeof(char) * (strl + endl + 1));
+	if (new)
+	{
+		new[strl + endl] = 0;
+		if (*str)
+			ft_memcpy(new, *str, sizeof(char) * strl);
+		if (end)
+			ft_memcpy(new + strl, end, sizeof(char) * endl);
+	}
+	if (*str)
+		free(*str);
+	if (end)
+		free(end);
+	if (new)
+		*str = new;
+	else
+		*str = 0;
+	return (new != 0);
 }
 
-t_bool	parse_operator(t_parse_data *data)
+t_bool	strb_append(char **str, char end)
 {
-	char	c;
+	char	*new;
+	int		strl;
 
-	c = data->cmd[data->i++];
-	if (data->expect_cmd && c != '<' && data->cmd[data->i] != '<')
-		return (syntax_error(data, data->i - 1));
-	data->expect_cmd = TRUE;
-	if (c == '&')
-		return (mk_tk(data, BGEXEC, ANDOPER, '&'));
-	else if (c == '|')
-		return (mk_tk(data, PIPE, OROPER, '|'));
-	else if (c == '>')
-		return (mk_tk(data, REDIROUT, OUTAPPEND, '>'));
-	else if (c == '<')
-		return (mk_tk(data, REDIRIN, INDELI, '<'));
-	return (FALSE);
+	strl = ft_strlen_null(*str);
+	new = malloc(sizeof(char) * (strl + 2));
+	if (new)
+	{
+		new[strl + 1] = 0;
+		new[strl] = end;
+		if (*str)
+			ft_memcpy(new, *str, sizeof(char) * strl);
+	}
+	if (*str)
+		free(*str);
+	if (new)
+		*str = new;
+	else
+		*str = 0;
+	return (new != 0);
 }

@@ -108,7 +108,7 @@ t_token	*clean_matches(t_token **head)
 	{
 		t = *head;
 		*head = (*head)->nxt;
-		token_free_node(&t);
+		token_free_node(t);
 	}
 	while (swapped)
 	{

@@ -34,8 +34,6 @@ static void	print_token_type(t_token_type type)
 		printf("OUTAPPEND >>");
 	else if (type == INDELI)
 		printf("INDELI <<");
-	else if (type == UNRESOLVED_TEXT)
-		printf("UNRESOLVED_TEXT");
 }
 
 void	print_token_list(t_token *tokens)
@@ -47,13 +45,13 @@ void	print_token_list(t_token *tokens)
 		printf("Token type ");
 		print_token_type(tokens->type);
 		printf(" depth %i", tokens->depth);
-		if (tokens->type == TEXT || tokens->type == UNRESOLVED_TEXT)
+		if (tokens->type == TEXT)
 		{
 			printf(" '%s'", tokens->str);
 			i = 0;
 			printf(" wcs:");
-			while (tokens->wildcards && tokens->wildcards[i] != -1)
-				printf(" %i", tokens->wildcards[i++]);
+			while (tokens->wilds && tokens->wilds[i] != -1)
+				printf(" %i", tokens->wilds[i++]);
 		}
 		printf("\n");
 		tokens = tokens->nxt;

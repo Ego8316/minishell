@@ -42,7 +42,8 @@ SRC_FILES += data/env.c			\
 			 data/var_line.c	\
 			 data/var.c
 SRC_FILES += utils/error.c	\
-			 utils/free.c
+			 utils/free.c	\
+			 utils/str_builder.c
 SRC_FILES += execution/assignments.c	\
 			 execution/command.c		\
 			 execution/execute.c		\

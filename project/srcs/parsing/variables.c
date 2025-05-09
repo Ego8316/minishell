@@ -75,6 +75,8 @@ char	*substitute_stuff(char *str, t_var *vars, int **wcs, int wcs_off)
 {
 	int	i;
 
+	if (!str)
+		return (0);
 	i = 0;
 	while (str[i])
 		if (str[i++] == '$' && !parse_variable(&(str), &i, vars))

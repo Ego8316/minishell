@@ -79,7 +79,7 @@ t_token *get_matches(t_token *t)
 	entry = readdir(dir);
 	while (entry)
 	{
-		if (ft_fnmatch(t->str, entry->d_name, 0, t->wildcards) == 0
+		if (ft_fnmatch(t->str, entry->d_name, 0, t->wilds) == 0
 			&& !(entry->d_name[0] == '.' && t->str[0] != '.'))
 		{
 			matches->nxt = token_new_str(entry->d_name, t->depth);
@@ -116,7 +116,7 @@ static t_token	*add_wcs(t_token **h, t_token **p, t_token **m, t_token **t)
 	else
 		*h = *m;
 	tail->nxt = (*t)->nxt;
-	token_free_node(t);
+	token_free_node(*t);
 	return (tail);
 }
 

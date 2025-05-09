@@ -70,7 +70,6 @@ typedef enum e_token_type
 	REDIROUT = 7,
 	OUTAPPEND = 8,
 	INDELI = 9,
-	UNRESOLVED_TEXT = 10,
 }	t_token_type;
 
 typedef enum e_var_type
@@ -93,7 +92,8 @@ typedef struct s_token
 	t_token_type	type;
 	char			*str;
 	int				depth;
-	int				*wildcards;
+	int				*wilds;
+	int				*vars;
 	struct s_token	*nxt;
 }					t_token;
 
@@ -167,10 +167,10 @@ void	run_cmd_from_user(t_data *d);
 t_bool	try_parse_command(char *cmd, t_data *d);
 
 t_token	*token_new_str(char *str, int depth);
-t_bool	token_make(t_token_type t, char *str, int d, int *wc, t_token **out);
-t_bool	token_free_node(t_token **t);
+t_bool	token_make(t_token_type type, char *str, int depth, t_token **out);
+t_bool	token_free_node(t_token *t);
 t_bool	token_free_list(t_token **list);
-t_bool	token_add_last(t_token_type t, char *str, int d, int *wc, t_token **l);
+t_bool	token_add_last(t_token *token, t_token **list);
 t_token	*clean_matches(t_token **head);
 
 //Internal parsing (private)
@@ -280,5 +280,8 @@ void	clean_exit(t_data *data, int status);
 void	swap_str(char **s1, char **s2);
 int		errmsg(char *s1, char *s2, char *s3, int status);
 int		errmsg_errnum(int prefix, char *s, int errnum);
+
+t_bool	strb_append(char **str, char end);
+t_bool	strb_join(char **str, char *end);
 
 #endif
