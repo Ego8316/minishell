@@ -38,21 +38,13 @@ static void	print_token_type(t_token_type type)
 
 void	print_token_list(t_token *tokens)
 {
-	int	i;
-
 	while (tokens)
 	{
 		printf("Token type ");
 		print_token_type(tokens->type);
 		printf(" depth %i", tokens->depth);
 		if (tokens->type == TEXT)
-		{
 			printf(" '%s'", tokens->str);
-			i = 0;
-			printf(" wcs:");
-			while (tokens->wilds && tokens->wilds[i] != -1)
-				printf(" %i", tokens->wilds[i++]);
-		}
 		printf("\n");
 		tokens = tokens->nxt;
 	}

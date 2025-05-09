@@ -47,13 +47,3 @@ char	*str_remove_free(char *str, size_t count)
 	free(str);
 	return (new);
 }
-
-char	*str_new()
-{
-	char	*str;
-
-	str = malloc(1 * sizeof(char));
-	if (str)
-		str[0] = 0;
-	return (str);
-}

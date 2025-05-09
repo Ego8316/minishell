@@ -12,74 +12,61 @@
 
 #include "minishell.h"
 
-static char	*parse_quote(t_parse_data *data, char q)
+static t_bool	parse_quote(t_parse_data *data, char q, char **text)
 {
-	char	*text;
 	char	c;
 
-	text = 0;
-	data->i++;
 	while (1)
 	{
 		while (!data->cmd[data->i])
 			if (!expand_cmd(data))
 				return (0);
 		c = data->cmd[data->i++];
-		if (c == q && (q != '\"' || isnescp(data->cmd, data->i - 1, q)))
+		if (!strb_append(text, c))
+			return (FALSE);
+		if (c == q)
 			break;
-		if (q != '\"' || c != '\\' || data->cmd[data->i] != q)
-			if (!strb_append(&text, c))
-				return (0);
 	}
-	if (q == '\"')
-		return (substitute_stuff(text, data->vars, 0, -1));
-	return (text);
+	return (TRUE);
 }
 
-static char	*parse_word(t_parse_data *data, int **wcs, int wcs_off)
+static t_bool	parse_word(t_parse_data *data, char **text)
 {
-	char	*text;
 	char	c;
 
-	text = 0;
 	while (1)
 	{
-		//printf("word parse loop on '%c' %i\n", data->cmd[data->i], data->i);
 		c = data->cmd[data->i++];
 		if (!c || ft_isspace(c) || is_char_oper(c) || c == '\'' || c == '\"')
 			break;
-		if (!strb_append(&text, c))
-			return (0);
+		if (!strb_append(text, c))
+			return (FALSE);
 	}
 	data->i--;
-	return (substitute_stuff(text, data->vars, wcs, wcs_off));
+	return (TRUE);
 }
 
 t_bool	parse_text(t_parse_data *data)
 {
 	char	*text;
 	char	c;
-	int		*wcs;
 	t_token	*token;
 
-	wcs = 0;
 	data->expect_cmd = FALSE;
 	text = 0;
 	c = data->cmd[data->i];
 	while (c && !ft_isspace(c) && !is_char_oper(c))
 	{
-		if (isnescp(data->cmd, data->i, '\'') || isnescp(data->cmd, data->i, '\"'))
-			strb_join(&text, parse_quote(data, c));
-		else
-			strb_join(&text, parse_word(data, &wcs, ft_strlen_null(text)));
-		if (!text)
+		if (c == '\'' || c == '\"')
+		{
+			if (!parse_quote(data, c, &text))
+				return (FALSE);
+		}
+		else if (!parse_word(data, &text))
 			return (FALSE);
 		c = data->cmd[data->i];
 	}
-	if (!token_make(TEXT, text, data->depth, &token))
-		return (FALSE);
-	token->wilds = wcs;
-	return (token_add_last(token, &data->tokens));
+	return (token_make(TEXT, text, data->depth, &token) && token_add_last(token, &data->tokens));
 }
 /*
 typedef struct s_parse_data

@@ -92,8 +92,6 @@ typedef struct s_token
 	t_token_type	type;
 	char			*str;
 	int				depth;
-	int				*wilds;
-	int				*vars;
 	struct s_token	*nxt;
 }					t_token;
 
@@ -200,7 +198,6 @@ void	set_signals(int mode);
 char	*read_term_line(const char	*prompt);
 char	*str_append_free(char *str, char c);
 char	*str_remove_free(char *str, size_t count);
-char	*str_new(void);
 t_bool	isnescp(char *str, int i, char c);
 
 // Builtins
@@ -283,5 +280,6 @@ int		errmsg_errnum(int prefix, char *s, int errnum);
 
 t_bool	strb_append(char **str, char end);
 t_bool	strb_join(char **str, char *end);
+char	*strb_new(void);
 
 #endif

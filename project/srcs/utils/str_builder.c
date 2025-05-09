@@ -62,3 +62,13 @@ t_bool	strb_append(char **str, char end)
 		*str = 0;
 	return (new != 0);
 }
+
+char	*strb_new()
+{
+	char	*str;
+
+	str = malloc(1 * sizeof(char));
+	if (str)
+		str[0] = 0;
+	return (str);
+}

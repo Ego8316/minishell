@@ -67,6 +67,6 @@ char	*read_term_line(const char* prompt)
 	tcsetattr(0, 0, &termios_p);
 	ft_putstr_fd("\n", 0);
 	if (!res)
-		return (str_new());
+		return (strb_new());
 	return (res);
 }
