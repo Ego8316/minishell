@@ -117,8 +117,6 @@ t_bool	try_parse_command(char *cmd, t_data *d)
 	add_history(data.cmd);
 	free(data.cmd);
 	d->tokens = data.tokens;
-	if (!expand_wildcards(&d->tokens))
-		return (FALSE);
 	return (TRUE);
 }
 
