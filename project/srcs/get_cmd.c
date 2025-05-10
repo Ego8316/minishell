@@ -50,6 +50,29 @@ void	print_token_list(t_token *tokens)
 	}
 }
 
+t_bool	debug_substitute(t_token **t, t_data *data)
+{
+	t_token *token;
+
+	if (!*t)
+		return (TRUE);
+	if (!substitute_list(t, data))
+		return (FALSE);
+	token = *t;
+	while (token)
+	{
+		while (token && token->type == TEXT)
+			token = token->nxt;
+		while (token && token->type != TEXT)
+			token = token->nxt;
+		if (!token)
+			return (TRUE);
+		if (!substitute_list(t, data))
+			return (FALSE);
+	}
+	return (TRUE);
+}
+
 void	run_cmd_from_user(t_data *d)
 {
 	char	*line;
@@ -61,6 +84,10 @@ void	run_cmd_from_user(t_data *d)
 		clean_exit(d, 0);
 	if (*line && !ft_stristype(line, ft_isspace) && try_parse_command(line, d))
 	{
+		print_token_list(d->tokens);
+		printf("substituting...");
+		if (!debug_substitute(&d->tokens, d))
+			return ;
 		print_token_list(d->tokens);
 		g_last_exit_code = execute_pipeline(d, d->tokens);
 		if (g_last_exit_code == M_ERR)

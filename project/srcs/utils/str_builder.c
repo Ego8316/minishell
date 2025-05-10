@@ -72,3 +72,10 @@ char	*strb_new()
 		str[0] = 0;
 	return (str);
 }
+
+t_bool	strb_sub(char *str, int start, int count, char **ret)
+{
+	*ret = 0;
+	*ret = ft_substr(str, start, count);
+	return (*ret != 0);
+}

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static t_bool	record_wildcard(int i, int **wcs)
+t_bool	record_wildcard(int i, int **wcs)
 {
 	int	*new;
 	int	len;
@@ -34,25 +34,6 @@ static t_bool	record_wildcard(int i, int **wcs)
 	if (*wcs)
 		free(*wcs);
 	*wcs = new;
-	return (TRUE);
-}
-
-t_bool	record_wildcards(char *str, int **wcs, int offset)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '*' && !record_wildcard(i + offset, wcs))
-		{
-			free(str);
-			if (*wcs != 0)
-				free(*wcs);
-			return (FALSE);
-		}
-		i++;
-	}
 	return (TRUE);
 }
 
@@ -140,10 +121,9 @@ t_bool	expand_wildcards(t_token **head)
 
 	prev = 0;
 	t = *head;
-	while (t)
+	while (t && t->type == TEXT)
 	{
-		if (t->type == TEXT && !ft_strchr(t->str, '/')
-			&& ft_strchr(t->str, '*'))
+		if (!ft_strchr(t->str, '/') && ft_strchr(t->str, '*'))
 		{
 			matches = get_matches(t);
 			if (!matches)

@@ -13,7 +13,7 @@
 NAME = minishell
 
 CC = gcc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -fsanitize=address
 LIBFT = -L libft -lft -lreadline
 
 SRC_DIR = srcs/
@@ -27,6 +27,7 @@ SRC_FILES += parsing/parser.c	\
 			 parsing/brackets.c	\
 			 parsing/utils.c	\
 			 parsing/wildcards.c	\
+			 parsing/substitution.c	\
 			 parsing/token.c	
 SRC_FILES += builtins/cd.c		\
 			 builtins/echo.c	\

@@ -92,6 +92,7 @@ typedef struct s_token
 	t_token_type	type;
 	char			*str;
 	int				depth;
+	int				*wilds;
 	struct s_token	*nxt;
 }					t_token;
 
@@ -180,9 +181,10 @@ t_bool	parse_text(t_parse_data *data);
 t_bool	parse_loop(t_parse_data *data);
 t_bool	is_char_oper(char c);
 t_bool	syntax_error(t_parse_data *data, int i);
-char	*substitute_stuff(char *str, t_var *vars, int **wcs, int wcs_off);
-t_bool	record_wildcards(char *str, int **wcs, int offset);
+t_bool	record_wildcard(int i, int **wcs);
 t_bool	expand_wildcards(t_token **head);
+t_bool	substitute_list(t_token **list, t_data *data);
+t_bool	substitute_var(char *str, int *i, t_var *vars, char **new);
 
 // Signals
 
@@ -280,6 +282,7 @@ int		errmsg_errnum(int prefix, char *s, int errnum);
 
 t_bool	strb_append(char **str, char end);
 t_bool	strb_join(char **str, char *end);
+t_bool	strb_sub(char *str, int start, int count, char **ret);
 char	*strb_new(void);
 
 #endif
