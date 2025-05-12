@@ -54,6 +54,7 @@ t_bool	debug_substitute(t_token **t, t_data *data)
 {
 	t_token *token;
 
+	printf("substituting tokens...\n");
 	if (!*t)
 		return (TRUE);
 	if (!substitute_list(t, data))
@@ -67,7 +68,7 @@ t_bool	debug_substitute(t_token **t, t_data *data)
 			token = token->nxt;
 		if (!token)
 			return (TRUE);
-		if (!substitute_list(t, data))
+		if (!substitute_list(&token, data))
 			return (FALSE);
 	}
 	return (TRUE);
@@ -85,7 +86,6 @@ void	run_cmd_from_user(t_data *d)
 	if (*line && !ft_stristype(line, ft_isspace) && try_parse_command(line, d))
 	{
 		print_token_list(d->tokens);
-		printf("substituting...");
 		if (!debug_substitute(&d->tokens, d))
 			return ;
 		print_token_list(d->tokens);
