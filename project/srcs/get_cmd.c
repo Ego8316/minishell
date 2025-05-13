@@ -52,7 +52,7 @@ void	print_token_list(t_token *tokens)
 
 t_bool	debug_substitute(t_token **t, t_data *data)
 {
-	t_token *token;
+	t_token	*token;
 
 	printf("substituting tokens...\n");
 	if (!*t)

@@ -12,15 +12,15 @@
 
 #include "minishell.h"
 
-static void sig_handle(int what)
+static void	sig_handle(int what)
 {
 	if (what != SIGINT)
-		return;
+		return ;
 	quit_flag_set(1);
 	printf("\n");
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 int	quit_flag(int *value)
@@ -37,14 +37,13 @@ int	quit_flag_set(int value)
 	return (quit_flag(&value));
 }
 
-void	init_signal()
+void	init_signal(void)
 {
 	struct sigaction	sighandler;
 
 	sighandler.sa_handler = sig_handle;
 	sigemptyset(&sighandler.sa_mask);
 	sighandler.sa_flags = 0;
-
 	if (!isatty(STDIN_FILENO))
 		return ;
 	sigaction(SIGINT, &sighandler, 0);

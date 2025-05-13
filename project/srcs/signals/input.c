@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static struct termios	init_input()
+static struct termios	init_input(void)
 {
 	struct termios	termios_p;
 	struct termios	og_termios_p;
@@ -20,7 +20,7 @@ static struct termios	init_input()
 	tcgetattr(0, &og_termios_p);
 	tcgetattr(0, &termios_p);
 	termios_p.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP
-                | INLCR | IGNCR | ICRNL | IXON);
+			| INLCR | IGNCR | ICRNL | IXON);
 	termios_p.c_oflag &= ~OPOST;
 	termios_p.c_lflag &= ~(ECHO | ECHONL | ICANON | ISIG | IEXTEN);
 	termios_p.c_cflag &= ~(CSIZE | PARENB);
@@ -52,9 +52,9 @@ static int	try_read_input(char **str)
 	return (1);
 }
 
-char	*read_term_line(const char* prompt)
+char	*read_term_line(const char *prompt)
 {
-	char	*res;
+	char			*res;
 	struct termios	termios_p;
 
 	res = 0;

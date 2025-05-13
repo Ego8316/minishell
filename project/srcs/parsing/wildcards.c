@@ -45,7 +45,7 @@ t_bool	record_wildcard(int i, int **wcs)
  * 
  * @return The matches list, NULL if allocation fails.
  */
-t_token *get_matches(t_token *t)
+t_token	*get_matches(t_token *t)
 {
 	DIR				*dir;
 	struct dirent	*entry;

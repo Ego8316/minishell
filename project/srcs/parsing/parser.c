@@ -42,6 +42,7 @@ t_bool	expand_cmd(t_parse_data *data)
 static t_parse_data	get_parse_data(char *cmd, t_data *d)
 {
 	t_parse_data	data;
+
 	data.cmd = cmd;
 	data.i = 0;
 	data.tokens = FALSE;
@@ -65,7 +66,7 @@ static int	parse_char(t_parse_data *data)
 		return (expand_cmd(data));
 	}
 	if (ft_isspace(c))
-		return (1 + data->i++ * 0);
+		return (1 + (0 * data->i++));
 	if (c == '|' || c == '&' || c == '>' || c == '<')
 		return (parse_operator(data));
 	if (c == '(' || c == ')')

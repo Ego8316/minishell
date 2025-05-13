@@ -30,6 +30,29 @@ static t_bool	substitute_quote(t_token *t, char **new, int *i, t_var *v)
 	return (TRUE);
 }
 
+static t_bool	substitute_loop(t_token *t, t_var *vars, int *i, char **new)
+{
+	if (t->str[*i] == '\'' || t->str[*i] == '\"')
+	{
+		if (!substitute_quote(t, new, i, vars))
+			return (FALSE);
+	}
+	else if (t->str[*i] == '$')
+	{
+		if (!substitute_var(t->str, i, vars, new))
+			return (FALSE);
+	}
+	else
+	{
+		if (!record_wildcard(*i, &t->wilds))
+			return (FALSE);
+		if (!strb_append(new, t->str[*i]))
+			return (FALSE);
+		(*i)++;
+	}
+	return (TRUE);
+}
+
 static t_bool	substitute_string(t_token *t, t_var *vars)
 {
 	int		i;
@@ -39,31 +62,14 @@ static t_bool	substitute_string(t_token *t, t_var *vars)
 	new = 0;
 	printf("substituting '%s'\n", t->str);
 	while (t->str[i])
-	{
-		if (t->str[i] == '\'' || t->str[i] == '\"')
-		{
-			if (!substitute_quote(t, &new, &i, vars))
-				return (FALSE);
-		}
-		else if (t->str[i] == '$')
-		{
-			if (!substitute_var(t->str, &i, vars, &new))
-				return (FALSE);
-		}
-		else
-		{
-			if (!record_wildcard(i, &t->wilds))
-				return (FALSE);
-			if (!strb_append(&new, t->str[i++]))
-				return (FALSE);
-		}
-	}
+		if (!substitute_loop(t, vars, &i, &new))
+			return (FALSE);
 	if (!new)
 		new = strb_new();
 	free(t->str);
 	t->str = new;
 	printf("new '%s'\n", t->str);
-	return(TRUE);
+	return (TRUE);
 }
 
 t_bool	substitute_list(t_token **list, t_data *data)

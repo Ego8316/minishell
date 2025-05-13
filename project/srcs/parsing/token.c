@@ -36,6 +36,7 @@ t_token	*token_new_str(char *str, int depth)
 	new->type = TEXT;
 	new->depth = depth;
 	new->nxt = NULL;
+	new->prv = 0;
 	new->wilds = 0;
 	return (new);
 }
@@ -53,6 +54,7 @@ t_bool	token_make(t_token_type type, char *str, int depth, t_token **out)
 	(*out)->str = str;
 	(*out)->depth = depth;
 	(*out)->nxt = 0;
+	(*out)->prv = 0;
 	(*out)->wilds = 0;
 	return (TRUE);
 }
@@ -103,5 +105,6 @@ t_bool	token_add_last(t_token *token, t_token **list)
 	while (loop->nxt)
 		loop = loop->nxt;
 	loop->nxt = token;
+	token->prv = loop;
 	return (TRUE);
 }

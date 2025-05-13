@@ -25,7 +25,7 @@ static t_bool	parse_quote(t_parse_data *data, char q, char **text)
 		if (!strb_append(text, c))
 			return (FALSE);
 		if (c == q)
-			break;
+			break ;
 	}
 	return (TRUE);
 }
@@ -38,7 +38,7 @@ static t_bool	parse_word(t_parse_data *data, char **text)
 	{
 		c = data->cmd[data->i++];
 		if (!c || ft_isspace(c) || is_char_oper(c) || c == '\'' || c == '\"')
-			break;
+			break ;
 		if (!strb_append(text, c))
 			return (FALSE);
 	}
@@ -66,7 +66,8 @@ t_bool	parse_text(t_parse_data *data)
 			return (FALSE);
 		c = data->cmd[data->i];
 	}
-	return (token_make(TEXT, text, data->depth, &token) && token_add_last(token, &data->tokens));
+	return (token_make(TEXT, text, data->depth, &token)
+		&& token_add_last(token, &data->tokens));
 }
 /*
 typedef struct s_parse_data

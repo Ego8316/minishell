@@ -63,7 +63,7 @@ t_bool	strb_append(char **str, char end)
 	return (new != 0);
 }
 
-char	*strb_new()
+char	*strb_new(void)
 {
 	char	*str;
 

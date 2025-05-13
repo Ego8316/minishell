@@ -17,11 +17,11 @@ static t_bool	mk_tk(t_parse_data *d, t_token_type a, t_token_type b, char c)
 	t_token	*token;
 
 	if (d->cmd[d->i] != c)
-		return (token_make(a, 0, d->depth, &token) &&
-			token_add_last(token, &d->tokens));
+		return (token_make(a, 0, d->depth, &token)
+			&& token_add_last(token, &d->tokens));
 	d->i++;
-	return (token_make(b, 0, d->depth, &token) &&
-		token_add_last(token, &d->tokens));
+	return (token_make(b, 0, d->depth, &token)
+		&& token_add_last(token, &d->tokens));
 }
 
 t_bool	parse_operator(t_parse_data *data)

@@ -94,6 +94,7 @@ typedef struct s_token
 	int				depth;
 	int				*wilds;
 	struct s_token	*nxt;
+	struct s_token	*prv;
 }					t_token;
 
 typedef struct s_var

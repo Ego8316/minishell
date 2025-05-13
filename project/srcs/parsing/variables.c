@@ -38,7 +38,7 @@ t_bool	substitute_var(char *str, int *i, t_var *vars, char **new)
 	char	*var_name;
 	char	*var_val;
 	int		start;
-	
+
 	(*i)++;
 	if (str[*i] == '?')
 		return (substite_exit(i, new));
