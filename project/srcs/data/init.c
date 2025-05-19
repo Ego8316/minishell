@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 12:51:34 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 02:27:02 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/19 19:11:36 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ t_bool	data_init(t_data *data, char **envp)
 	data->vars = copy_vars(envp);
 	data->tokens = NULL;
 	data->pipe = NULL;
+	data->ast = NULL;
 	data->line = 1;
 	data->prefix = get_prefix();
 	if (!data->pwd || (!data->vars && *envp) || !data->prefix)

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 19:58:29 by ego               #+#    #+#             */
-/*   Updated: 2025/05/05 20:36:09 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/19 19:46:59 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,6 @@ int	parent_routine(t_data *data)
 		}
 		i++;
 	}
+	data->pipe = free_pipeline(data->pipe);
 	return (exit_code);
 }

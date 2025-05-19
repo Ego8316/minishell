@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/05/19 18:07:39 by ego              ###   ########.fr        #
+#    Updated: 2025/05/19 19:21:41 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,16 +20,6 @@ SRC_DIR = srcs/
 
 SRC_FILES = main.c			\
 			get_cmd.c
-SRC_FILES += parsing/brackets.c		\
-			 parsing/operators.c	\
-			 parsing/parser.c		\
-			 parsing/substitution.c	\
-			 parsing/text.c			\
-			 parsing/token.c		\
-			 parsing/tree.c			\
-			 parsing/utils.c		\
-			 parsing/variables.c	\
-			 parsing/wildcards.c
 SRC_FILES += builtins/cd.c		\
 			 builtins/echo.c	\
 			 builtins/env.c		\
@@ -43,9 +33,6 @@ SRC_FILES += data/env.c			\
 			 data/utils.c		\
 			 data/var_line.c	\
 			 data/var.c
-SRC_FILES += utils/error.c	\
-			 utils/free.c	\
-			 utils/str_builder.c
 SRC_FILES += execution/assignments.c	\
 			 execution/command.c		\
 			 execution/execute.c		\
@@ -55,11 +42,25 @@ SRC_FILES += execution/assignments.c	\
 			 execution/path.c			\
 			 execution/pipeline.c		\
 			 execution/redirections.c	\
-			 execution/routines.c
+			 execution/routines.c		\
+			 execution/tree.c
+SRC_FILES += parsing/brackets.c		\
+			 parsing/operators.c	\
+			 parsing/parser.c		\
+			 parsing/substitution.c	\
+			 parsing/text.c			\
+			 parsing/token.c		\
+			 parsing/tree.c			\
+			 parsing/utils.c		\
+			 parsing/variables.c	\
+			 parsing/wildcards.c
 SRC_FILES += signals/signal_init.c	\
 			 signals/input.c		\
 			 signals/input_utils.c	\
 			 signals/signal.c
+SRC_FILES += utils/error.c	\
+			 utils/free.c	\
+			 utils/str_builder.c
 			
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/19 18:16:51 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/19 19:23:12 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,14 @@ typedef struct s_pipeline
 	int		stdout_backup;
 }	t_pipe;
 
+typedef struct s_ast
+{
+	struct s_ast	*left;
+	struct s_ast	*right;
+	t_ast_type		type;
+	t_token			*cmd;
+}	t_ast;
+
 typedef struct s_data
 {
 	char	*pwd;
@@ -136,6 +144,7 @@ typedef struct s_data
 	t_var	*vars;
 	t_token	*tokens;
 	t_pipe	*pipe;
+	t_ast	*ast;
 	int		line;
 	char	*prefix;
 }	t_data;
@@ -148,16 +157,8 @@ typedef struct s_parse_data
 	int				depth;
 	t_token			*tokens;
 	t_var			*vars;
-	struct s_data	*data;
+	t_data			*data;
 }	t_parse_data;
-
-typedef struct s_ast
-{
-	struct s_ast	*left;
-	struct s_ast	*right;
-	t_ast_type		type;
-	t_token			*cmd;
-}	t_ast;
 
 //==Functions===
 void	run_cmd_from_user(t_data *d);
@@ -241,6 +242,7 @@ int		execute_builtin(t_data *data, char **argv);
 int		execute_system_bin(t_pipe *pipe, t_cmd *cmd);
 int		execute_local_bin(t_pipe *pipe, t_cmd *cmd);
 int		execute_pipeline(t_data *data, t_token *t);
+int		execute_ast(t_data *d, t_ast *node);
 char	**get_paths(t_data *data);
 char	*get_pathname(char *name, char **paths);
 

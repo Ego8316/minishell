@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:44:32 by ego               #+#    #+#             */
-/*   Updated: 2025/05/19 18:26:07 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/19 19:50:56 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ t_ast	*create_leaf(t_token *t)
 
 	leaf = (t_ast *)malloc(sizeof(t_ast));
 	if (!leaf)
+	{
+		g_last_exit_code = M_ERR;
 		return (NULL);
+	}
 	leaf->left = NULL;
 	leaf->right = NULL;
 	leaf->type = CMD;
@@ -52,7 +55,10 @@ t_ast	*create_branch(t_token *t)
 
 	branch = (t_ast *)malloc(sizeof(t_ast));
 	if (!branch)
+	{
+		g_last_exit_code = M_ERR;
 		return (NULL);
+	}
 	branch->left = NULL;
 	branch->right = NULL;
 	if (t->type == ANDOPER)
@@ -118,15 +124,15 @@ t_ast	*build_ast(t_token *t)
 		return (create_leaf(t));
 	left = t;
 	right = sep->nxt;
+	node = create_branch(sep);
+	if (!node)
+		return (NULL);
 	sep->prv->nxt = NULL;
 	sep->nxt->prv = NULL;
 	sep->prv = NULL;
 	sep->nxt = NULL;
-	node = create_branch(sep);
 	node->left = build_ast(left);
 	node->right = build_ast(right);
-	if (!node->left || !node->right)
-		return (NULL);
 	return (node);
 }
 

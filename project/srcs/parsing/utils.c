@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 19:29:33 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/01 18:47:24 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/19 18:53:10 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	ft_fnmatch(const char *pattern, const char *name, int pos, int *arr)
 
 /**
  * @brief Cleans the matches token list. If the list has more than one node,
- * removes the first sorts all the others.
+ * removes the first and sorts all the others.
  * 
  * @param head Head of the token list to be sorted.
  * 

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 15:12:00 by ego               #+#    #+#             */
-/*   Updated: 2025/05/08 18:15:41 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/19 19:48:18 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ static int	execute_command(t_data *data, t_token *t, t_cmd *cmd)
 			ret = execute_system_bin(data->pipe, cmd);
 		else
 			ret = execute_local_bin(data->pipe, cmd);
-		printf("child: ret = %i\n", ret);
 		clean_exit(data, ret);
 	}
 	return (wait_and_get_exit_code(pid));
