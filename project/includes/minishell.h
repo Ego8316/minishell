@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/08 18:47:29 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/19 18:16:51 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,10 @@ t_bool	token_free_node(t_token *t);
 t_bool	token_free_list(t_token **list);
 t_bool	token_add_last(t_token *token, t_token **list);
 t_token	*clean_matches(t_token **head);
+
+t_ast	*build_ast(t_token *t);
+t_ast	*free_ast(t_ast *root);
+void 	print_ast(t_ast *node, int level);
 
 //Internal parsing (private)
 
