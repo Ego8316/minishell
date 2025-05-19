@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:14:21 by ego               #+#    #+#             */
-/*   Updated: 2025/04/08 14:54:54 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/19 21:50:38 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,25 @@ int	errmsg(char *s1, char *s2, char *s3, int status)
 
 /**
  * @brief Displays on the standard error an error message of the
+ * form "minishell: %s: %s\n" and returns status.
+ * 
+ * @param s1 Fist string to be displayed.
+ * @param s2 Second string to be displayed.
+ * @param status Exit code.
+ * 
+ * @return Error's number.
+ */
+int	errmsg_prefix(char *s1, char *s2, int status)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(s1, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putendl_fd(s2, STDERR_FILENO);
+	return (status);
+}
+
+/**
+ * @brief Displays on the standard error an error message of the
  * form "minishell: %s: strerr(errnum)\n" and returns errnum.
  * 
  * @param prefix Whether to print "minishell: " or not.
@@ -46,12 +65,18 @@ int	errmsg(char *s1, char *s2, char *s3, int status)
  */
 int	errmsg_errnum(int prefix, char *s, int errnum)
 {
+	printf("here: %i\n", errnum);
 	if (prefix)
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(s, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
-	if (errnum == CMD_NOT_EXEC)
-		ft_putendl_fd(IS_DIR_MSG, STDERR_FILENO);
+	if (errnum == CMD_IS_DIR)
+	{
+		errnum += 1;
+		ft_putendl_fd(CMD_IS_DIR_MSG, STDERR_FILENO);
+	}
+	else if (errnum == CMD_NOT_EXEC)
+		ft_putendl_fd(CMD_NOT_EXEC_MSG, STDERR_FILENO);
 	else if (errnum == CMD_NOT_FOUND)
 		ft_putendl_fd(CMD_NOT_FOUND_MSG, STDERR_FILENO);
 	else

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:54:41 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/19 19:59:32 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/19 21:25:58 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	run_cmd_from_user(t_data *d)
 			clean_exit(d, errmsg(M_ERR_MSG, 0, 0, 1));
 		print_ast(d->ast, 0);
 		g_last_exit_code = execute_ast(d, d->ast);
+		printf("--- exit code %i ---\n", g_last_exit_code);
 		d->pipe = free_pipeline(d->pipe);
 		if (g_last_exit_code == M_ERR)
 			clean_exit(d, errmsg(M_ERR_MSG, 0, 0, 1));

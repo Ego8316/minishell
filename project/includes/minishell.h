@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/19 19:23:12 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/19 21:48:31 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@
 # define TMP ".tmp"
 # define M_ERR -2
 # define HEREDOC_C -3
+# define CMD_IS_DIR 125
 # define CMD_NOT_EXEC 126
 # define CMD_NOT_FOUND 127
 # define M_ERR_MSG "malloc: failed allocation\n"
-# define IS_DIR_MSG "Is a directory"
+# define CMD_IS_DIR_MSG "Is a directory"
+# define CMD_NOT_EXEC_MSG "Permission denied"
 # define CMD_NOT_FOUND_MSG "command not found"
 # define COLOR_RESET "\001\033[0m\002"
 # define COLOR_GREEN "\001\033[0;32m\002"
@@ -285,6 +287,7 @@ void	*free_pipeline(t_pipe *pipe);
 void	clean_exit(t_data *data, int status);
 void	swap_str(char **s1, char **s2);
 int		errmsg(char *s1, char *s2, char *s3, int status);
+int		errmsg_prefix(char *s1, char *s2, int status);
 int		errmsg_errnum(int prefix, char *s, int errnum);
 
 t_bool	strb_append(char **str, char end);

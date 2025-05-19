@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 15:12:00 by ego               #+#    #+#             */
-/*   Updated: 2025/05/19 19:48:18 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/19 21:50:51 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	execute_system_bin(t_pipe *pipe, t_cmd *cmd)
 	if (!cmd->pathname)
 		return (M_ERR);
 	if (!*cmd->pathname)
-		return (errmsg_errnum(0, cmd->name, CMD_NOT_FOUND));
+		return (errmsg(cmd->name, ": command not found\n", 0, CMD_NOT_FOUND));
 	if (execve(cmd->pathname, cmd->argv, pipe->envp) == -1)
 		return (errmsg_errnum(0, "execve", errno));
 	return (1);
@@ -89,11 +89,11 @@ int	execute_system_bin(t_pipe *pipe, t_cmd *cmd)
 int	execute_local_bin(t_pipe *pipe, t_cmd *cmd)
 {
 	if (is_dir(cmd->name))
-		return (errmsg_errnum(1, cmd->name, CMD_NOT_EXEC));
+		return (errmsg_prefix(cmd->name, "Is a directory", 126));
 	if (access(cmd->name, F_OK) != 0)
-		return (errmsg_errnum(1, cmd->name, errno));
+		return (errmsg_prefix(cmd->name, "No such file or directory", 127));
 	if (access(cmd->name, F_OK | X_OK) != 0)
-		return (errmsg_errnum(1, cmd->name, errno));
+		return (errmsg_prefix(cmd->name, "Permission denied", 126));
 	if (execve(cmd->name, cmd->argv, pipe->envp) == -1)
 		return (errmsg_errnum(0, "execve", errno));
 	return (1);
