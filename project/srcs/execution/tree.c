@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:13:57 by ego               #+#    #+#             */
-/*   Updated: 2025/05/19 19:53:52 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/22 14:12:22 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ int	execute_ast(t_data *d, t_ast *node)
 	if (!node)
 		return (0);
 	if (node->type == CMD)
+	{
+		if (!substitute_list(&node->cmd, d))
+			return (M_ERR);
 		return (execute_pipeline(d, node->cmd));
+	}
 	g_last_exit_code = execute_ast(d, node->left);
 	if (g_last_exit_code == M_ERR)
 		clean_exit(d, errmsg(M_ERR_MSG, 0, 0, 1));

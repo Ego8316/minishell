@@ -6,20 +6,21 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:44:32 by ego               #+#    #+#             */
-/*   Updated: 2025/05/19 19:50:56 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/22 14:10:23 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+
 /**
- * @brief Recursively frees the syntax tree.
+ * @brief Recursively frees all nodes of an abstract syntax tree (AST).
+ *
+ * Frees both subtrees and the associated command token list at each node.
+ *
+ * @param root Pointer to the root node of the tree.
  * 
- * @param root Pointer to the tree's root.
- * 
- * @warning Should be called with the tree's root.
- * 
- * @return NULL for convenience.
+ * @return Always returns NULL for convenience.
  */
 t_ast	*free_ast(t_ast *root)
 {
@@ -32,6 +33,16 @@ t_ast	*free_ast(t_ast *root)
 	return (NULL);
 }
 
+/**
+ * @brief Creates a leaf node in the AST for a single command.
+ *
+ * Sets the node type to CMD and stores the command tokens.
+ *
+ * @param t Pointer to the list of tokens representing a command.
+ * 
+ * @return Pointer to the newly created leaf node, NULL if memory allocation
+ * fails. Frees the token list and sets global error code in that case.
+ */
 t_ast	*create_leaf(t_token *t)
 {
 	t_ast	*leaf;
@@ -40,6 +51,7 @@ t_ast	*create_leaf(t_token *t)
 	if (!leaf)
 	{
 		g_last_exit_code = M_ERR;
+		token_free_list(&t);
 		return (NULL);
 	}
 	leaf->left = NULL;
@@ -49,6 +61,15 @@ t_ast	*create_leaf(t_token *t)
 	return (leaf);
 }
 
+/**
+ * @brief Creates a branch node in the AST for a boolean operator (&& or ||).
+ *
+ * Sets the node type to AND or OR depending on the token type.
+ *
+ * @param t Pointer to the operator token (ANDOPER or OROPER).
+ * @return Pointer to the newly created branch node, NULL if memory allocation
+ * fails. Sets global error code if memory allocation fails.
+ */
 t_ast	*create_branch(t_token *t)
 {
 	t_ast	*branch;
@@ -106,11 +127,15 @@ t_token	*get_lowest_precedence(t_token *t)
 }
 
 /**
- * @brief Builds the syntax tree from the token list.
+ * @brief Builds an abstract syntax tree (AST) from a token list.
+ *
+ * Recursively splits the token list on the lowest-precedence operator (&& or
+ * ||), creating a binary tree where command nodes are leaves and operators
+ * are branches.
+ *
+ * @param t Pointer to the head of the token list.
  * 
- * @param t Token list.
- * 
- * @return The tree's root, NULL if memory allocation fails.
+ * @return Pointer to the root of the AST, or NULL on memory allocation failure.
  */
 t_ast	*build_ast(t_token *t)
 {
@@ -126,7 +151,10 @@ t_ast	*build_ast(t_token *t)
 	right = sep->nxt;
 	node = create_branch(sep);
 	if (!node)
+	{
+		token_free_list(&t);
 		return (NULL);
+	}
 	sep->prv->nxt = NULL;
 	sep->nxt->prv = NULL;
 	sep->prv = NULL;
