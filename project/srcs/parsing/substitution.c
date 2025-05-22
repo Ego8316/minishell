@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 19:26:46 by pkurt             #+#    #+#             */
-/*   Updated: 2025/04/10 18:40:29 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/22 20:13:42 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static t_bool	substitute_string(t_token *t, t_var *vars)
 
 	i = 0;
 	new = 0;
-	printf("substituting '%s'\n", t->str);
+	// printf("substituting '%s'\n", t->str);
 	while (t->str[i])
 		if (!substitute_loop(t, vars, &i, &new))
 			return (FALSE);
@@ -68,7 +68,7 @@ static t_bool	substitute_string(t_token *t, t_var *vars)
 		new = strb_new();
 	free(t->str);
 	t->str = new;
-	printf("new '%s'\n", t->str);
+	// printf("new '%s'\n", t->str);
 	return (TRUE);
 }
 

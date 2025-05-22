@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:14:21 by ego               #+#    #+#             */
-/*   Updated: 2025/05/19 21:50:38 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/22 20:36:02 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	errmsg_prefix(char *s1, char *s2, int status)
  */
 int	errmsg_errnum(int prefix, char *s, int errnum)
 {
-	printf("here: %i\n", errnum);
 	if (prefix)
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(s, STDERR_FILENO);

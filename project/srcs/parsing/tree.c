@@ -6,12 +6,11 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:44:32 by ego               #+#    #+#             */
-/*   Updated: 2025/05/22 14:10:23 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/22 21:15:20 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /**
  * @brief Recursively frees all nodes of an abstract syntax tree (AST).
@@ -107,7 +106,7 @@ t_token	*get_lowest_precedence(t_token *t)
 	int		min_depth;
 	t_token	*min_op;
 	t_token	*l;
-	
+
 	l = t;
 	min_depth = l->depth;
 	while (l)
@@ -162,50 +161,4 @@ t_ast	*build_ast(t_token *t)
 	node->left = build_ast(left);
 	node->right = build_ast(right);
 	return (node);
-}
-
-static void print_token_op(t_token_type type)
-{
-	if (type == PIPE)
-		printf("| ");
-	else if (type == REDIRIN)
-		printf("< ");
-	else if (type == REDIROUT)
-		printf("> ");
-	else if (type == OUTAPPEND)
-		printf(">> ");
-	else if (type == INDELI)
-		printf("<< ");
-}
-
-void print_ast(t_ast *node, int level)
-{
-	if (level == 0)
-		printf("=========== AST ===========\n");
-	if (!node)
-		return;
-	for (int i = 0; i < level; ++i)
-		printf("  ");
-	if (node->type == AND)
-		printf("AND\n");
-	else if (node->type == OR)
-		printf("OR\n");
-	else
-	{
-		printf("CMD: ");
-		t_token *cmd = node->cmd;
-		while (cmd)
-		{
-			if (cmd->type == TEXT)
-				printf("%s ", cmd->str);
-			else
-				print_token_op(cmd->type);
-			cmd = cmd->nxt;
-		}
-		printf("\n");
-	}
-	print_ast(node->left, level + 1);
-	print_ast(node->right, level + 1);
-	if (level == 0)
-		printf("===========================\n");
 }
