@@ -50,30 +50,6 @@ void	print_token_list(t_token *tokens)
 	}
 }
 
-t_bool	debug_substitute(t_token **t, t_data *data)
-{
-	t_token	*token;
-
-	printf("substituting tokens...\n");
-	if (!*t)
-		return (TRUE);
-	if (!substitute_list(t, data))
-		return (FALSE);
-	token = *t;
-	while (token)
-	{
-		while (token && token->type == TEXT)
-			token = token->nxt;
-		while (token && token->type != TEXT)
-			token = token->nxt;
-		if (!token)
-			return (TRUE);
-		if (!substitute_list(&token, data))
-			return (FALSE);
-	}
-	return (TRUE);
-}
-
 void	run_cmd_from_user(t_data *d)
 {
 	char	*line;

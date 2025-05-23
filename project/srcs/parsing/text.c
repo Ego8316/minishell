@@ -16,6 +16,9 @@ static t_bool	parse_quote(t_parse_data *data, char q, char **text)
 {
 	char	c;
 
+	if (!strb_append(text, q))
+		return (FALSE);
+	data->i++;
 	while (1)
 	{
 		while (!data->cmd[data->i])

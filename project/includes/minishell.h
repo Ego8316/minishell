@@ -179,6 +179,7 @@ t_token	*clean_matches(t_token **head);
 t_ast	*build_ast(t_token *t);
 t_ast	*free_ast(t_ast *root);
 void	print_ast(t_ast *node, int level, int header);
+void	print_token_list(t_token *tokens);
 
 //Internal parsing (private)
 
