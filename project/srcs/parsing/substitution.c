@@ -77,9 +77,9 @@ t_bool	substitute_list(t_token **list, t_data *data)
 	t_token	*token;
 
 	token = *list;
-	while (token && token->type == TEXT)
+	while (token && token->type != ANDOPER && token->type != OROPER)
 	{
-		if (!substitute_string(token, data->vars))
+		if (token->type == TEXT && !substitute_string(token, data->vars))
 			return (FALSE);
 		token = token->nxt;
 	}

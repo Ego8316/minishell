@@ -1,0 +1,1 @@
+/home/petko/Work/42/minishell/project
