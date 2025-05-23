@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 15:12:00 by ego               #+#    #+#             */
-/*   Updated: 2025/05/19 21:50:51 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/23 17:22:09 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	execute_builtin(t_data *data, char **argv)
  */
 int	execute_system_bin(t_pipe *pipe, t_cmd *cmd)
 {
+	if (!*cmd->name)
+		return (errmsg(cmd->name, ": command not found\n", 0, CMD_NOT_FOUND));
 	cmd->pathname = get_pathname(cmd->name, pipe->paths);
 	if (!cmd->pathname)
 		return (M_ERR);

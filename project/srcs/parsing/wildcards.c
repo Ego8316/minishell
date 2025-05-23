@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 00:46:56 by ego               #+#    #+#             */
-/*   Updated: 2025/05/01 20:08:02 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/23 17:09:31 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,33 @@ t_bool	record_wildcard(int i, int **wcs)
 }
 
 /**
- * @brief Buils up a token list made of all found matches.
+ * @brief Checks if the given filename is a match with the pattern contained in
+ * the given token. Ensures hidden files are taken only if the pattern starts
+ * with a dot. Also ensures directories . and .. do not appear in the matches.
+ * 
+ * @param filename Filename to check.
+ * @param token Token node.
+ * 
+ * @return 1 if it is a match, 0 otherwise.
+ */
+static int	is_match(char *filename, t_token *t)
+{
+	if (ft_fnmatch(t->str, filename, 0, t->wilds))
+		return (0);
+	if (*filename == '.' && *t->str != '.')
+		return (0);
+	if (!ft_strcmp(filename, "."))
+		return (0);
+	if (!ft_strcmp(filename, ".."))
+		return (0);
+	return (1);
+}
+
+/**
+ * @brief Builds up a token list made of all found matches for the given token.
  * If no match has been found, give only a copy of the given token node.
  * 
- * @param t Token list.
+ * @param t Token node.
  * 
  * @return The matches list, NULL if allocation fails.
  */
@@ -60,8 +83,7 @@ t_token	*get_matches(t_token *t)
 	entry = readdir(dir);
 	while (entry)
 	{
-		if (ft_fnmatch(t->str, entry->d_name, 0, t->wilds) == 0
-			&& !(entry->d_name[0] == '.' && t->str[0] != '.'))
+		if (is_match(entry->d_name, t))
 		{
 			matches->nxt = token_new_str(entry->d_name, t->depth);
 			if (!matches->nxt)

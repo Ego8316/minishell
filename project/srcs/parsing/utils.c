@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 19:29:33 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/22 19:58:52 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/23 16:52:05 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,8 @@ static int	is_not_escaped_wildcard(int pos, int *arr)
 	int	i;
 
 	i = 0;
-	printf("pointer: %p\n", arr);
 	while (arr[i] != -1)
 	{
-		printf("%i\n", i);
 		if (arr[i] == pos)
 			return (1);
 		i++;
