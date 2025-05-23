@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 19:22:18 by ego               #+#    #+#             */
-/*   Updated: 2025/05/08 21:07:38 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/23 14:22:07 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	reset_prompt(int signo)
 }
 
 /**
- * @brief Prints a newline.
+ * @brief Prints a newline and sets exit code to 130.
  * 
  * @param signo Signal number (unused).
  */
@@ -52,6 +52,11 @@ void	print_newline(int signo)
 	rl_on_new_line();
 }
 
+/**
+ * @brief Prints a newline and sets exit code to `HEREDOC_C`.
+ * 
+ * @param signo Signal number (unused).
+ */
 void	heredoc_sigint_handler(int signo)
 {
 	(void)signo;

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:53:15 by ego               #+#    #+#             */
-/*   Updated: 2025/05/05 17:12:13 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/23 15:53:57 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,18 +147,17 @@ t_pipe	*get_pipeline(t_data *data, t_token *t)
 	pipe->stdin_backup = dup(STDIN_FILENO);
 	pipe->stdout_backup = dup(STDOUT_FILENO);
 	pipe->paths = get_paths(data);
-	pipe->envp = NULL;
+	pipe->envp = copy_envp(data->vars);
 	pipe->pipes = NULL;
 	pipe->pids = NULL;
 	pipe->cmds = get_commands(data, t, pipe->n);
-	if (!pipe->paths || !pipe->cmds)
+	if (!pipe->paths || !pipe->cmds || !pipe->envp)
 		return (free_pipeline(pipe));
 	if (pipe->n == 1)
 		return (pipe);
-	pipe->envp = copy_envp(data->vars);
 	pipe->pipes = generate_pipes(pipe->n);
 	pipe->pids = (pid_t *)malloc(pipe->n * sizeof(pid_t));
-	if (!pipe->envp || !pipe->pipes || !pipe->pids)
+	if (!pipe->pipes || !pipe->pids)
 		return (free_pipeline(pipe));
 	return (pipe);
 }
