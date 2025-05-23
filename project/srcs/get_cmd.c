@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:54:41 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/23 14:07:21 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/23 14:18:17 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,5 @@ void	run_cmd_from_user(t_data *d)
 		get_prompt(d, 2);
 		d->ast = free_ast(d->ast);
 	}
-	free_str(&line);
 	d->line++;
 }
