@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:32:59 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 14:11:05 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/23 16:12:13 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,11 @@ int	env_builtin(t_data *data, char **argv)
 	while (v)
 	{
 		if (v->type == ENV)
-			printf("%s=%s\n", v->identifier, v->value);
+		{
+			ft_putstr_fd(v->identifier, STDOUT_FILENO);
+			ft_putchar_fd('=', STDOUT_FILENO);
+			ft_putendl_fd(v->value, STDOUT_FILENO);
+		}
 		v = v->nxt;
 	}
 	return (0);

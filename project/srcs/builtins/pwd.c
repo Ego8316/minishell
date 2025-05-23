@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:34 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 14:08:52 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/23 16:11:00 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@
 int	pwd_builtin(t_data *data, char **argv)
 {
 	(void)argv;
-	printf("%s\n", data->pwd);
+	ft_putendl_fd(data->pwd, STDOUT_FILENO);
 	return (0);
 }

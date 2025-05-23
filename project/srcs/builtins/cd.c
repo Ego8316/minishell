@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:35:52 by ego               #+#    #+#             */
-/*   Updated: 2025/05/08 18:06:44 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/23 16:06:45 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ static int	cd_oldpwd(t_data *data)
 		return (errmsg("minishell: cd: OLDPWD not set\n", 0, 0, 1));
 	if (!*oldpwd->value)
 	{
-		printf("\n");
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		if (!var_set(&data->vars, "OLDPWD", data->pwd))
 			return (M_ERR);
 		return (0);
@@ -149,7 +149,7 @@ static int	cd_oldpwd(t_data *data)
 	if (!var_set(&data->vars, "OLDPWD", data->oldpwd)
 		|| !var_set(&data->vars, "PWD", data->pwd))
 		return (M_ERR);
-	printf("%s\n", data->pwd);
+	ft_putendl_fd(data->pwd, STDOUT_FILENO);
 	return (0);
 }
 

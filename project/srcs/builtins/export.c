@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:27 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 14:09:15 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/23 16:10:41 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,18 @@ static int	print_declare_env(t_data *data)
 	while (v)
 	{
 		if (v->type == MARKED)
-			printf("declare -x %s\n", v->identifier);
+		{
+			ft_putstr_fd("declare -x ", STDOUT_FILENO);
+			ft_putendl_fd(v->identifier, STDOUT_FILENO);
+		}
 		if (v->type == ENV)
-			printf("declare -x %s=\"%s\"\n", v->identifier, v->value);
+		{
+			ft_putstr_fd("declare -x ", STDOUT_FILENO);
+			ft_putstr_fd(v->identifier, STDOUT_FILENO);
+			ft_putstr_fd("=\"", STDOUT_FILENO);
+			ft_putstr_fd(v->value, STDOUT_FILENO);
+			ft_putstr_fd("\"\n", STDOUT_FILENO);
+		}
 		v = v->nxt;
 	}
 	return (0);

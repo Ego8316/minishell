@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:00 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 14:11:26 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/23 16:04:35 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ int	echo_builtin(char **argv)
 	}
 	while (*argv)
 	{
-		printf("%s", *argv);
+		ft_putstr_fd(*argv, STDOUT_FILENO);
 		if (*(argv + 1))
-			printf(" ");
+			ft_putstr_fd(" ", STDOUT_FILENO);
 		argv++;
 	}
 	if (nl)
-		printf("\n");
+		ft_putchar_fd('\n', STDOUT_FILENO);
 	return (0);
 }
