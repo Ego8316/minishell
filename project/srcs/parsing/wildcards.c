@@ -60,7 +60,7 @@ t_token	*get_matches(t_token *t)
 	entry = readdir(dir);
 	while (entry)
 	{
-		if (ft_fnmatch(t->str, entry->d_name, 0, 0) == 0
+		if (ft_fnmatch(t->str, entry->d_name, 0, t->wilds) == 0
 			&& !(entry->d_name[0] == '.' && t->str[0] != '.'))
 		{
 			matches->nxt = token_new_str(entry->d_name, t->depth);
@@ -123,7 +123,7 @@ t_bool	expand_wildcards(t_token **head)
 	t = *head;
 	while (t && t->type == TEXT)
 	{
-		if (!ft_strchr(t->str, '/') && ft_strchr(t->str, '*'))
+		if (!ft_strchr(t->str, '/') && ft_strchr(t->str, '*') && t->wilds)
 		{
 			matches = get_matches(t);
 			if (!matches)
