@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:54:41 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/22 20:48:19 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/23 14:07:21 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	run_cmd_from_user(t_data *d)
 		d->ast = build_ast(d->tokens);
 		if (g_last_exit_code == M_ERR)
 			clean_exit(d, errmsg(M_ERR_MSG, 0, 0, 1));
-		print_ast(d->ast, 0, 1);
+		// print_ast(d->ast, 0, 1);
 		g_last_exit_code = execute_ast(d, d->ast);
 		// printf("--- exit code %i ---\n", g_last_exit_code);
 		d->pipe = free_pipeline(d->pipe);
@@ -97,5 +97,6 @@ void	run_cmd_from_user(t_data *d)
 		get_prompt(d, 2);
 		d->ast = free_ast(d->ast);
 	}
+	free_str(&line);
 	d->line++;
 }
