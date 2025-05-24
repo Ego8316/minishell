@@ -50,7 +50,13 @@ t_bool	substitute_var(char *str, int *i, t_var *vars, char **new)
 	if (!strb_sub(str, start, (*i) - start, &var_name))
 		return (FALSE);
 	var_val = var_get_value(vars, var_name);
-	// printf("substituting var name '%s' value '%s'\n", var_name, var_val);
 	free(var_name);
-	return (strb_join(new, var_val));
+	if (!strb_join(new, var_val))
+		return (FALSE);
+	if (!**new)
+	{
+		free(*new);
+		*new = 0;
+	}
+	return (TRUE);
 }

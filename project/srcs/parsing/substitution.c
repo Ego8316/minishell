@@ -60,16 +60,27 @@ static t_bool	substitute_string(t_token *t, t_var *vars)
 
 	i = 0;
 	new = 0;
-	// printf("substituting '%s'\n", t->str);
 	while (t->str[i])
 		if (!substitute_loop(t, vars, &i, &new))
 			return (FALSE);
-	if (!new)
+	if (!new && (ft_strchr(t->str, '\"') || ft_strchr(t->str, '\'')))
 		new = strb_new();
 	free(t->str);
 	t->str = new;
-	// printf("new '%s'\n", t->str);
 	return (TRUE);
+}
+
+static void	delete_link(t_token **t)
+{
+	t_token	*del;
+
+	del = *t;
+	if (del->nxt)
+		del->nxt->prv = del->prv;
+	if (del->prv)
+		del->prv->nxt = del->nxt;
+	*t = del->nxt;
+	token_free_node(del);
 }
 
 t_bool	substitute_list(t_token **list, t_data *data)
@@ -79,8 +90,18 @@ t_bool	substitute_list(t_token **list, t_data *data)
 	token = *list;
 	while (token && token->type != ANDOPER && token->type != OROPER)
 	{
-		if (token->type == TEXT && !substitute_string(token, data->vars))
-			return (FALSE);
+		if (token->type == TEXT)
+		{
+			if (!substitute_string(token, data->vars))
+				return (FALSE);
+			if (!token->str)
+			{
+				if (*list == token)
+					*list = token->nxt;
+				delete_link(&token);
+				continue ;
+			}
+		}
 		token = token->nxt;
 	}
 	return (expand_wildcards(list));
