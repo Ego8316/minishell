@@ -25,10 +25,7 @@ t_bool	expand_cmd(t_parse_data *data)
 	current = data->cmd;
 	new = readline("> ");
 	if (new)
-	{
 		data->cmd = ft_strjoin(current, new);
-		printf("'%s'\n", data->cmd);
-	}
 	free(new);
 	free(current);
 	if (!new)
@@ -112,11 +109,13 @@ t_bool	try_parse_command(char **cmd, t_data *d)
 	data = get_parse_data(*cmd, d);
 	if (!parse_loop(&data))
 	{
-		free_str(cmd);
+		free_str(&data.cmd);
+		*cmd = 0;
 		return (token_free_list(&(data.tokens)));
 	}
 	add_history(data.cmd);
-	free_str(cmd);
+	free_str(&data.cmd);
+	*cmd = 0;
 	d->tokens = data.tokens;
 	return (TRUE);
 }
