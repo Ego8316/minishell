@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/25 15:19:01 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/25 15:55:13 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,19 @@ void	shell_non_interactive(t_data *d)
 	char	*line;
 	char	*trimmed;
 
-	line = get_next_line(STDIN_FILENO);
-	if (!line)
-		clean_exit(d, errmsg(M_ERR_MSG, 0, 0, 1));
-	trimmed = ft_strtrim(line, "\n");
-	free_str(&line);
-	if (!trimmed)
-		clean_exit(d, errmsg(M_ERR_MSG, 0, 0, 1));
-	run_cmd_from_user(trimmed, d);
+	while (1)
+	{
+		line = get_next_line(STDIN_FILENO);
+		if (errno == ENOMEM)
+			clean_exit(d, errmsg(M_ERR_MSG, 0, 0, 1));
+		if (!line)
+			break ;
+		trimmed = ft_strtrim(line, "\n");
+		free_str(&line);
+		if (!trimmed)
+			clean_exit(d, errmsg(M_ERR_MSG, 0, 0, 1));
+		run_cmd_from_user(trimmed, d);
+	}
 }
 
 /**

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 00:01:59 by ego               #+#    #+#             */
-/*   Updated: 2025/05/25 15:12:00 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/25 15:54:24 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,8 @@ int	get_heredoc(char *limiter, int fd, t_data *data)
 		set_signals(2);
 		line = get_next_line(STDIN_FILENO);
 		set_signals(0);
+		if (errno == ENOMEM)
+			clean_exit(data, errmsg(M_ERR_MSG, 0, 0, 1));
 		if (g_last_exit_code == HEREDOC_C)
 			ret = HEREDOC_C;
 		else if (!line)
