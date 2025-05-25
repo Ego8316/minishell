@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/25 21:26:34 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/25 21:27:35 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,8 @@ static void	shell_non_interactive(t_data *d)
 /**
  * @brief Minishell's entry point.
  *
- * Initializes the shell state, sets up environment variables, and chooses
- * the appropriate execution mode:
+ * Initializes the main data structure, sets up environment variables, and
+ * chooses the appropriate execution mode:
  * @brief - Interactive mode: if no arguments are provided (`argc == 1`) and
  * the shell is connected to a terminal (`isatty(STDIN_FILENO)`), the shell
  * enters an interactive readline loop, displaying a prompt and executing user
