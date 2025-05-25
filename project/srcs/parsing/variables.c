@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 19:26:46 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/23 16:00:44 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/25 16:07:28 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static t_bool	substite_exit(int *i, char **new)
 		return (FALSE);
 	}
 	(*i)++;
-	// printf("substituting last exit code with value %s\n", code);
 	return (strb_join(new, code));
 }
 

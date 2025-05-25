@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:13:57 by ego               #+#    #+#             */
-/*   Updated: 2025/05/25 14:41:45 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/25 16:07:18 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	execute_ast(t_data *d, t_ast *node)
 	d->pipe = free_pipeline(d->pipe);
 	if ((node->type == AND && g_last_exit_code == 0)
 		|| (node->type == OR && g_last_exit_code != 0))
-			return (execute_ast(d, node->right));
+		return (execute_ast(d, node->right));
 	return (g_last_exit_code);
 }
 
