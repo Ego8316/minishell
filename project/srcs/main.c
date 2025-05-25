@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/25 21:03:13 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/25 21:26:34 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	g_last_exit_code = 0;
  * prompt and line counter.
  *
  * @param line The command line input.
- * @param d Pointer to the shell data context.
+ * @param d Pointer to the main data structure.
  */
 static void	run_cmd_from_user(char **line, t_data *d)
 {
@@ -44,18 +44,19 @@ static void	run_cmd_from_user(char **line, t_data *d)
 /**
  * @brief Handles the `-c` option for non-interactive command execution.
  *
- * If the user passes `-c <command>` on the command line (e.g. `./minishell -c "echo hi"`),
- * this function copies the command string into `d->line`, assigns positional parameters
- * ($0, $1, $2, ...) as local variables, and then executes the command.
+ * If the user passes `-c <command>` on the command line (e.g. `./minishell -c
+ * "echo hi"`), this function copies the command string into `d->line`, assigns
+ * positional parameters ($0, $1, $2, ...) as local variables, and then
+ * executes the command.
  *
  * Positional arguments (argv[3] and onwards) are assigned as:
- * - $0 → argv[3]
- * - $1 → argv[4]
- * - etc.
+ * @brief - $0 → argv[3]
+ * @brief - $1 → argv[4]
+ * @brief - etc.
  *
- * @param argc Number of arguments.
+ * @param argc Argument count.
  * @param argv Argument vector.
- * @param d Pointer to the shell data structure.
+ * @param d Pointer to the main data structure.
  */
 static void	shell_c_option(int argc, char **argv, t_data *d)
 {
@@ -91,7 +92,7 @@ static void	shell_c_option(int argc, char **argv, t_data *d)
  * and passes valid lines to the command execution function.
  * Exits gracefully on EOF (e.g., Ctrl-D) with last exit code.
  *
- * @param d Pointer to the shell data context.
+ * @param d Pointer to the main data structure.
  */
 static void	shell_interactive(t_data *d)
 {
@@ -114,7 +115,7 @@ static void	shell_interactive(t_data *d)
  * pipe), trims it, and runs it through the normal command execution path.
  * Exits after processing the single line.
  *
- * @param d Pointer to the shell data context.
+ * @param d Pointer to the main data structure.
  */
 static void	shell_non_interactive(t_data *d)
 {
@@ -138,15 +139,28 @@ static void	shell_non_interactive(t_data *d)
 /**
  * @brief Minishell's entry point.
  *
- * Initializes the shell data structure, detects whether the shell should run
- * in interactive or non-interactive mode, and dispatches accordingly. Frees
- * all resources on exit and returns the last command's exit status.
+ * Initializes the shell state, sets up environment variables, and chooses
+ * the appropriate execution mode:
+ * @brief - Interactive mode: if no arguments are provided (`argc == 1`) and
+ * the shell is connected to a terminal (`isatty(STDIN_FILENO)`), the shell
+ * enters an interactive readline loop, displaying a prompt and executing user
+ * input.
+ * @brief - Non-interactive mode: if no arguments are provided but stdin is not
+ * a terminal, the shell reads and executes a single line from stdin.
+ * @brief - Command option: if `-c` is passed as the first argument (e.g.
+ * `./minishell -c "echo hello"`), the shell executes the provided command.
+ * Any subsequent arguments are assigned as positional parameters ($0, $1, ...).
+ * @brief - Invalid usage: any other argument pattern results in a help message
+ * being displayed and an error code returned.
  *
- * @param argc Argument count (unused).
- * @param argv Argument values (shell name may be reset).
+ * On exit, all dynamically allocated resources are freed, and the shell returns
+ * the exit status of the last executed command.
+ *
+ * @param argc Argument count.
+ * @param argv Argument values.
  * @param envp Environment variable array.
- * 
- * @return int The last command's exit code.
+ *
+ * @return int Exit status of the last executed command or error code.
  */
 int	main(int argc, char **argv, char **envp)
 {
