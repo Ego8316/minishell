@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:36:20 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 14:10:23 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/25 15:01:48 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	is_numeric(char *arg)
 int	exit_builtin(t_data *data, char **argv)
 {
 	if (isatty(STDIN_FILENO))
-		printf("exit\n");
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (!*argv)
 		clean_exit(data, g_last_exit_code);
 	if (!is_numeric(*argv))

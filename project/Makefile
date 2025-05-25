@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/05/19 19:21:41 by ego              ###   ########.fr        #
+#    Updated: 2025/05/25 15:08:32 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,7 @@ LIBFT = -L libft -lft -lreadline
 
 SRC_DIR = srcs/
 
-SRC_FILES = main.c			\
-			get_cmd.c
+SRC_FILES =  main.c
 SRC_FILES += builtins/cd.c		\
 			 builtins/echo.c	\
 			 builtins/env.c		\
