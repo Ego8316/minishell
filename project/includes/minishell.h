@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:24:09 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/25 15:11:08 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/25 20:59:23 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# define HELP_MSG "Usage:\n\t./minishell\n\t./minishell -c \"cmd\" [args]\n"
 # define TMP ".tmp"
 # define M_ERR -2
 # define HEREDOC_C -3
@@ -149,6 +150,7 @@ typedef struct s_data
 	t_ast	*ast;
 	int		line_number;
 	char	*prefix;
+	char	*line;
 }	t_data;
 
 typedef struct s_parse_data
@@ -162,12 +164,9 @@ typedef struct s_parse_data
 	t_data			*data;
 }	t_parse_data;
 
-//==Functions===
-void	run_cmd_from_user(char *line, t_data *d);
-
 //Parsing
 
-t_bool	try_parse_command(char *cmd, t_data *d);
+t_bool	try_parse_command(char **cmd, t_data *d);
 
 t_token	*token_new_str(char *str, int depth);
 t_bool	token_make(t_token_type type, char *str, int depth, t_token **out);
@@ -179,7 +178,6 @@ t_token	*clean_matches(t_token **head);
 t_ast	*build_ast(t_token *t);
 t_ast	*free_ast(t_ast *root);
 void	print_ast(t_ast *node, int level, int header);
-void	print_token_list(t_token *tokens);
 
 //Internal parsing (private)
 
@@ -197,19 +195,7 @@ t_bool	substitute_var(char *str, int *i, t_var *vars, char **new);
 
 // Signals
 
-void	init_signal(void);
-//just pass NULL to this to get value
-int		quit_flag(int *value);
-int		quit_flag_set(int value);
-
 void	set_signals(int mode);
-
-// Input
-
-char	*read_term_line(const char	*prompt);
-char	*str_append_free(char *str, char c);
-char	*str_remove_free(char *str, size_t count);
-t_bool	isnescp(char *str, int i, char c);
 
 // Builtins
 
@@ -232,7 +218,7 @@ int		var_set_line(t_var **vars, char *line);
 t_var	*var_get(t_var **vars, char *identifier);
 char	*var_get_value(t_var *vars, char *identifier);
 int		var_add(t_var **vars, char *identifier, char *value, t_var_type type);
-int		var_set(t_var **vars, char *identifier, char *value);
+int		var_set(t_var **vars, char *identifier, char *value, t_var_type type);
 int		line_get_identifier_len(char *line);
 char	*line_get_value(char *line);
 int		get_vars_size(t_var *vars);

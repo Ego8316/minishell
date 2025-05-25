@@ -6,7 +6,7 @@
 #    By: ego <ego@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 21:17:01 by pkurt             #+#    #+#              #
-#    Updated: 2025/05/25 15:08:32 by ego              ###   ########.fr        #
+#    Updated: 2025/05/25 20:35:26 by ego              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,10 +53,7 @@ SRC_FILES += parsing/brackets.c		\
 			 parsing/utils.c		\
 			 parsing/variables.c	\
 			 parsing/wildcards.c
-SRC_FILES += signals/signal_init.c	\
-			 signals/input.c		\
-			 signals/input_utils.c	\
-			 signals/signal.c
+SRC_FILES += signals/signal.c
 SRC_FILES += utils/error.c	\
 			 utils/free.c	\
 			 utils/str_builder.c

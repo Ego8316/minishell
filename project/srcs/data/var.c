@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 20:45:35 by ego               #+#    #+#             */
-/*   Updated: 2025/04/11 04:42:13 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/25 20:59:56 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,13 +146,13 @@ int	var_add(t_var **vars, char *identifier, char *value, t_var_type type)
  * 
  * @return 1 if the operation is successful, 0 if memory allocation fails.
  */
-int	var_set(t_var **vars, char *identifier, char *value)
+int	var_set(t_var **vars, char *identifier, char *value, t_var_type type)
 {
 	t_var	*v;
 
 	v = var_get(vars, identifier);
 	if (!v)
-		return (var_add(vars, identifier, value, ENV));
+		return (var_add(vars, identifier, value, type));
 	free_str(&v->value);
 	v->value = ft_strdup(value);
 	if (!v->value)

@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 12:51:34 by ego               #+#    #+#             */
-/*   Updated: 2025/05/25 15:11:40 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/25 21:00:18 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,18 +95,18 @@ static t_var	*copy_vars(char **envp)
  * 
  * @return 1 if the operation is successful, 0 if allocation fails.
  */
-static int	update_shell_level(t_var **vars)
+static int	update_shlvl(t_var **vars)
 {
 	t_var	*shlvl;
 	int		prev;
 
 	shlvl = var_get(vars, "SHLVL");
 	if (!shlvl || !*shlvl->value || !is_valid_integer(shlvl->value))
-		return (var_set(vars, "SHLVL", "1"));
+		return (var_set(vars, "SHLVL", "1", ENV));
 	prev = ft_atoi(shlvl->value);
 	free_str(&shlvl->value);
 	if (prev < 0)
-		return (var_set(vars, "SHLVL", "0"));
+		return (var_set(vars, "SHLVL", "0", ENV));
 	if (prev >= 999)
 		prev = put_shell_level_warning(prev);
 	shlvl->value = ft_itoa(prev + 1);
@@ -142,10 +142,11 @@ t_bool	data_init(t_data *data, char **envp)
 	data->tokens = NULL;
 	data->pipe = NULL;
 	data->ast = NULL;
+	data->line = NULL;
 	data->line_number = 1;
 	data->prefix = get_prefix();
-	if (!data->pwd || (!data->vars && *envp) || !data->prefix
-		|| !update_shell_level(&data->vars))
+	if ((!data->vars && *envp) || !update_shlvl(&data->vars) || !data->pwd
+		|| !data->prefix || !var_add(&data->vars, "0", "minishell", LOCAL))
 		return (0);
 	get_prompt(data, 0);
 	get_prompt(data, 2);

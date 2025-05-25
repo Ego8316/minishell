@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:54:42 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/01 20:01:55 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/25 20:39:28 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,20 +103,20 @@ t_bool	parse_loop(t_parse_data *data)
  * @return Returns true if successful.
  * Returns false on malloc and syntax errors.
  */
-t_bool	try_parse_command(char *cmd, t_data *d)
+t_bool	try_parse_command(char **cmd, t_data *d)
 {
 	t_parse_data	data;
 
-	if (!cmd)
+	if (!*cmd)
 		return (TRUE);
-	data = get_parse_data(cmd, d);
+	data = get_parse_data(*cmd, d);
 	if (!parse_loop(&data))
 	{
-		free (data.cmd);
+		free_str(cmd);
 		return (token_free_list(&(data.tokens)));
 	}
 	add_history(data.cmd);
-	free(data.cmd);
+	free_str(cmd);
 	d->tokens = data.tokens;
 	return (TRUE);
 }

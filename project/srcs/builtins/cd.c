@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:35:52 by ego               #+#    #+#             */
-/*   Updated: 2025/05/23 16:06:45 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/25 21:00:55 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ static int	cd_home_fallback(t_data *data)
 	free_str(&data->oldpwd);
 	data->oldpwd = data->pwd;
 	data->pwd = getcwd(0, 0);
-	if (!data->pwd || !var_set(&data->vars, "OLDPWD", data->oldpwd)
-		|| !var_set(&data->vars, "PWD", data->pwd))
+	if (!data->pwd || !var_set(&data->vars, "OLDPWD", data->oldpwd, ENV)
+		|| !var_set(&data->vars, "PWD", data->pwd, ENV))
 		return (M_ERR);
 	return (0);
 }
@@ -106,8 +106,8 @@ static int	cd_home(t_data *data, int fallback)
 	free_str(&data->oldpwd);
 	data->oldpwd = data->pwd;
 	data->pwd = getcwd(0, 0);
-	if (!data->pwd || !var_set(&data->vars, "OLDPWD", data->oldpwd)
-		|| !var_set(&data->vars, "PWD", data->pwd))
+	if (!data->pwd || !var_set(&data->vars, "OLDPWD", data->oldpwd, ENV)
+		|| !var_set(&data->vars, "PWD", data->pwd, ENV))
 		return (M_ERR);
 	return (0);
 }
@@ -135,7 +135,7 @@ static int	cd_oldpwd(t_data *data)
 	if (!*oldpwd->value)
 	{
 		ft_putchar_fd('\n', STDOUT_FILENO);
-		if (!var_set(&data->vars, "OLDPWD", data->pwd))
+		if (!var_set(&data->vars, "OLDPWD", data->pwd, ENV))
 			return (M_ERR);
 		return (0);
 	}
@@ -146,8 +146,8 @@ static int	cd_oldpwd(t_data *data)
 		return (1);
 	}
 	swap_str(&data->oldpwd, &data->pwd);
-	if (!var_set(&data->vars, "OLDPWD", data->oldpwd)
-		|| !var_set(&data->vars, "PWD", data->pwd))
+	if (!var_set(&data->vars, "OLDPWD", data->oldpwd, ENV)
+		|| !var_set(&data->vars, "PWD", data->pwd, ENV))
 		return (M_ERR);
 	ft_putendl_fd(data->pwd, STDOUT_FILENO);
 	return (0);
@@ -196,8 +196,8 @@ int	cd_builtin(t_data *data, char **argv)
 	free_str(&data->oldpwd);
 	data->oldpwd = data->pwd;
 	data->pwd = getcwd(0, 0);
-	if (!data->pwd || !var_set(&data->vars, "OLDPWD", data->oldpwd)
-		|| !var_set(&data->vars, "PWD", data->pwd))
+	if (!data->pwd || !var_set(&data->vars, "OLDPWD", data->oldpwd, ENV)
+		|| !var_set(&data->vars, "PWD", data->pwd, ENV))
 		return (M_ERR);
 	return (0);
 }

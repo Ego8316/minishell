@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:03:55 by ego               #+#    #+#             */
-/*   Updated: 2025/05/19 19:12:25 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/25 20:30:35 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	free_data(t_data *data)
 	free_str(&data->pwd);
 	free_str(&data->oldpwd);
 	free_str(&data->prefix);
+	free_str(&data->line);
 	free_vars(data->vars);
 	if (data->pipe)
 		free_pipeline(data->pipe);

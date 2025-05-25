@@ -6,7 +6,7 @@
 /*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 15:28:01 by pkurt             #+#    #+#             */
-/*   Updated: 2025/05/25 15:55:13 by ego              ###   ########.fr       */
+/*   Updated: 2025/05/25 21:03:13 by ego              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@ int	g_last_exit_code = 0;
  * prompt and line counter.
  *
  * @param line The command line input.
- * @param d    Pointer to the shell data context.
+ * @param d Pointer to the shell data context.
  */
-void	run_cmd_from_user(char *line, t_data *d)
+static void	run_cmd_from_user(char **line, t_data *d)
 {
-	if (*line && !ft_stristype(line, ft_isspace) && try_parse_command(line, d))
+	if (**line && !ft_stristype(*line, ft_isspace)
+		&& try_parse_command(line, d))
 	{
 		d->ast = build_ast(d->tokens);
 		if (g_last_exit_code == M_ERR)
@@ -41,6 +42,49 @@ void	run_cmd_from_user(char *line, t_data *d)
 }
 
 /**
+ * @brief Handles the `-c` option for non-interactive command execution.
+ *
+ * If the user passes `-c <command>` on the command line (e.g. `./minishell -c "echo hi"`),
+ * this function copies the command string into `d->line`, assigns positional parameters
+ * ($0, $1, $2, ...) as local variables, and then executes the command.
+ *
+ * Positional arguments (argv[3] and onwards) are assigned as:
+ * - $0 → argv[3]
+ * - $1 → argv[4]
+ * - etc.
+ *
+ * @param argc Number of arguments.
+ * @param argv Argument vector.
+ * @param d Pointer to the shell data structure.
+ */
+static void	shell_c_option(int argc, char **argv, t_data *d)
+{
+	int		i;
+	char	*id;
+
+	if (argc == 2)
+		return ((void)errmsg_prefix("-c", "option requires an argument", 2));
+	d->line = ft_strdup(argv[2]);
+	if (!d->line)
+		clean_exit(d, errmsg(M_ERR_MSG, 0, 0, 1));
+	i = 3;
+	while (i < argc)
+	{
+		id = ft_itoa(i - 3);
+		if (!id)
+			clean_exit(d, errmsg(M_ERR_MSG, 0, 0, 1));
+		if (!var_set(&d->vars, id, argv[i], LOCAL))
+		{
+			free_str(&id);
+			clean_exit(d, errmsg(M_ERR_MSG, 0, 0, 1));
+		}
+		free_str(&id);
+		i++;
+	}
+	run_cmd_from_user(&d->line, d);
+}
+
+/**
  * @brief Runs the shell in interactive mode.
  *
  * Continuously prompts the user for input using `readline`, handles signals,
@@ -49,18 +93,16 @@ void	run_cmd_from_user(char *line, t_data *d)
  *
  * @param d Pointer to the shell data context.
  */
-void	shell_interactive(t_data *d)
+static void	shell_interactive(t_data *d)
 {
-	char	*line;
-
 	while (1)
 	{
 		set_signals(1);
-		line = readline(get_prompt(d, 1));
+		d->line = readline(get_prompt(d, 1));
 		set_signals(0);
-		if (!line)
+		if (!d->line)
 			clean_exit(d, g_last_exit_code);
-		run_cmd_from_user(line, d);
+		run_cmd_from_user(&d->line, d);
 		get_prompt(d, 2);
 	}
 }
@@ -74,23 +116,22 @@ void	shell_interactive(t_data *d)
  *
  * @param d Pointer to the shell data context.
  */
-void	shell_non_interactive(t_data *d)
+static void	shell_non_interactive(t_data *d)
 {
-	char	*line;
-	char	*trimmed;
+	char	*tmp;
 
 	while (1)
 	{
-		line = get_next_line(STDIN_FILENO);
+		tmp = get_next_line(STDIN_FILENO);
 		if (errno == ENOMEM)
 			clean_exit(d, errmsg(M_ERR_MSG, 0, 0, 1));
-		if (!line)
+		if (!tmp)
 			break ;
-		trimmed = ft_strtrim(line, "\n");
-		free_str(&line);
-		if (!trimmed)
+		d->line = ft_strtrim(tmp, "\n");
+		free_str(&tmp);
+		if (!d->line)
 			clean_exit(d, errmsg(M_ERR_MSG, 0, 0, 1));
-		run_cmd_from_user(trimmed, d);
+		run_cmd_from_user(&d->line, d);
 	}
 }
 
@@ -111,15 +152,19 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 
-	if (argc > 1)
-		return (errmsg("minishell: arguments are not supported\n", 0, 0, 1));
-	argv[0] = 0;
 	if (!data_init(&data, envp))
 		clean_exit(&data, errmsg(M_ERR_MSG, 0, 0, 1));
-	if (isatty(STDIN_FILENO))
-		shell_interactive(&data);
+	if (argc == 1)
+	{
+		if (isatty(STDIN_FILENO))
+			shell_interactive(&data);
+		else
+			shell_non_interactive(&data);
+	}
+	else if (argc >= 2 && !ft_strcmp(argv[1], "-c"))
+		shell_c_option(argc, argv, &data);
 	else
-		shell_non_interactive(&data);
+		g_last_exit_code = errmsg(HELP_MSG, 0, 0, 2);
 	free_data(&data);
 	return (g_last_exit_code);
 }
