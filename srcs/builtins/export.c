@@ -1,0 +1,127 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ego <ego@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/11 13:36:27 by ego               #+#    #+#             */
+/*   Updated: 2025/05/23 16:10:41 by ego              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+/**
+ * @brief Prints all exported environment variables in the format `declare -x 
+ * VAR="value"` for each environment variable. If a variable is marked (but not
+ * set), only prints `declare -x VAR`.
+ * 
+ * @param data Pointer to the main data structure.
+ * 
+ * @return Exit status: 0 for success.
+ */
+static int	print_declare_env(t_data *data)
+{
+	t_var	*v;
+
+	v = data->vars;
+	while (v)
+	{
+		if (v->type == MARKED)
+		{
+			ft_putstr_fd("declare -x ", STDOUT_FILENO);
+			ft_putendl_fd(v->identifier, STDOUT_FILENO);
+		}
+		if (v->type == ENV)
+		{
+			ft_putstr_fd("declare -x ", STDOUT_FILENO);
+			ft_putstr_fd(v->identifier, STDOUT_FILENO);
+			ft_putstr_fd("=\"", STDOUT_FILENO);
+			ft_putstr_fd(v->value, STDOUT_FILENO);
+			ft_putstr_fd("\"\n", STDOUT_FILENO);
+		}
+		v = v->nxt;
+	}
+	return (0);
+}
+
+/**
+ * @brief Handles a variable assignment or update.
+ *
+ * Supports all combinations of current state (`NULL`, `LOCAL`, `MARKED`,
+ * `ENV`) and presence of '=':
+ * @brief - `NULL` with '=' → add as ENV.
+ * @brief - `NULL` without '=' → add as MARKED.
+ * @brief - LOCAL without '=' → upgrade to ENV.
+ * @brief - LOCAL with '=' → set value and upgrade to ENV.
+ * @brief - MARKED without '=' → upgrade to ENV.
+ * @brief - MARKED with '=' → set value and upgrade to ENV.
+ * @brief - ENV with '=' → keep value.
+ * @brief - ENV without '=' → keep type and value.
+ * 
+ * @param data Pointer to the main data structure.
+ * @param var Pointer to the variable to be handled.
+ * @param line Line to be parsed.
+ * 
+ * @return 1 if the operation is successful, 0 if memory allocation fails.
+ */
+static int	handle_var(t_data *data, t_var *var, char *line)
+{
+	int		eq;
+	int		ret;
+
+	eq = ft_char_in_str('=', line) != -1;
+	ret = 1;
+	if (!var)
+		ret = var_add_line(&data->vars, line, eq * ENV + (1 - eq) * MARKED);
+	else if (var->type < ENV && !eq)
+		var->type = ENV;
+	else if (var && eq)
+	{
+		free_str(&var->value);
+		var->value = line_get_value(line);
+		if (!var->value)
+			ret = 0;
+		var->type = ENV;
+	}
+	return (ret);
+}
+
+/**
+ * @brief Executes the `export` builtin command: adds or updates environment
+ * variables. If no arguments are provided, it prints all exported environment
+ * variables in the format `declare -x VAR="value"`.
+ * 
+ * @note If an argument does not represent a valid identifier, prints an error
+ * message to the standard error and the function returns 1.
+ * 
+ * @param data Pointer to the main data structure.
+ * @param argv Arguments.
+ * 
+ * @return Exit status: 0 on success, 1 if an argument does not represent a
+ * valid identifier, `M_ERR` if memory allocation fails.
+ */
+int	export_builtin(t_data *data, char **argv)
+{
+	int		status;
+	t_var	*var;
+
+	if (!*argv)
+		return (print_declare_env(data));
+	status = 0;
+	while (*argv)
+	{
+		if (!is_valid_identifier(*argv))
+			status = errmsg("minishell: export: `",
+					*argv, "': not a valid identifier\n", 1);
+		else
+		{
+			var = var_get_line(&data->vars, *argv);
+			if (!handle_var(data, var, *argv))
+				return (M_ERR);
+		}
+		argv++;
+	}
+	return (status);
+}

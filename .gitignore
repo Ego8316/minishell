@@ -1,9 +1,4 @@
 *.a
 *.o
-project/minishell
+minishell
 .vscode
-test.c
-heredoc_copy.c
-*.out
-project/.tmp*
-project/minishell_tester
