@@ -24,9 +24,18 @@ Tiny Bash-like shell written in C. Implements parsing, tokenization, variable ex
 - Lexer + parser building an AST with operator precedence (`&&`, `||`, pipes).
 - Variable expansion (`$VAR`, `$?`), wildcard expansion (`*`), and quote handling.
 - Heredoc support with Ctrl-C handling and temporary file cleanup.
-- Pipelines with proper fd routing, redirections (`<`, `>`, `>>`, `<<`), and PATH lookup.
+- Standard redirections (`<`, `>`, `>>`, `<<`) across commands and pipelines.
+- Pipelines with proper fd routing and PATH lookup.
+- Logical operators (`cmd1 && cmd2`, `cmd1 || cmd2`) with precedence-aware
+grouping.
 - Builtins: `cd`, `echo`, `env`, `exit`, `export`, `pwd`, `unset`.
 - Prompt with user/host info, SHLVL management, and sensible error reporting.
+- Environment and local variables handled via `export`, `unset`, and assignment
+prefixes (`VAR=value cmd`).
+- Signals: Ctrl-C interrupts current input or heredoc; Ctrl-\ is ignored per
+subject.
+- Exit codes mirror Bash for common errors (command not found, permission
+denied, etc.).
 
 ---
 
@@ -47,10 +56,31 @@ Requirements: `gcc`, `make`, and `readline` headers/libs (`libreadline-dev` on D
 ./minishell -c "echo hi"    # run a single command and exit
 echo "ls | wc -l" | ./minishell   # non-interactive stdin
 ```
-- Supports pipelines (`cmd1 | cmd2`), logical operators (`cmd1 && cmd2`, `cmd1 || cmd2`), subshell-like grouping via precedence, and standard redirections.
-- Environment and local variables handled via `export`, `unset`, and assignment prefixes (`VAR=value cmd`).
-- Signals: Ctrl-C interrupts current input or heredoc; Ctrl-\ is ignored per subject.
-- Exit codes mirror Bash for common errors (command not found, permission denied, etc.).
+
+---
+
+## 🧩 Architecture Overview
+Minishell follows a modular architecture:
+- **Lexer** – tokenizes input into words, operators, and redirections.
+- **Parser** – builds an AST respecting precedence rules (||, &&, |).
+- **Expander** – performs `$VAR`, `$?`, and wildcard expansion.
+- **Executor** – walks the AST and executes pipelines / commands.
+- **Builtins** – implemented internally and executed without forking.
+- **Signals** – custom handlers for interactive mode and heredocs.
+- **Environment Manager** – linked-list environment with export sorting.
+
+---
+
+## ⚠️ Limitations (per subject)
+- No subshells (`( )`)
+- No job control (`fg`, `bg`, `jobs`)
+- No globbing rules beyond simple `*` in the current directory
+
+---
+
+## 👥 Contributors
+- [Ego8316](https://github.com/Ego8316)
+- [petko021tv](https://github.com/petko021tv)
 
 ---
 
