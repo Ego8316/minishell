@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ayogun/42-project-badges/main/badges/minishellm.png" height="150" alt="42 Minishell Badge"/>
+  <img src="https://raw.githubusercontent.com/ayogun/42-project-badges/main/badges/minishellm.png" height="150" alt="42 minishell Badge"/>
 </p>
 
 <p align="center">
@@ -12,7 +12,7 @@
   <img src="https://img.shields.io/badge/WSL-0a97f5?style=for-the-badge&logo=linux&logoColor=white" height="32"/>
 </p>
 
-# Minishell
+# minishell
 
 ### 🎓 42 School – Final Grade: **125/100**
 
